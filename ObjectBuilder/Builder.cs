@@ -12,42 +12,40 @@
 using System.Diagnostics;
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// An implementation of <see cref="IBuilder{TStageEnum}"/> which uses <see cref="BuilderStage"/>
-	/// as the stages of the build process. It contains all the default strategies shipped
-	/// with ObjectBuilder.
-	/// </summary>
-	public class Builder : BuilderBase<BuilderStage>
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Builder"/> class.
-		/// </summary>
-		public Builder()
-			: this(null)
-		{
-		}
+    /// <summary>
+    /// 派生自 <see cref="IBuilder{TStageEnum}"/> 使用 <see cref="BuilderStage"/>
+    /// 作为构建对象的策略，其中包含了所有默认的ObjectBuidler策略
+    /// </summary>
+    public class Builder : BuilderBase<BuilderStage>
+    {
+        /// <summary>
+        /// 实例化一个 <see cref="Builder"/> 类.
+        /// </summary>
+        public Builder()
+            : this(null)
+        {
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Builder"/> class using the provided
-		/// configurator.
-		/// </summary>
-		/// <param name="configurator">The configurator that will configure the builder.</param>
-		public Builder(IBuilderConfigurator<BuilderStage> configurator)
-		{
-			Strategies.AddNew<TypeMappingStrategy>(BuilderStage.PreCreation);
-			Strategies.AddNew<SingletonStrategy>(BuilderStage.PreCreation);
-			Strategies.AddNew<ConstructorReflectionStrategy>(BuilderStage.PreCreation);
-			Strategies.AddNew<PropertyReflectionStrategy>(BuilderStage.PreCreation);
-			Strategies.AddNew<MethodReflectionStrategy>(BuilderStage.PreCreation);
-			Strategies.AddNew<CreationStrategy>(BuilderStage.Creation);
-			Strategies.AddNew<PropertySetterStrategy>(BuilderStage.Initialization);
-			Strategies.AddNew<MethodExecutionStrategy>(BuilderStage.Initialization);
-			Strategies.AddNew<BuilderAwareStrategy>(BuilderStage.PostInitialization);
+        /// <summary>
+        /// 通过<see cref="IBuilderConfigurator{BuilderStage}"/>配置实例化一个 <see cref="Builder"/> 类.
+        /// </summary>
+        /// <param name="configurator">生成器配置对象接口</param>
+        public Builder(IBuilderConfigurator<BuilderStage> configurator)
+        {
+            Strategies.AddNew<TypeMappingStrategy>(BuilderStage.PreCreation);
+            Strategies.AddNew<SingletonStrategy>(BuilderStage.PreCreation);
+            Strategies.AddNew<ConstructorReflectionStrategy>(BuilderStage.PreCreation);
+            Strategies.AddNew<PropertyReflectionStrategy>(BuilderStage.PreCreation);
+            Strategies.AddNew<MethodReflectionStrategy>(BuilderStage.PreCreation);
+            Strategies.AddNew<CreationStrategy>(BuilderStage.Creation);
+            Strategies.AddNew<PropertySetterStrategy>(BuilderStage.Initialization);
+            Strategies.AddNew<MethodExecutionStrategy>(BuilderStage.Initialization);
+            Strategies.AddNew<BuilderAwareStrategy>(BuilderStage.PostInitialization);
 
-			Policies.SetDefault<ICreationPolicy>(new DefaultCreationPolicy());
+            Policies.SetDefault<ICreationPolicy>(new DefaultCreationPolicy());
 
-			if (configurator != null)
-				configurator.ApplyConfiguration(this);
-		}
-	}
+            if (configurator != null)
+                configurator.ApplyConfiguration(this);
+        }
+    }
 }

@@ -13,66 +13,53 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents the main interface for an object builder.
-	/// </summary>
-	/// <typeparam name="TStageEnum">The enum that represents the build stages for this builder.</typeparam>
-	public interface IBuilder<TStageEnum>
-	{
-		/// <summary>
-		/// Permanent policies used for build-up operations.
-		/// </summary>
-		PolicyList Policies { get; }
+    /// <summary>
+    /// 对象创建框架的主接口
+    /// </summary>
+    /// <typeparam name="TStageEnum">这个枚举的泛型表示类型创建策略</typeparam>
+    public interface IBuilder<TStageEnum>
+    {
+        /// <summary>
+        /// 创建对象时的其他临时策略/政策(包含属性、构造函数、方法等，当然这些都是通过注入的方式去创建对象，但是这个对象需要提供给IBuilder，然后给使用者创建一个符合规则的对象实例)
+        /// </summary>
+        PolicyList Policies { get; }
 
-		/// <summary>
-		/// Strategies used for build-up and tear-down operations.
-		/// </summary>
-		StrategyList<TStageEnum> Strategies { get; }
+        /// <summary>
+        /// 创建对象和释放对象操作的策略(这个是一个策略的集合，所有的策略组成一个责任链，我们通常叫它策略责任链)
+        /// </summary>
+        StrategyList<TStageEnum> Strategies { get; }
 
-		/// <summary>
-		/// Performs a build operation.
-		/// </summary>
-		/// <remarks>This operation uses the strategies and permanent policies already configured
-		/// into the builder, combined with the optional transient policies, and starts a build
-		/// operation. Transient policies override any built-in policies, when present.</remarks>
-		/// <param name="locator">The locator to be used for this build operation.</param>
-		/// <param name="typeToBuild">The type to build.</param>
-		/// <param name="idToBuild">The ID of the object to build.</param>
-		/// <param name="existing">The existing object to run the build chain on, if one exists.
-		/// If null is passed, a new object instance will typically be created by some strategy
-		/// in the chain (such as the <see cref="CreationStrategy"/>).</param>
-		/// <param name="transientPolicies">The transient policies to apply to this build. These
-		/// policies take precedence over any permanent policies built into the builder.</param>
-		/// <returns>The built object.</returns>
-		object BuildUp(IReadWriteLocator locator, Type typeToBuild, string idToBuild, object existing,
-						 params PolicyList[] transientPolicies);
 
-		/// <summary>
-		/// Performs a build operation.
-		/// </summary>
-		/// <remarks>This operation uses the strategies and permanent policies already configured
-		/// into the builder, combined with the optional transient policies, and starts a build
-		/// operation. Transient policies override any built-in policies, when present.</remarks>
-		/// <typeparam name="TTypeToBuild">The type to build.</typeparam>
-		/// <param name="locator">The locator to be used for this build operation.</param>
-		/// <param name="idToBuild">The ID of the object to build.</param>
-		/// <param name="existing">The existing object to run the build chain on, if one exists.
-		/// If null is passed, a new object instance will typically be created by some strategy
-		/// in the chain (such as the <see cref="CreationStrategy"/>).</param>
-		/// <param name="transientPolicies">The transient policies to apply to this build. These
-		/// policies take precedence over any permanent policies built into the builder.</param>
-		/// <returns>The built object.</returns>
-		TTypeToBuild BuildUp<TTypeToBuild>(IReadWriteLocator locator, string idToBuild, object existing,
-													params PolicyList[] transientPolicies);
+        /// <summary>
+        /// 执行创建对象操作
+        /// </summary>
+        /// <param name="locator">生成对象的定位器，当对象已存在时直接在定位器中获取</param>
+        /// <param name="typeToBuild">需要创建的对象的类型</param>
+        /// <param name="idToBuild">需要创建的对象的唯一编号</param>
+        /// <param name="existing">一般默认传null对象创建器会在生成链中创建一个新的对象实例，如果不为null则将运行生成链的现有对象</param>
+        /// <param name="transientPolicies">应用于此构建的临时策略，这些政策优先于建造者所制定的任何永久性政策</param>
+        /// <returns>创建的对象</returns>
+        object BuildUp(IReadWriteLocator locator, Type typeToBuild, string idToBuild, object existing, params PolicyList[] transientPolicies);
 
-		/// <summary>
-		/// Performs an unbuild operation.
-		/// </summary>
-		/// <typeparam name="TItem">The type to unbuild. If not provided, it will be inferred from the
-		/// type of item.</typeparam>
-		/// <param name="locator">The locator to be used for this unbuild operation.</param>
-		/// <param name="item">The item to unbuild.</param>
-		/// <returns>The unbuilt item.</returns>
-		TItem TearDown<TItem>(IReadWriteLocator locator, TItem item);
-	}
+
+        /// <summary>
+        /// 执行创建对象操作
+        /// </summary>
+        /// <typeparam name="TTypeToBuild">对象创建的泛型类型，需要创建的对象的类型</typeparam>
+        /// <param name="locator">生成对象的定位器，当对象已存在时直接在定位器中获取</param>
+        /// <param name="idToBuild">需要创建的对象的唯一编号</param>
+        /// <param name="existing">一般默认传null对象创建器会在生成链中创建一个新的对象实例，如果不为null则将运行生成链的现有对象</param>
+        /// <param name="transientPolicies">应用于此构建的临时策略，这些政策优先于建造者所制定的任何永久性政策</param>
+        /// <returns>创建的对象</returns>
+        TTypeToBuild BuildUp<TTypeToBuild>(IReadWriteLocator locator, string idToBuild, object existing, params PolicyList[] transientPolicies);
+
+        /// <summary>
+        /// 执行对象的销毁操作
+        /// </summary>
+        /// <typeparam name="TItem">对象创建的泛型类型，需要销毁的对象的类型</typeparam>
+        /// <param name="locator">生成对象的定位器，当对象已存在时直接在定位器中获取</param>
+        /// <param name="item">需要销毁的对象实例</param>
+        /// <returns>返回当前销毁的对象实例</returns>
+        TItem TearDown<TItem>(IReadWriteLocator locator, TItem item);
+    }
 }

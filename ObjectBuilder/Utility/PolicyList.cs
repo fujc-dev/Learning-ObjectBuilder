@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -14,197 +14,197 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// A custom collection wrapper over <see cref="IBuilderPolicy"/> objects.
-	/// </summary>
-	public class PolicyList
-	{
-		private Dictionary<BuilderPolicyKey, IBuilderPolicy> policies = new Dictionary<BuilderPolicyKey, IBuilderPolicy>();
-		private object lockObject = new object();
+    /// <summary>
+    /// ×Ô¶¨Òå <see cref="IBuilderPolicy"/> ¼¯ºÏ¶ÔÏó£¬ÓÃÓÚ´æ´¢ObjectBuilder¶ÔÏó´´½¨¿ò¼ÜÖĞ¶ş¼¶²ßÂÔ
+    /// </summary>
+    public class PolicyList
+    {
+        private Dictionary<BuilderPolicyKey, IBuilderPolicy> policies = new Dictionary<BuilderPolicyKey, IBuilderPolicy>();
+        private object lockObject = new object();
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PolicyList"/> class using the
-		/// provided (optional) policies to copy.
-		/// </summary>
-		/// <param name="policiesToCopy">The policies to be copied into the policy list.</param>
-		public PolicyList(params PolicyList[] policiesToCopy)
-		{
-			if (policiesToCopy != null)
-				foreach (PolicyList policyList in policiesToCopy)
-					AddPolicies(policyList);
-		}
+        /// <summary>
+        /// ´´½¨ĞÂµÄ <see cref="PolicyList"/> ÀàÊµÀı
+        /// </summary>
+        /// <param name="policiesToCopy">Òª¸´ÖÆµ½²ßÂÔÁĞ±íÖĞµÄ²ßÂÔ</param>
+        public PolicyList(params PolicyList[] policiesToCopy)
+        {
+            if (policiesToCopy != null)
+                foreach (PolicyList policyList in policiesToCopy)
+                {
+                    AddPolicies(policyList);
+                }
+        }
 
-		/// <summary>
-		/// Returns the number of policies in the list.
-		/// </summary>
-		public int Count
-		{
-			get
-			{
-				lock (lockObject)
-				{
-					return policies.Count;
-				}
-			}
-		}
+        /// <summary>
+        /// ·µ»ØÁĞ±íÖĞµÄ²ßÂÔ×ÜÊı
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                lock (lockObject)
+                {
+                    return policies.Count;
+                }
+            }
+        }
 
-		/// <summary>
-		/// Adds a bundle of policies into the policy list. Any policies in this list will override
-		/// policies that are already in the policy list.
-		/// </summary>
-		/// <param name="policiesToCopy">The policies to be copied.</param>
-		public void AddPolicies(PolicyList policiesToCopy)
-		{
-			lock (lockObject)
-			{
-				if (policiesToCopy != null)
-					foreach (KeyValuePair<BuilderPolicyKey, IBuilderPolicy> kvp in policiesToCopy.policies)
-						policies[kvp.Key] = kvp.Value;
-			}
-		}
+        /// <summary>
+        /// ½«¶ş¼¶²ßÂÔÌí¼Óµ½²ßÂÔÁĞ±íÖĞ¡£´ËÁĞ±íÖĞµÄÈÎºÎ²ßÂÔ½«¸²¸ÇÒÑ´æÔÚÓÚ²ßÂÔÁĞ±íÖĞµÄ²ßÂÔ¡£
+        /// </summary>
+        /// <param name="policiesToCopy">Òª¸´ÖÆµ½²ßÂÔÁĞ±íÖĞµÄ²ßÂÔ</param>
+        public void AddPolicies(PolicyList policiesToCopy)
+        {
+            lock (lockObject)
+            {
+                if (policiesToCopy != null)
+                    foreach (KeyValuePair<BuilderPolicyKey, IBuilderPolicy> kvp in policiesToCopy.policies)
+                    {
+                        policies[kvp.Key] = kvp.Value;
+                    }
+            }
+        }
 
-		/// <summary>
-		/// Removes an individual policy.
-		/// </summary>
-		/// <typeparam name="TPolicyInterface">The type the policy was registered as.</typeparam>
-		/// <param name="typePolicyAppliesTo">The type the policy applies to.</param>
-		/// <param name="idPolicyAppliesTo">The ID the policy applies to.</param>
-		public void Clear<TPolicyInterface>(Type typePolicyAppliesTo, string idPolicyAppliesTo)
-		{
-			Clear(typeof(TPolicyInterface), typePolicyAppliesTo, idPolicyAppliesTo);
-		}
+        /// <summary>
+        /// ÒÆ³ıµ¥¸ö²ßÂÔ
+        /// </summary>
+        /// <typeparam name="TPolicyInterface">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú)</typeparam>
+        /// <param name="typePolicyAppliesTo"></param>
+        /// <param name="idPolicyAppliesTo">µ±Ç°²ßÂÔµÄÎ¨Ò»±êÊ¶·û£¬¿ÉÒÔ´«null</param>
+        public void Clear<TPolicyInterface>(Type typePolicyAppliesTo, string idPolicyAppliesTo)
+        {
+            Clear(typeof(TPolicyInterface), typePolicyAppliesTo, idPolicyAppliesTo);
+        }
 
-		/// <summary>
-		/// Removes an individual policy.
-		/// </summary>
-		/// <param name="policyInterface">The type the policy was registered as.</param>
-		/// <param name="typePolicyAppliesTo">The type the policy applies to.</param>
-		/// <param name="idPolicyAppliesTo">The ID the policy applies to.</param>
-		public void Clear(Type policyInterface, Type typePolicyAppliesTo, string idPolicyAppliesTo)
-		{
-			lock (lockObject)
-			{
-				policies.Remove(new BuilderPolicyKey(policyInterface, typePolicyAppliesTo, idPolicyAppliesTo));
-			}
-		}
+        /// <summary>
+        /// ÒÆ³ıµ¥¸ö²ßÂÔ
+        /// </summary>
+        /// <param name="policyInterface">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú)</param>
+        /// <param name="typePolicyAppliesTo">ĞèÒªObjectBuilder´´½¨µÄ¶ÔÏóµÄÀàĞÍ</param>
+        /// <param name="idPolicyAppliesTo">µ±Ç°²ßÂÔµÄÎ¨Ò»±êÊ¶·û£¬¿ÉÒÔ´«null</param>
+        public void Clear(Type policyInterface, Type typePolicyAppliesTo, string idPolicyAppliesTo)
+        {
+            lock (lockObject)
+            {
+                policies.Remove(new BuilderPolicyKey(policyInterface, typePolicyAppliesTo, idPolicyAppliesTo));
+            }
+        }
 
-		/// <summary>
-		/// Removes all policies from the list.
-		/// </summary>
-		public void ClearAll()
-		{
-			lock (lockObject)
-			{
-				policies.Clear();
-			}
-		}
+        /// <summary>
+        /// ÒÆ³ıËùÓĞ²ßÂÔ
+        /// </summary>
+        public void ClearAll()
+        {
+            lock (lockObject)
+            {
+                policies.Clear();
+            }
+        }
 
-		/// <summary>
-		/// Removes a default policy.
-		/// </summary>
-		/// <typeparam name="TPolicyInterface">The type the policy was registered as.</typeparam>
-		public void ClearDefault<TPolicyInterface>()
-		{
-			ClearDefault(typeof(TPolicyInterface));
-		}
+        /// <summary>
+        /// ÒÆ³ıÒ»¸öÄ¬ÈÏ²ßÂÔ
+        /// </summary>
+        /// <typeparam name="TPolicyInterface">ÒÑ×¢²á²ßÂÔµÄÀàĞÍ</typeparam>
+        public void ClearDefault<TPolicyInterface>()
+        {
+            ClearDefault(typeof(TPolicyInterface));
+        }
 
-		/// <summary>
-		/// Removes a default policy.
-		/// </summary>
-		/// <param name="policyInterface">The type the policy was registered as.</param>
-		public void ClearDefault(Type policyInterface)
-		{
-			Clear(policyInterface, null, null);
-		}
+        /// <summary>
+        /// ÒÆ³ıÒ»¸öÄ¬ÈÏ²ßÂÔ
+        /// </summary>
+        /// <param name="policyInterface">ÒÑ×¢²á²ßÂÔµÄÀàĞÍ</param>
+        public void ClearDefault(Type policyInterface)
+        {
+            Clear(policyInterface, null, null);
+        }
 
-		/// <summary>
-		/// Gets an individual policy.
-		/// </summary>
-		/// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
-		/// <param name="typePolicyAppliesTo">The type the policy applies to.</param>
-		/// <param name="idPolicyAppliesTo">The ID the policy applies to.</param>
-		/// <returns>The policy in the list, if present; returns null otherwise.</returns>
-		public TPolicyInterface Get<TPolicyInterface>(Type typePolicyAppliesTo, string idPolicyAppliesTo)
-			where TPolicyInterface : IBuilderPolicy
-		{
-			return (TPolicyInterface)Get(typeof(TPolicyInterface), typePolicyAppliesTo, idPolicyAppliesTo);
-		}
+        /// <summary>
+        /// »ñÈ¡Ò»¸ö¶ş¼¶²ßÂÔ
+        /// </summary>
+        /// <typeparam name="TPolicyInterface">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú)</typeparam>
+        /// <param name="typePolicyAppliesTo">ĞèÒªObjectBuilder´´½¨µÄ¶ÔÏóµÄÀàĞÍ</param>
+        /// <param name="idPolicyAppliesTo">µ±Ç°²ßÂÔµÄÎ¨Ò»±êÊ¶·û£¬¿ÉÒÔ´«null.</param>
+        /// <returns>¸Ã¶ş¼¶²ßÂÔÔÚÁĞ±íÖĞ£¬Èç¹û´æÔÚ·µ»Ø¸Ã²ßÂÔ£»·ñÔò·µ»Ønull</returns>
+        public TPolicyInterface Get<TPolicyInterface>(Type typePolicyAppliesTo, string idPolicyAppliesTo)
+            where TPolicyInterface : IBuilderPolicy
+        {
+            return (TPolicyInterface)Get(typeof(TPolicyInterface), typePolicyAppliesTo, idPolicyAppliesTo);
+        }
 
-		/// <summary>
-		/// Gets an individual policy.
-		/// </summary>
-		/// <param name="policyInterface">The interface the policy is registered under.</param>
-		/// <param name="typePolicyAppliesTo">The type the policy applies to.</param>
-		/// <param name="idPolicyAppliesTo">The ID the policy applies to.</param>
-		/// <returns>The policy in the list, if present; returns null otherwise.</returns>
-		public IBuilderPolicy Get(Type policyInterface, Type typePolicyAppliesTo, string idPolicyAppliesTo)
-		{
-			BuilderPolicyKey key = new BuilderPolicyKey(policyInterface, typePolicyAppliesTo, idPolicyAppliesTo);
-			lock (lockObject)
-			{
-				IBuilderPolicy policy;
+        /// <summary>
+        /// »ñÈ¡Ò»¸ö¶ş¼¶²ßÂÔ
+        /// </summary>
+        /// <param name="policyInterface">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú)</param>
+        /// <param name="typePolicyAppliesTo">ĞèÒªObjectBuilder´´½¨µÄ¶ÔÏóµÄÀàĞÍ</param>
+        /// <param name="idPolicyAppliesTo">µ±Ç°²ßÂÔµÄÎ¨Ò»±êÊ¶·û£¬¿ÉÒÔ´«null.</param>
+        /// <returns>¸Ã¶ş¼¶²ßÂÔÔÚÁĞ±íÖĞ£¬Èç¹û´æÔÚ·µ»Ø¸Ã²ßÂÔ£»·ñÔò·µ»Ønull</returns>
+        public IBuilderPolicy Get(Type policyInterface, Type typePolicyAppliesTo, string idPolicyAppliesTo)
+        {
+            BuilderPolicyKey key = new BuilderPolicyKey(policyInterface, typePolicyAppliesTo, idPolicyAppliesTo);
+            lock (lockObject)
+            {
+                IBuilderPolicy policy;
 
-				if (policies.TryGetValue(key, out policy))
-					return policy;
+                if (policies.TryGetValue(key, out policy))
+                    return policy;
 
-				BuilderPolicyKey defaultKey = new BuilderPolicyKey(policyInterface, null, null);
-				if (policies.TryGetValue(defaultKey, out policy))
-					return policy;
+                BuilderPolicyKey defaultKey = new BuilderPolicyKey(policyInterface, null, null);
+                if (policies.TryGetValue(defaultKey, out policy))
+                    return policy;
 
-				return null;
-			}
-		}
+                return null;
+            }
+        }
 
-		/// <summary>
-		/// Sets an individual policy.
-		/// </summary>
-		/// <typeparam name="TPolicyInterface">The interface to register the policy under.</typeparam>
-		/// <param name="policy">The policy to be registered.</param>
-		/// <param name="typePolicyAppliesTo">The type the policy applies to.</param>
-		/// <param name="idPolicyAppliesTo">The ID the policy applies to.</param>
-		public void Set<TPolicyInterface>(TPolicyInterface policy, Type typePolicyAppliesTo, string idPolicyAppliesTo)
-			where TPolicyInterface : IBuilderPolicy
-		{
-			Set(typeof(TPolicyInterface), policy, typePolicyAppliesTo, idPolicyAppliesTo);
-		}
+        /// <summary>
+        /// ÉèÖÃÒ»¸ö¶ş¼¶²ßÂÔ
+        /// </summary>
+        /// <typeparam name="TPolicyInterface">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú)</typeparam>
+        /// <param name="policy">²ßÂÔÀàĞÍÊµÀı(ÊµÏÖÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿ÚµÄ½Ó¿Ú)</param>
+        /// <param name="typePolicyAppliesTo">ĞèÒªObjectBuilder´´½¨µÄ¶ÔÏóµÄÀàĞÍ</param>
+        /// <param name="idPolicyAppliesTo">µ±Ç°²ßÂÔµÄÎ¨Ò»±êÊ¶·û£¬¿ÉÒÔ´«null.</param>
+        public void Set<TPolicyInterface>(TPolicyInterface policy, Type typePolicyAppliesTo, string idPolicyAppliesTo)
+            where TPolicyInterface : IBuilderPolicy
+        {
+            Set(typeof(TPolicyInterface), policy, typePolicyAppliesTo, idPolicyAppliesTo);
+        }
 
-		/// <summary>
-		/// Sets an individual policy.
-		/// </summary>
-		/// <param name="policyInterface">The interface to register the policy under.</param>
-		/// <param name="policy">The policy to be registered.</param>
-		/// <param name="typePolicyAppliesTo">The type the policy applies to.</param>
-		/// <param name="idPolicyAppliesTo">The ID the policy applies to.</param>
-		public void Set(Type policyInterface, IBuilderPolicy policy, Type typePolicyAppliesTo, string idPolicyAppliesTo)
-		{
-			BuilderPolicyKey key = new BuilderPolicyKey(policyInterface, typePolicyAppliesTo, idPolicyAppliesTo);
-			lock (lockObject)
-			{
-				policies[key] = policy;
-			}
-		}
+        /// <summary>
+        ///  ÉèÖÃÒ»¸ö¶ş¼¶²ßÂÔ
+        /// </summary>
+        /// <param name="policyInterface">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú)</param>
+        /// <param name="policy">²ßÂÔÀàĞÍÊµÀı(ÊµÏÖÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿ÚµÄ½Ó¿Ú)</param>
+        /// <param name="typePolicyAppliesTo">ĞèÒªObjectBuilder´´½¨µÄ¶ÔÏóµÄÀàĞÍ</param>
+        /// <param name="idPolicyAppliesTo">µ±Ç°²ßÂÔµÄÎ¨Ò»±êÊ¶·û£¬¿ÉÒÔ´«null.</param>
+        public void Set(Type policyInterface, IBuilderPolicy policy, Type typePolicyAppliesTo, string idPolicyAppliesTo)
+        {
+            BuilderPolicyKey key = new BuilderPolicyKey(policyInterface, typePolicyAppliesTo, idPolicyAppliesTo);
+            lock (lockObject)
+            {
+                policies[key] = policy;
+            }
+        }
 
-		/// <summary>
-		/// Sets a default policy. When checking for a policy, if no specific individual policy
-		/// is available, the default will be used.
-		/// </summary>
-		/// <typeparam name="TPolicyInterface">The interface to register the policy under.</typeparam>
-		/// <param name="policy">The default policy to be registered.</param>
-		public void SetDefault<TPolicyInterface>(TPolicyInterface policy)
-			where TPolicyInterface : IBuilderPolicy
-		{
-			SetDefault(typeof(TPolicyInterface), policy);
-		}
+        /// <summary>
+        /// ÉèÖÃÄ¬ÈÏ²ßÂÔ¡£¼ì²é²ßÂÔÊ±£¬Èç¹ûÃ»ÓĞÌØ¶¨µÄ¸öÈË²ßÂÔ¿ÉÓÃ£¬Ôò½«Ê¹ÓÃÄ¬ÈÏÖµ
+        /// </summary>
+        /// <typeparam name="TPolicyInterface">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú)</typeparam>
+        /// <param name="policy">²ßÂÔÀàĞÍÊµÀı(ÊµÏÖÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿ÚµÄ½Ó¿Ú)</param>
+        public void SetDefault<TPolicyInterface>(TPolicyInterface policy)
+            where TPolicyInterface : IBuilderPolicy
+        {
+            SetDefault(typeof(TPolicyInterface), policy);
+        }
 
-		/// <summary>
-		/// Sets a default policy. When checking for a policy, if no specific individual policy
-		/// is available, the default will be used.
-		/// </summary>
-		/// <param name="policyInterface">The interface to register the policy under.</param>
-		/// <param name="policy">The default policy to be registered.</param>
-		public void SetDefault(Type policyInterface, IBuilderPolicy policy)
-		{
-			Set(policyInterface, policy, null, null);
-		}
-	}
+        /// <summary>
+        /// ÉèÖÃÄ¬ÈÏ²ßÂÔ¡£¼ì²é²ßÂÔÊ±£¬Èç¹ûÃ»ÓĞÌØ¶¨µÄ¸öÈË²ßÂÔ¿ÉÓÃ£¬Ôò½«Ê¹ÓÃÄ¬ÈÏÖµ
+        /// </summary>
+        /// <param name="policyInterface">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú).</param>
+        /// <param name="policy">²ßÂÔÀàĞÍÊµÀı(ÊµÏÖÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿ÚµÄ½Ó¿Ú)</param>
+        public void SetDefault(Type policyInterface, IBuilderPolicy policy)
+        {
+            Set(policyInterface, policy, null, null);
+        }
+    }
 }

@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -14,34 +14,33 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents a chain of responsibility for builder strategies.
-	/// </summary>
-	public interface IBuilderStrategyChain
-	{
-		/// <summary>
-		/// Retrieves the head of the chain.
-		/// </summary>
-		IBuilderStrategy Head { get; }
+    /// <summary>
+    /// ObjectBuilder´´½¨¶ÔÏó²ßÂÔµÄÔğÈÎÁ´
+    /// </summary>
+    public interface IBuilderStrategyChain
+    {
+        /// <summary>
+        /// ²ßÂÔÔğÈÎÁ´ÖĞµÄµÚÒ»²ßÂÔ£»Èç¹ûÁ´ÖĞÃ»ÓĞ²ßÂÔ£¬Ôò·µ»Ønull
+        /// </summary>
+        IBuilderStrategy Head { get; }
 
-		/// <summary>
-		/// Adds a strategy to the chain.
-		/// </summary>
-		/// <param name="strategy">The strategy to add to the chain.</param>
-		void Add(IBuilderStrategy strategy);
+        /// <summary>
+        /// Ìí¼Ó²ßÂÔ
+        /// </summary>
+        /// <param name="strategy">²ßÂÔ¶ÔÏó.</param>
+        void Add(IBuilderStrategy strategy);
 
-		/// <summary>
-		/// Adds strategies to the chain.
-		/// </summary>
-		/// <param name="strategies">The strategies to add to the chain.</param>
-		void AddRange(IEnumerable strategies);
+        /// <summary>
+        /// ÅúÁ¿Ìí¼Ó²ßÂÔ
+        /// </summary>
+        /// <param name="strategies">²ßÂÔ¶ÔÏó¼¯ºÏ</param>
+        void AddRange(IEnumerable strategies);
 
-		/// <summary>
-		/// Gets the next strategy in the chain, relative to the given strategy.
-		/// </summary>
-		/// <param name="currentStrategy">The current strategy.</param>
-		/// <returns>The next strategy in the chain; returns null if the current
-		/// strategy is the last in the chain.</returns>
-		IBuilderStrategy GetNext(IBuilderStrategy currentStrategy);
-	}
+        /// <summary>
+        /// È¡Á´ÖĞµÄÏÂÒ»¸ö²ßÂÔ£¬Ïà¶ÔÓÚ¸ø¶¨µÄ²ßÂÔ
+        /// </summary>
+        /// <param name="currentStrategy">µ±Ç°Ö´ĞĞµÄ²ßÂÔ</param>
+        /// <returns>·µ»ØÏÂÒ»¸ö²ßÂÔ£¬Èç¹û·µ»ØnullÄÇÃ´µ±Ç°¶ÔÏóµÄ²ßÂÔ¶ÔÏóÎª×îºóÒ»¸ö²ßÂÔ</returns>
+        IBuilderStrategy GetNext(IBuilderStrategy currentStrategy);
+    }
 }

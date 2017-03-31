@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -13,29 +13,26 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents the information necessary for registration of a builder policy. A policy is
-	/// registered by the interface policy type, the type the policy applies to, and the ID
-	/// the policy applies to.
-	/// </summary>
-	public struct BuilderPolicyKey
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BuilderPolicyKey"/> struct using the
-		/// provided policy type, application type, and application ID.
-		/// </summary>
-		/// <param name="policyType">The policy interface type.</param>
-		/// <param name="typePolicyAppliesTo">The type the policy applies to.</param>
-		/// <param name="idPolicyAppliesTo">The ID the policy applies to.</param>
-		public BuilderPolicyKey(Type policyType, Type typePolicyAppliesTo, string idPolicyAppliesTo)
-		{
-			PolicyType = policyType;
-			BuildType = typePolicyAppliesTo;
-			BuildID = idPolicyAppliesTo;
-		}
+    /// <summary>
+    /// ±íÊ¾Éú³ÉÆ÷²ßÂÔ×¢²áËù±ØĞèµÄĞÅÏ¢¡£²ßÂÔÓÉ½Ó¿Ú²ßÂÔÀàĞÍ¡¢²ßÂÔÊµÀıºÍ²ßÂÔÎ¨Ò»±êÊ¶
+    /// </summary>
+    public struct BuilderPolicyKey
+    {
+        /// <summary>
+        /// ³õÊ¼»¯½á¹¹Ìå <see cref="BuilderPolicyKey"/> £¬ÆäÖĞ°üÀ¨²ßÂÔÀàĞÍ(½Ó¿Ú)¡¢²ßÂÔÊµÀıºÍ²ßÂÔÎ¨Ò»±êÊ¶
+        /// </summary>
+        /// <param name="policyType">²ßÂÔÀàĞÍ(ÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿Ú)</param>
+        /// <param name="typePolicyAppliesTo">²ßÂÔÀàĞÍÊµÀı(ÊµÏÖÅÉÉú×ÔIBuilderPolicyµÄ½Ó¿ÚµÄ½Ó¿Ú)</param>
+        /// <param name="idPolicyAppliesTo">µ±Ç°²ßÂÔµÄÎ¨Ò»±êÊ¶·û£¬¿ÉÒÔ´«null.</param>
+        public BuilderPolicyKey(Type policyType, Type typePolicyAppliesTo, string idPolicyAppliesTo)
+        {
+            PolicyType = policyType;
+            BuildType = typePolicyAppliesTo;
+            BuildID = idPolicyAppliesTo;
+        }
 
-		private Type PolicyType;
-		private Type BuildType;
-		private string BuildID;
-	}
+        private Type PolicyType;
+        private Type BuildType;
+        private string BuildID;
+    }
 }

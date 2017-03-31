@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -14,62 +14,62 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implementation of <see cref="IBuilderStrategyChain"/>.
-	/// </summary>
-	public class BuilderStrategyChain : IBuilderStrategyChain
-	{
-		private List<IBuilderStrategy> strategies;
+    /// <summary>
+    ///ÊµÏÖ<see cref="IBuilderStrategyChain"/>½Ó¿Ú
+    /// </summary>
+    public class BuilderStrategyChain : IBuilderStrategyChain
+    {
+        private List<IBuilderStrategy> strategies;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BuilderStrategyChain"/> class.
-		/// </summary>
-		public BuilderStrategyChain()
-		{
-			strategies = new List<IBuilderStrategy>();
-		}
+        /// <summary>
+        /// ÊµÀý»¯²ßÂÔÔðÈÎÁ´ <see cref="BuilderStrategyChain"/> Àà.
+        /// </summary>
+        public BuilderStrategyChain()
+        {
+            strategies = new List<IBuilderStrategy>();
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilderStrategyChain.Head"/> for more information.
-		/// </summary>
-		public IBuilderStrategy Head
-		{
-			get
-			{
-				if (strategies.Count > 0)
-					return strategies[0];
-				else
-					return null;
-			}
-		}
+        /// <summary>
+        /// ÔÚ <see cref="IBuilderStrategyChain.Head"/> ÖÐ²é¿´¸ü¶à
+        /// </summary>
+        public IBuilderStrategy Head
+        {
+            get
+            {
+                if (strategies.Count > 0)
+                    return strategies[0];
+                else
+                    return null;
+            }
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilderStrategyChain.Add"/> for more information.
-		/// </summary>
-		public void Add(IBuilderStrategy strategy)
-		{
-			strategies.Add(strategy);
-		}
+        /// <summary>
+        /// ÔÚ <see cref="IBuilderStrategyChain.Add"/> ÖÐ²é¿´¸ü¶à
+        /// </summary>
+        public void Add(IBuilderStrategy strategy)
+        {
+            strategies.Add(strategy);
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilderStrategyChain.AddRange"/> for more information.
-		/// </summary>
-		public void AddRange(IEnumerable strategies)
-		{
-			foreach (IBuilderStrategy strategy in strategies)
-				Add(strategy);
-		}
+        /// <summary>
+        /// ÔÚ <see cref="IBuilderStrategyChain.AddRange"/>ÖÐ²é¿´¸ü¶à
+        /// </summary>
+        public void AddRange(IEnumerable strategies)
+        {
+            foreach (IBuilderStrategy strategy in strategies)
+                Add(strategy);
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilderStrategyChain.GetNext"/> for more information.
-		/// </summary>
-		public IBuilderStrategy GetNext(IBuilderStrategy currentStrategy)
-		{
-			for (int idx = 0; idx < strategies.Count - 1; idx++)
-				if (ReferenceEquals(currentStrategy, strategies[idx]))
-					return strategies[idx + 1];
+        /// <summary>
+        /// ÔÚ <see cref="IBuilderStrategyChain.GetNext"/> ÖÐ²é¿´¸ü¶à
+        /// </summary>
+        public IBuilderStrategy GetNext(IBuilderStrategy currentStrategy)
+        {
+            for (int idx = 0; idx < strategies.Count - 1; idx++)
+                if (ReferenceEquals(currentStrategy, strategies[idx])) //¼ì²âÊÇ·ñÊÇÏàÍ¬µÄ¶ÔÏóÊµÀý
+                    return strategies[idx + 1];
 
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 }

@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -12,37 +12,28 @@
 namespace Microsoft.Practices.ObjectBuilder
 {
 	/// <summary>
-	/// Enumeration to represent the object builder stages.
+	/// ObjectBuilder¶ÔÏó´´½¨Ë³Ğò
 	/// </summary>
-	/// <remarks>
-	/// The order of the values in the enumeration is the order in which the stages are run.
-	/// </remarks>
 	public enum BuilderStage
 	{
-		/// <summary>
-		/// Strategies in this stage run before creation. Typical work done in this stage might
-		/// include strategies that use reflection to set policies into the context that other
-		/// strategies would later use.
-		/// </summary>
-		PreCreation,
+        /// <summary>
+        /// Õâ¸ö½×¶ÎµÄ²ßÂÔÔÚ´´ÔìÖ®Ç°ÔËĞĞ¡£ÔÚ´Ë½×¶ÎËù×öµÄµäĞÍ¹¤×÷¿ÉÄÜ°üÀ¨Ê¹ÓÃ·´Éä½«²ßÂÔÉèÖÃµ½ÆäËû²ßÂÔÉÔºóÊ¹ÓÃµÄÉÏÏÂÎÄÖĞµÄ²ßÂÔ¡£
+        /// </summary>
+        PreCreation,
 
-		/// <summary>
-		/// Strategies in this stage create objects. Typically you will only have a single policy-driven
-		/// creation strategy in this stage.
-		/// </summary>
-		Creation,
+        /// <summary>
+        /// ÔÚÕâ¸ö½×¶ÎÖĞÖ»ÓĞÒ»¸ö²ßÂÔÇı¶¯µÄ´´½¨²ßÂÔ
+        /// </summary>
+        Creation,
 
-		/// <summary>
-		/// Strategies in this stage work on created objects. Typical work done in this stage might
-		/// include setter injection and method calls.
-		/// </summary>
-		Initialization,
+        /// <summary>
+        /// ÔÚÕâ¸ö½×¶ÎµÄ¹¤×÷¶Ô´´½¨¶ÔÏóµÄ²ßÂÔ¡£ÔÚ´Ë½×¶ÎËù×öµÄµäĞÍ¹¤×÷¿ÉÄÜ°üÀ¨ÉèÖÃ×¢ÈëºÍ·½·¨µ÷ÓÃ¡£
+        /// </summary>
+        Initialization,
 
-		/// <summary>
-		/// Strategies in this stage work on objects that are already initialized. Typical work done in
-		/// this stage might include looking to see if the object implements some notification interface
-		/// to discover when its initialization stage has been completed.
-		/// </summary>
-		PostInitialization
-	}
+        /// <summary>
+        /// Õâ¸ö½×¶ÎµÄ²ßÂÔÊÇ¶ÔÒÑ¾­³õÊ¼»¯µÄ¶ÔÏó½øĞĞ¹¤×÷¡£ÔÚÕâ¸ö½×¶ÎÖĞÍê³ÉµÄµäĞÍ¹¤×÷¿ÉÄÜ°üÀ¨²éÕÒ¶ÔÏóÊÇ·ñÊµÏÖÁËÒ»Ğ©Í¨Öª½Ó¿Ú£¬ÒÔ±ãÔÚ³õÊ¼»¯½×¶ÎÍê³ÉÊ±·¢ÏÖ¡£
+        /// </summary>
+        PostInitialization
+    }
 }

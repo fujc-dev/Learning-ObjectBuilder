@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -11,12 +11,10 @@
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents a builder policy interface. Since there are no fixed requirements
-	/// for policies, it acts as a marker interface from which to derive all other
-	/// policy interfaces.
-	/// </summary>
-	public interface IBuilderPolicy
+    /// <summary>
+    /// ±íÊ¾Éú³ÉÆ÷²ßÂÔ½Ó¿Ú¡£ÓÉÓÚÃ»ÓÐ¶Ô²ßÂÔµÄ¹Ì¶¨ÐèÇó£¬ËùÒÔËü×÷ÎªÒ»¸ö±ê¼Ç½Ó¿Ú£¬´ÓÖÐÅÉÉúËùÓÐÆäËû²ßÂÔ½Ó¿Ú¡£
+    /// </summary>
+    public interface IBuilderPolicy
 	{
 	}
 }

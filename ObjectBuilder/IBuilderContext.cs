@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -13,36 +13,32 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents the context in which a build-up or tear-down operation runs.
-	/// </summary>
-	public interface IBuilderContext
-	{
-		/// <summary>
-		/// Retrieves the head of the strategy chain.
-		/// </summary>
-		/// <returns>The strategy that's first in the chain; returns null if there are no
-		/// strategies in the chain.</returns>
-		IBuilderStrategy HeadOfChain { get; }
+    /// <summary>
+    /// ±íÊ¾Éú³É»ò·Ö½â²Ù×÷ÔËĞĞµÄÉÏÏÂÎÄ£¬ÔÚ¶ÔÏó´´½¨²ßÂÔÖĞµÄ´´½¨ÉÏÏÂÎÄ¶ÔÏó£¬¿ÉÒÔ¶Ô±ÈHttpContentÒÔ¼°¹ÜµÀ¶ÔÏóContent
+    /// </summary>
+    public interface IBuilderContext
+    {
+        /// <summary>
+        /// ¼ìË÷²ßÂÔÁ´µÄÍ·
+        /// </summary>
+        /// <returns>Á´ÖĞµÄµÚÒ»²ßÂÔ£»Èç¹ûÁ´ÖĞÃ»ÓĞ²ßÂÔ£¬Ôò·µ»Ønull</returns>
+        IBuilderStrategy HeadOfChain { get; }
 
-		/// <summary>
-		/// The locator available to the strategies. A lifetime container is registered
-		/// inside the locator, with a key of typeof(ILifetimeContainer).
-		/// </summary>
-		IReadWriteLocator Locator { get; }
+        /// <summary>
+        /// ±íÊ¾Ò»¸öÉúÃüÖÜÆÚµÄ¶¨Î»Æ÷
+        /// </summary>
+        IReadWriteLocator Locator { get; }
 
-		/// <summary>
-		/// The policies for the current context. Any modifications will be transient (meaning,
-		/// they will be forgotten when the outer BuildUp for this context is finished executing).
-		/// </summary>
-		PolicyList Policies { get; }
+        /// <summary>
+        /// µ±Ç°´´½¨¶ÔÏóµÄÍâ²¿²ßÂÔ£¬Î§ÈÆ¶ÔÏó´´½¨µÄ²ßÂÔ¼¯ºÏ
+        /// </summary>
+        PolicyList Policies { get; }
 
-		/// <summary>
-		/// Retrieves the next item in the strategy chain, relative to an existing item.
-		/// </summary>
-		/// <param name="currentStrategy">The strategy that is currently running</param>
-		/// <returns>The next strategy in the chain; returns null if the given strategy
-		/// was last in the chain.</returns>
-		IBuilderStrategy GetNextInChain(IBuilderStrategy currentStrategy);
-	}
+        /// <summary>
+        /// ¼ìË÷²ßÂÔÁ´ÖĞµÄÏÂÒ»¸öÏîÄ¿£¬Ïà¶ÔÓÚ¼´½«ÔËĞĞ²ßÂÔÏî
+        /// </summary>
+        /// <param name="currentStrategy">µ±Ç°µÄ²ßÂÔ¶ÔÏó</param>
+        /// <returns>·µ»ØÏÂÒ»¸ö²ßÂÔ£¬Èç¹û·µ»ØnullÄÇÃ´µ±Ç°¶ÔÏóµÄ²ßÂÔ¶ÔÏóÎª×îºóÒ»¸ö²ßÂÔ</returns>
+        IBuilderStrategy GetNextInChain(IBuilderStrategy currentStrategy);
+    }
 }

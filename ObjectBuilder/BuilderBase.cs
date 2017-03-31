@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -14,167 +14,171 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// An implementation helper class for <see cref="IBuilder{TStageEnum}"/>.
-	/// </summary>
-	/// <typeparam name="TStageEnum">The build stage enumeration.</typeparam>
-	public class BuilderBase<TStageEnum> : IBuilder<TStageEnum>
-	{
-		private PolicyList policies = new PolicyList();
-		private StrategyList<TStageEnum> strategies = new StrategyList<TStageEnum>();
-		private Dictionary<object, object> lockObjects = new Dictionary<object, object>();
+    /// <summary>
+    /// ÊµÏÖIBuilder½Ó¿ÚµÄ¸¨ÖúÀà
+    /// </summary>
+    /// <typeparam name="TStageEnum">Õâ¸öÃ¶¾ÙµÄ·ºÐÍ±íÊ¾ÀàÐÍ´´½¨²ßÂÔ</typeparam>
+    public class BuilderBase<TStageEnum> : IBuilder<TStageEnum>
+    {
+        /// <summary>
+        /// ´´½¨¶ÔÏóÊ±ËùÐèÒªµÄÒ»ÏµÁÐÎ§ÈÆ´´½¨¶ÔÏóÊ±ËùÐèÒªµÄ¸½¼Ó²ßÂÔÐÅÏ¢
+        /// </summary>
+        private PolicyList policies = new PolicyList();
+        /// <summary>
+        /// ²ßÂÔ¼¯ºÏ£¬ÓÃÓÚ´æ´¢¶ÔÏó´´½¨Ê±ËùÐèÒªµÄÒ»ÏµÁÐ²ßÂÔ
+        /// </summary>
+        private StrategyList<TStageEnum> strategies = new StrategyList<TStageEnum>();
+        /// <summary>
+        /// 
+        /// </summary>
+        private Dictionary<object, object> lockObjects = new Dictionary<object, object>();
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BuilderBase{T}"/> class.
-		/// </summary>
-		public BuilderBase()
-		{
-		}
+        /// <summary>
+        ///ÊµÀý»¯Ò»¸ö <see cref="BuilderBase{T}"/> Àà.
+        /// </summary>
+        public BuilderBase()
+        {
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BuilderBase{T}"/> class using the
-		/// provided configurator.
-		/// </summary>
-		/// <param name="configurator">The configurator that will configure the builder.</param>
-		public BuilderBase(IBuilderConfigurator<TStageEnum> configurator)
-		{
-			configurator.ApplyConfiguration(this);
-		}
+        /// <summary>
+        /// Í¨¹ý<see cref="IBuilderConfigurator{BuilderStage}"/>ÅäÖÃÊµÀý»¯Ò»¸ö <see cref="BuilderBase{T}"/> Àà.
+        /// </summary>
+        /// <param name="configurator">Éú³ÉÆ÷ÅäÖÃ¶ÔÏó½Ó¿Ú</param>
+        public BuilderBase(IBuilderConfigurator<TStageEnum> configurator)
+        {
+            configurator.ApplyConfiguration(this);
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilder{TStageEnum}.Policies"/> for more information.
-		/// </summary>
-		public PolicyList Policies
-		{
-			get { return policies; }
-		}
+        /// <summary>
+        /// ÔÚ <see cref="IBuilder{TStageEnum}.Policies"/> ÖÐ²é¿´¸ü¶àÐÅÏ¢
+        /// </summary>
+        public PolicyList Policies
+        {
+            get { return policies; }
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilder{TStageEnum}.Strategies"/> for more information.
-		/// </summary>
-		public StrategyList<TStageEnum> Strategies
-		{
-			get { return strategies; }
-		}
+        /// <summary>
+        /// ÔÚ <see cref="IBuilder{TStageEnum}.Strategies"/> ÖÐ²é¿´¸ü¶àÐÅÏ¢
+        /// </summary>
+        public StrategyList<TStageEnum> Strategies
+        {
+            get { return strategies; }
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilder{TStageEnum}.BuildUp{T}"/> for more information.
-		/// </summary>
-		public TTypeToBuild BuildUp<TTypeToBuild>(IReadWriteLocator locator,
-															 string idToBuild, object existing, params PolicyList[] transientPolicies)
-		{
-			return (TTypeToBuild)BuildUp(locator, typeof(TTypeToBuild), idToBuild, existing, transientPolicies);
-		}
+        /// <summary>
+        /// ÔÚ <see cref="IBuilder{TStageEnum}.BuildUp{T}"/> ÖÐ²é¿´¸ü¶àÐÅÏ¢
+        /// </summary>
+        public TTypeToBuild BuildUp<TTypeToBuild>(IReadWriteLocator locator, string idToBuild, object existing, params PolicyList[] transientPolicies)
+        {
+            return (TTypeToBuild)BuildUp(locator, typeof(TTypeToBuild), idToBuild, existing, transientPolicies);
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilder{TStageEnum}.BuildUp"/> for more information.
-		/// </summary>
-		public virtual object BuildUp(IReadWriteLocator locator, Type typeToBuild,
-											 string idToBuild, object existing, params PolicyList[] transientPolicies)
-		{
-			if (locator != null)
-			{
-				lock (GetLock(locator))
-				{
-					return DoBuildUp(locator, typeToBuild, idToBuild, existing, transientPolicies);
-				}
-			}
-			else
-			{
-				return DoBuildUp(locator, typeToBuild, idToBuild, existing, transientPolicies);
-			}
+        /// <summary>
+        /// ÔÚ <see cref="IBuilder{TStageEnum}.BuildUp"/> ÖÐ²é¿´¸ü¶àÐÅÏ¢
+        /// </summary>
+        public virtual object BuildUp(IReadWriteLocator locator, Type typeToBuild, string idToBuild, object existing, params PolicyList[] transientPolicies)
+        {
+            if (locator != null)
+            {
+                lock (GetLock(locator))
+                {
+                    return DoBuildUp(locator, typeToBuild, idToBuild, existing, transientPolicies);
+                }
+            }
+            else
+            {
+                return DoBuildUp(locator, typeToBuild, idToBuild, existing, transientPolicies);
+            }
 
-		}
+        }
 
-		private object DoBuildUp(IReadWriteLocator locator, Type typeToBuild, string idToBuild, object existing,
-			PolicyList[] transientPolicies)
-		{
-			IBuilderStrategyChain chain = strategies.MakeStrategyChain();
-			ThrowIfNoStrategiesInChain(chain);
+        private object DoBuildUp(IReadWriteLocator locator, Type typeToBuild, string idToBuild, object existing, PolicyList[] transientPolicies)
+        {
+            IBuilderStrategyChain chain = strategies.MakeStrategyChain();
+            ThrowIfNoStrategiesInChain(chain);
 
-			IBuilderContext context = MakeContext(chain, locator, transientPolicies);
-			IBuilderTracePolicy trace = context.Policies.Get<IBuilderTracePolicy>(null, null);
+            IBuilderContext context = MakeContext(chain, locator, transientPolicies);
+            IBuilderTracePolicy trace = context.Policies.Get<IBuilderTracePolicy>(null, null);
 
-			if (trace != null)
-				trace.Trace(Properties.Resources.BuildUpStarting, typeToBuild, idToBuild ?? "(null)");
-			
-			object result = chain.Head.BuildUp(context, typeToBuild, existing, idToBuild);
+            if (trace != null)
+                trace.Trace(Properties.Resources.BuildUpStarting, typeToBuild, idToBuild ?? "(null)");
 
-			if (trace != null)
-				trace.Trace(Properties.Resources.BuildUpFinished, typeToBuild, idToBuild ?? "(null)");
-			
-			return result;
-		}
+            object result = chain.Head.BuildUp(context, typeToBuild, existing, idToBuild);
 
-		private IBuilderContext MakeContext(IBuilderStrategyChain chain,
-														IReadWriteLocator locator, params PolicyList[] transientPolicies)
-		{
-			PolicyList policies = new PolicyList(this.policies);
+            if (trace != null)
+                trace.Trace(Properties.Resources.BuildUpFinished, typeToBuild, idToBuild ?? "(null)");
 
-			foreach (PolicyList policyList in transientPolicies)
-				policies.AddPolicies(policyList);
+            return result;
+        }
 
-			return new BuilderContext(chain, locator, policies);
-		}
+        private IBuilderContext MakeContext(IBuilderStrategyChain chain, IReadWriteLocator locator, params PolicyList[] transientPolicies)
+        {
+            PolicyList policies = new PolicyList(this.policies);
 
-		private static void ThrowIfNoStrategiesInChain(IBuilderStrategyChain chain)
-		{
-			if (chain.Head == null)
-				throw new InvalidOperationException(Properties.Resources.BuilderHasNoStrategies);
-		}
+            foreach (PolicyList policyList in transientPolicies)
+                policies.AddPolicies(policyList);
 
-		/// <summary>
-		/// See <see cref="IBuilder{TStageEnum}.TearDown{T}"/> for more information.
-		/// </summary>
-		public TItem TearDown<TItem>(IReadWriteLocator locator, TItem item)
-		{
-			if (typeof(TItem).IsValueType == false && item == null)
-				throw new ArgumentNullException("item");
+            return new BuilderContext(chain, locator, policies);
+        }
 
-			if (locator != null)
-			{
-				lock (GetLock(locator))
-				{
-					return DoTearDown<TItem>(locator, item);
-				}
-			}
-			else
-			{
-				return DoTearDown<TItem>(locator, item);
-			}
-		}
+        private static void ThrowIfNoStrategiesInChain(IBuilderStrategyChain chain)
+        {
+            if (chain.Head == null)
+                throw new InvalidOperationException(Properties.Resources.BuilderHasNoStrategies);
+        }
 
-		private TItem DoTearDown<TItem>(IReadWriteLocator locator, TItem item)
-		{
-			IBuilderStrategyChain chain = strategies.MakeReverseStrategyChain();
-			ThrowIfNoStrategiesInChain(chain);
+        /// <summary>
+        /// ÔÚ <see cref="IBuilder{TStageEnum}.TearDown{T}"/> ÖÐ²é¿´¸ü¶àÐÅÏ¢
+        /// </summary>
+        public TItem TearDown<TItem>(IReadWriteLocator locator, TItem item)
+        {
+            if (typeof(TItem).IsValueType == false && item == null)
+                throw new ArgumentNullException("item");
 
-			Type type = item.GetType();
-			IBuilderContext context = MakeContext(chain, locator);
-			IBuilderTracePolicy trace = context.Policies.Get<IBuilderTracePolicy>(null, null);
+            if (locator != null)
+            {
+                lock (GetLock(locator))
+                {
+                    return DoTearDown<TItem>(locator, item);
+                }
+            }
+            else
+            {
+                return DoTearDown<TItem>(locator, item);
+            }
+        }
 
-			if (trace != null)
-				trace.Trace(Properties.Resources.TearDownStarting, type);
+        private TItem DoTearDown<TItem>(IReadWriteLocator locator, TItem item)
+        {
+            IBuilderStrategyChain chain = strategies.MakeReverseStrategyChain();
+            ThrowIfNoStrategiesInChain(chain);
 
-			TItem result = (TItem)chain.Head.TearDown(context, item);
+            Type type = item.GetType();
+            IBuilderContext context = MakeContext(chain, locator);
+            IBuilderTracePolicy trace = context.Policies.Get<IBuilderTracePolicy>(null, null);
 
-			if (trace != null)
-				trace.Trace(Properties.Resources.TearDownFinished, type);
+            if (trace != null)
+                trace.Trace(Properties.Resources.TearDownStarting, type);
 
-			return result;
-		}
+            TItem result = (TItem)chain.Head.TearDown(context, item);
 
-		private object GetLock(object locator)
-		{
-			lock (lockObjects)
-			{
-				if (lockObjects.ContainsKey(locator))
-					return lockObjects[locator];
+            if (trace != null)
+                trace.Trace(Properties.Resources.TearDownFinished, type);
 
-				object newLock = new object();
-				lockObjects[locator] = newLock;
-				return newLock;
-			}
-		}
-	}
+            return result;
+        }
+
+        private object GetLock(object locator)
+        {
+            lock (lockObjects)
+            {
+                if (lockObjects.ContainsKey(locator))
+                    return lockObjects[locator];
+
+                object newLock = new object();
+                lockObjects[locator] = newLock;
+                return newLock;
+            }
+        }
+    }
 }
