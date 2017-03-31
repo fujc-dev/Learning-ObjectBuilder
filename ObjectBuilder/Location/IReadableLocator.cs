@@ -14,118 +14,108 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents a locator that can be read from.
-	/// </summary>
-	/// <remarks>
-	/// <para>A locator is a dictionary of keys to values, but it keeps the values with
-	/// weak references, so that locating an object does not keep it alive. If you
-	/// want to keep the object alive too, you should consider using an
-	/// <see cref="ILifetimeContainer"/>.</para>
-	/// <para>Locators have a built-in concept of hierarchy, so you can ask questions
-	/// of a locator and tell it whether to return results from the current locator
-	/// only, or whether to ask the parent locator when local lookups fail.</para>
-	/// </remarks>
-	public interface IReadableLocator : IEnumerable<KeyValuePair<object, object>>
-	{
-		/// <summary>
-		/// Returns the number of items in the locator.
-		/// </summary>
-		int Count { get; }
+    /// <summary>
+    /// 可读取的定位器
+    /// </summary>
+    /// <remarks>
+    /// <para>定位器是一个字典的键值，但它保持值与弱引用，所以定位一个对象不保持它活着。如果你想保持对象活着，你应该考虑使用<see cref="ILifetimeContainer"/>.</para>
+    /// </remarks>
+    public interface IReadableLocator : IEnumerable<KeyValuePair<object, object>>
+    {
+        /// <summary>
+        /// 返回定位器中的项数
+        /// </summary>
+        int Count { get; }
 
-		/// <summary>
-		/// The parent locator.
-		/// </summary>
-		IReadableLocator ParentLocator { get; }
+        /// <summary>
+        /// 父定位器
+        /// </summary>
+        IReadableLocator ParentLocator { get; }
 
-		/// <summary>
-		/// Returns true if the locator is read-only.
-		/// </summary>
-		bool ReadOnly { get; }
+        /// <summary>
+        /// 如果定位器是只读的，返回true
+        /// </summary>
+        bool ReadOnly { get; }
 
-		/// <summary>
-		/// Determine if the locator contains an object for the given key.
-		/// </summary>
-		/// <param name="key">The key to check.</param>
-		/// <returns>Returns true if the locator contains an object for the key; returns
-		/// false otherwise.</returns>
-		/// <exception cref="ArgumentNullException">Key is null.</exception>
-		bool Contains(object key);
+        /// <summary>
+        /// 确定定位器是否包含给定键的对象
+        /// </summary>
+        /// <param name="key">Key，唯一标识</param>
+        /// <returns>如果该定位器包含用于该键的对象，则返回true；否则返回false</returns>
+        /// <exception cref="ArgumentNullException">key为null时</exception>
+        bool Contains(object key);
 
-		/// <summary>
-		/// Determine if the locator contains an object for the given key.
-		/// </summary>
-		/// <param name="key">The key to check.</param>
-		/// <param name="options">Search options.</param>
-		/// <returns>Returns true if the locator contains an object for the key; returns
-		/// false otherwise.</returns>
-		/// <exception cref="ArgumentNullException">Key is null.</exception>
-		/// <exception cref="ArgumentException">Options is not a valid enumeration value.</exception>
-		bool Contains(object key, SearchMode options);
+        /// <summary>
+        /// 确定定位器是否包含给定键的对象
+        /// </summary>
+        /// <param name="key">Key，唯一标识</param>
+        /// <param name="options">查找选项(一个枚举)</param>
+        /// <returns>如果该定位器包含用于该键的对象，则返回true；否则返回false</returns>
+        /// <exception cref="ArgumentNullException">key为null时</exception>
+        /// <exception cref="ArgumentException">SearchMode选项不是有效枚举值</exception>
+        bool Contains(object key, SearchMode options);
 
-		/// <summary>
-		/// Finds objects in the locator using the predicate, and returns a temporary locator
-		/// filled with the found objects.
-		/// </summary>
-		/// <param name="predicate">The predicate to test whether to include an object.</param>
-		/// <returns>The new locator</returns>
-		/// <exception cref="ArgumentNullException">Predicate is null.</exception>
-		IReadableLocator FindBy(Predicate<KeyValuePair<object, object>> predicate);
+        /// <summary>
+        /// 自定义搜索条件，并返回一个临时对象
+        /// </summary>
+        /// <param name="predicate">自定义的条件检测是否包含<see cref="IReadableLocator"/>对象</param>
+        /// <returns>返回一个新的定位器</returns>
+        /// <exception cref="ArgumentNullException">Predicate为null</exception>
+        IReadableLocator FindBy(Predicate<KeyValuePair<object, object>> predicate);
 
-		/// <summary>
-		/// Finds objects in the locator using the predicate, and returns a temporary locator
-		/// filled with the found objects.
-		/// </summary>
-		/// <param name="options">Search options.</param>
-		/// <param name="predicate">The predicate to test whether to include an object.</param>
-		/// <returns>The new locator</returns>
-		/// <exception cref="ArgumentNullException">Predicate is null.</exception>
-		/// <exception cref="ArgumentException">Options is not a valid enumeration value.</exception>
-		IReadableLocator FindBy(SearchMode options, Predicate<KeyValuePair<object, object>> predicate);
+        /// <summary>
+        /// 自定义搜索条件，并返回一个临时对象
+        /// </summary>
+        /// <param name="options">查找选项(一个枚举)</param>
+        /// <param name="predicate">自定义的条件检测是否包含<see cref="IReadableLocator"/>对象</param>
+        /// <returns>返回一个新的定位器</returns>
+        /// <exception cref="ArgumentNullException">Predicate为null</exception>
+        /// <exception cref="ArgumentException">SearchMode选项不是有效枚举值</exception>
+        IReadableLocator FindBy(SearchMode options, Predicate<KeyValuePair<object, object>> predicate);
 
-		/// <summary>
-		/// Gets an object from the locator, registered with the key of typeof(T).
-		/// </summary>
-		/// <typeparam name="TItem">The type of the object to find.</typeparam>
-		/// <returns>The object, if found; null otherwise.</returns>
-		TItem Get<TItem>();
+        /// <summary>
+        /// 从定位器中获取一个对象
+        /// </summary>
+        /// <typeparam name="TItem">要查找的对象的类型</typeparam>
+        /// <returns>如果找到对象直接返回，则为NULL</returns>
+        TItem Get<TItem>();
 
-		/// <summary>
-		/// Gets an object from the locator, registered with the given key.
-		/// </summary>
-		/// <typeparam name="TItem">The type of the object to find.</typeparam>
-		/// <param name="key">The key that the object is registered with.</param>
-		/// <returns>The object, if found; null otherwise.</returns>
-		/// <exception cref="ArgumentNullException">Key is null.</exception>
-		TItem Get<TItem>(object key);
+        /// <summary>
+        /// 从定位器中获取一个对象
+        /// </summary>
+        /// <typeparam name="TItem">要查找的对象的类型</typeparam>
+        /// <param name="key">Key，唯一标识</param>
+        /// <returns>如果找到对象直接返回，则为NULL</returns>
+        /// <exception cref="ArgumentNullException">Key为null.</exception>
+        TItem Get<TItem>(object key);
 
-		/// <summary>
-		/// Gets an object from the locator, registered with the given key.
-		/// </summary>
-		/// <typeparam name="TItem">The type of the object to find.</typeparam>
-		/// <param name="key">The key that the object is registered with.</param>
-		/// <param name="options">Search options.</param>
-		/// <returns>The object, if found; null otherwise.</returns>
-		/// <exception cref="ArgumentNullException">Key is null.</exception>
-		/// <exception cref="ArgumentException">Options is not a valid enumeration value.</exception>
-		TItem Get<TItem>(object key, SearchMode options);
+        /// <summary>
+        /// 从定位器中获取一个对象
+        /// </summary>
+        /// <typeparam name="TItem">要查找的对象的类型</typeparam>
+        /// <param name="key">Key，唯一标识</param>
+        /// <param name="options">查找选项(一个枚举)</param>
+        /// <returns>如果找到对象直接返回，则为NULL</returns>
+        /// <exception cref="ArgumentNullException">Key为null.</exception>
+        /// <exception cref="ArgumentException">SearchMode选项不是有效枚举值</exception>
+        TItem Get<TItem>(object key, SearchMode options);
 
-		/// <summary>
-		/// Gets an object from the locator, registered with the given key.
-		/// </summary>
-		/// <param name="key">The key that the object is registered with.</param>
-		/// <returns>The object, if found; null otherwise.</returns>
-		/// <exception cref="ArgumentNullException">Key is null.</exception>
-		object Get(object key);
+        /// <summary>
+        /// 从定位器中获取一个对象
+        /// </summary>
+        /// <param name="key">Key，唯一标识</param>
+        /// <returns>如果找到对象直接返回，则为NULL</returns>
+        /// <exception cref="ArgumentNullException">Key 为 null.</exception>
+        object Get(object key);
 
-		/// <summary>
-		/// Gets an object from the locator, registered with the given key.
-		/// </summary>
-		/// <param name="key">The key that the object is registered with.</param>
-		/// <param name="options">Search options.</param>
-		/// <returns>The object, if found; null otherwise.</returns>
-		/// <exception cref="ArgumentNullException">Key is null.</exception>
-		/// <exception cref="ArgumentException">Options is not a valid enumeration value.</exception>
-		object Get(object key, SearchMode options);
-	}
+        /// <summary>
+        /// 从定位器中获取一个对象
+        /// </summary>
+        /// <param name="key">Key，唯一标识</param>
+        /// <param name="options">查找选项(一个枚举)</param>
+        /// <returns>如果找到对象直接返回，则为NULL</returns>
+        /// <exception cref="ArgumentNullException">Key 为 null.</exception>
+        /// <exception cref="ArgumentException">SearchMode选项不是有效枚举值</exception>
+        object Get(object key, SearchMode options);
+    }
 }

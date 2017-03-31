@@ -14,106 +14,106 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// An implementation of <see cref="IReadableLocator"/> and <see cref="IReadWriteLocator"/>.
-	/// </summary>
-	public class Locator : ReadWriteLocator
-	{
-		private WeakRefDictionary<object, object> references = new WeakRefDictionary<object, object>();
+    /// <summary>
+    /// 派生自 <see cref="ReadWriteLocator"/>类，描述一个定位器可读写，ObjectBuilder内部默认的定位器，一般参数传递的定位器实例就的它的实例
+    /// </summary>
+    public class Locator : ReadWriteLocator
+    {
+        private WeakRefDictionary<object, object> references = new WeakRefDictionary<object, object>();
 
-		/// <summary>
-		/// Constructor. Creates an root locator.
-		/// </summary>
-		public Locator()
-			: this(null)
-		{
-		}
+        /// <summary>
+        /// 构造函数，创建根定位器
+        /// </summary>
+        public Locator()
+            : this(null)
+        {
+        }
 
-		/// <summary>
-		/// Constructor. Creates a child locator.
-		/// </summary>
-		/// <param name="parentLocator">The parent locator.</param>
-		public Locator(IReadableLocator parentLocator)
-		{
+        /// <summary>
+        /// 构造函数，创建子定位器
+        /// </summary>
+        /// <param name="parentLocator">设置父定位器</param>
+        public Locator(IReadableLocator parentLocator)
+        {
             SetParentLocator(parentLocator);
-		}
+        }
 
-		/// <summary>
-		/// See <see cref="IReadableLocator.Count"/> for more information.
-		/// </summary>
-		public override int Count
-		{
-			get { return references.Count; }
-		}
+        /// <summary>
+        /// 返回定位器中的项数
+        /// </summary>
+        public override int Count
+        {
+            get { return references.Count; }
+        }
 
-		/// <summary>
-		/// See <see cref="IReadWriteLocator.Add(object, object)"/> for more information.
-		/// </summary>
-		public override void Add(object key, object value)
-		{
-			if (key == null)
-				throw new ArgumentNullException("key");
-			if (value == null)
-				throw new ArgumentNullException("value");
+        /// <summary>
+        /// 添加一个对象到定位器，与给定的键
+        /// </summary>
+        public override void Add(object key, object value)
+        {
+            if (key == null)
+                throw new ArgumentNullException("key");
+            if (value == null)
+                throw new ArgumentNullException("value");
 
-			references.Add(key, value);
-		}
+            references.Add(key, value);
+        }
 
-		/// <summary>
-		/// See <see cref="IReadableLocator.Contains(object, SearchMode)"/> for more information.
-		/// </summary>
-		public override bool Contains(object key, SearchMode options)
-		{
-			if (key == null)
-				throw new ArgumentNullException("key");
-			if (!Enum.IsDefined(typeof(SearchMode), options))
-				throw new ArgumentException(Properties.Resources.InvalidEnumerationValue, "options");
+        /// <summary>
+        /// 确定定位器是否包含给定键的对象
+        /// </summary>
+        public override bool Contains(object key, SearchMode options)
+        {
+            if (key == null)
+                throw new ArgumentNullException("key");
+            if (!Enum.IsDefined(typeof(SearchMode), options))
+                throw new ArgumentException(Properties.Resources.InvalidEnumerationValue, "options");
 
-			if (references.ContainsKey(key))
-				return true;
+            if (references.ContainsKey(key))
+                return true;
 
-			if (options == SearchMode.Up && ParentLocator != null)
-				return ParentLocator.Contains(key, options);
+            if (options == SearchMode.Up && ParentLocator != null)
+                return ParentLocator.Contains(key, options);
 
-			return false;
-		}
+            return false;
+        }
 
-		/// <summary>
-		/// See <see cref="IReadableLocator.Get(object, SearchMode)"/> for more information.
-		/// </summary>
-		public override object Get(object key, SearchMode options)
-		{
-			if (key == null)
-				throw new ArgumentNullException("key");
-			if (!Enum.IsDefined(typeof(SearchMode), options))
-				throw new ArgumentException(Properties.Resources.InvalidEnumerationValue, "options");
+        /// <summary>
+        /// 从定位器中获取一个对象
+        /// </summary>
+        public override object Get(object key, SearchMode options)
+        {
+            if (key == null)
+                throw new ArgumentNullException("key");
+            if (!Enum.IsDefined(typeof(SearchMode), options))
+                throw new ArgumentException(Properties.Resources.InvalidEnumerationValue, "options");
 
-			if (references.ContainsKey(key))
-				return references[key];
+            if (references.ContainsKey(key))
+                return references[key];
 
-			if (options == SearchMode.Up && ParentLocator != null)
-				return ParentLocator.Get(key, options);
+            if (options == SearchMode.Up && ParentLocator != null)
+                return ParentLocator.Get(key, options);
 
-			return null;
-		}
+            return null;
+        }
 
-		/// <summary>
-		/// See <see cref="IReadWriteLocator.Remove(object)"/> for more information.
-		/// </summary>
-		public override bool Remove(object key)
-		{
-			if (key == null)
-				throw new ArgumentNullException("key");
+        /// <summary>
+        /// 从定位器移除对象
+        /// </summary>
+        public override bool Remove(object key)
+        {
+            if (key == null)
+                throw new ArgumentNullException("key");
 
-			return references.Remove(key);
-		}
+            return references.Remove(key);
+        }
 
-		/// <summary>
-		/// See <see cref="IEnumerable{T}.GetEnumerator()"/> for more information.
-		/// </summary>
-		public override IEnumerator<KeyValuePair<object, object>> GetEnumerator()
-		{
-			return references.GetEnumerator();
-		}
-	}
+        /// <summary>
+        /// 返回一个循环访问集合的枚举数。
+        /// </summary>
+        public override IEnumerator<KeyValuePair<object, object>> GetEnumerator()
+        {
+            return references.GetEnumerator();
+        }
+    }
 }

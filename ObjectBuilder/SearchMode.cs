@@ -11,18 +11,18 @@
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Indicates the search mode to be used for locator queries
-	/// </summary>
-	public enum SearchMode
+    /// <summary>
+    /// 指示用于定位查询的搜索模式
+    /// </summary>
+    public enum SearchMode
 	{
-		/// <summary>
-		/// Search local first and then up the containment heirarchy as needed
-		/// </summary>
-		Up,
+        /// <summary>
+        /// 向上回溯搜索
+        /// </summary>
+        Up,
 
 		/// <summary>
-		/// Search local only
+		/// 本地搜索
 		/// </summary>
 		Local
 	}

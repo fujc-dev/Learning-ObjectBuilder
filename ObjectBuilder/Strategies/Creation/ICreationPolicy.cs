@@ -14,28 +14,28 @@ using System.Reflection;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents a policy for <see cref="CreationStrategy"/>.
-	/// </summary>
-	public interface ICreationPolicy : IBuilderPolicy
-	{
-		/// <summary>
-		/// Selects the constructor to be used to create the object.
-		/// </summary>
-		/// <param name="context">The builder context.</param>
-		/// <param name="type">The type of object requested.</param>
-		/// <param name="id">The ID of the object requested.</param>
-		/// <returns>The constructor to use; returns null if no suitable constructor can be found.</returns>
-		ConstructorInfo SelectConstructor(IBuilderContext context, Type type, string id);
+    /// <summary>
+    /// 二级策略的构建策略，创建一个对象的二级策略 <see cref="CreationStrategy"/>.
+    /// </summary>
+    public interface ICreationPolicy : IBuilderPolicy
+    {
+        /// <summary>
+        /// 选择用于创建对象的构造函数
+        /// </summary>
+        /// <param name="context">策略执行上下文</param>
+        /// <param name="type">需要创建的对象的类型</param>
+        /// <param name="id">需要创建的对象的唯一编号</param>
+        /// <returns>要使用的构造函数；如果找不到合适的构造函数，则返回null</returns>
+        ConstructorInfo SelectConstructor(IBuilderContext context, Type type, string id);
 
-		/// <summary>
-		/// Gets the parameter values to be passed to the constructor.
-		/// </summary>
-		/// <param name="context">The builder context.</param>
-		/// <param name="type">The type of object requested.</param>
-		/// <param name="id">The ID of the object requested.</param>
-		/// <param name="constructor">The constructor that will be used.</param>
-		/// <returns>An array of parameters to pass to the constructor.</returns>
-		object[] GetParameters(IBuilderContext context, Type type, string id, ConstructorInfo constructor);
-	}
+        /// <summary>
+        /// 获取要传递给构造函数的参数值
+        /// </summary>
+        /// <param name="context">策略执行上下文</param>
+        /// <param name="type">需要创建的对象的类型</param>
+        /// <param name="id">需要创建的对象的唯一编号</param>
+        /// <param name="constructor">发现类构造函数的属性并提供对构造函数元数据的访问权</param>
+        /// <returns>传递给构造函数的参数数组</returns>
+        object[] GetParameters(IBuilderContext context, Type type, string id, ConstructorInfo constructor);
+    }
 }

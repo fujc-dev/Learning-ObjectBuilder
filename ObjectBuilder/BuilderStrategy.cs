@@ -29,8 +29,13 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// 用于构建对象在责任链中调用，在 <see cref="IBuilderStrategy.BuildUp"/> 中查看更多信息
+        /// 用于构建对象在责任链中调用
         /// </summary>
+        /// <param name="context">操作上下文</param>
+        /// <param name="typeToBuild">需要创建的对象的类型</param>
+        /// <param name="existing">一般默认传null对象创建器会在生成链中创建一个新的对象实例，如果不为null则将运行生成链的现有对象</param>
+        /// <param name="idToBuild">需要创建的对象的唯一编号</param>
+        /// <returns>创建的对象</returns>
         public virtual object BuildUp(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
         {
             IBuilderStrategy next = context.GetNextInChain(this);
@@ -42,8 +47,11 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// 用于摧毁对象在责任链中调用，在<see cref="IBuilderStrategy.TearDown"/> 中查看更多信息
+        /// 用于摧毁对象在责任链中调用
         /// </summary>
+        /// <param name="context">操作上下文</param>
+        /// <param name="item">需要销毁的对象实例</param>
+        /// <returns>返回当前销毁的对象实例</returns>
         public virtual object TearDown(IBuilderContext context, object item)
         {
             IBuilderStrategy next = context.GetNextInChain(this);
@@ -55,24 +63,24 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// Creates a trace list of parameter types from a list of <see cref="IParameter"/> objects.
+        /// 从<see cref="IParameter"/>对象列表创建参数类型的跟踪列表
         /// </summary>
-        /// <param name="parameters">The parameters</param>
-        /// <returns>The type list in string form</returns>
+        /// <param name="parameters">参数集合</param>
+        /// <returns>返回参数集合类型的串联字符串</returns>
         protected string ParametersToTypeList(params object[] parameters)
         {
             List<string> types = new List<string>();
-
             foreach (object parameter in parameters)
+            {
                 types.Add(parameter.GetType().Name);
-
+            }
             return string.Join(", ", types.ToArray());
         }
 
         /// <summary>
-        /// Traces debugging information, if there is an appropriate policy.
+        /// 跟踪调试信息，如果有适当的策略
         /// </summary>
-        /// <param name="context">The build context.</param>
+        /// <param name="context">操作上下文</param>
         /// <param name="typeToBuild">The type being built.</param>
         /// <param name="idToBuild">The ID being built.</param>
         /// <param name="format">The format of the message.</param>

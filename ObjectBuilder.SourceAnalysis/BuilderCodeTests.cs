@@ -9,282 +9,288 @@ namespace ObjectBuilder.SourceAnalysis
     class BuilderCodeTests
     {
 
-		public static void CanCreateInstances()
-		{
-			Builder builder = new Builder();
-			Locator locator = CreateLocator();
+        public static void CanCreateInstances()
+        {
+            Builder builder = new Builder();
+            Locator locator = CreateLocator();
 
-			ConstructorPolicy policy = new ConstructorPolicy();
-			policy.AddParameter(new ValueParameter<int>(12));
-			builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);
+            ConstructorPolicy policy = new ConstructorPolicy();
+            policy.AddParameter(new ValueParameter<int>(12));
+            //ITypeMappingPolicy _ = new TypeMappingPolicy(typeof(SimpleObject), null);
 
-			SimpleObject m1 = builder.BuildUp<SimpleObject>(locator, null, null);
-			SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, null, null);
+            builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);  //
+            //builder.Policies.Set<ITypeMappingPolicy>(_, typeof(SimpleObject), null);
 
-			//Assert.IsNotNull(m1);
-			//Assert.IsNotNull(m2);
-			//Assert.AreEqual(12, m1.IntParam);
-			//Assert.AreEqual(12, m2.IntParam);
-			//Assert.IsTrue(m1 != m2);
-		}
 
-		public static void CanCreateSingleton()
-		{
-			Builder builder = new Builder();
-			Locator locator = CreateLocator();
+            SimpleObject _ = new SimpleObject(100);
+            SimpleObject m1 = builder.BuildUp<SimpleObject>(locator, null, null);
+            SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, null, _);
 
-			ConstructorPolicy policy = new ConstructorPolicy();
-			policy.AddParameter(new ValueParameter<int>(12));
-			builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);
-			builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(SimpleObject), null);
+            Console.WriteLine(m2.IntParam);
+            //Assert.IsNotNull(m1);
+            //Assert.IsNotNull(m2);
+            //Assert.AreEqual(12, m1.IntParam);
+            //Assert.AreEqual(12, m2.IntParam);
+            //Assert.IsTrue(m1 != m2);
+        }
 
-			SimpleObject m1 = builder.BuildUp<SimpleObject>(locator, null, null);
-			SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, null, null);
+        public static void CanCreateSingleton()
+        {
+            Builder builder = new Builder();
+            Locator locator = CreateLocator();
 
-			//Assert.AreSame(m1, m2);
-		}
+            ConstructorPolicy policy = new ConstructorPolicy();
+            policy.AddParameter(new ValueParameter<int>(12));
+            builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);
+            builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(SimpleObject), null);
 
-		public static void CreateComplexObject()
-		{
-			Builder builder = new Builder();
-			Locator locator = CreateLocator();
+            SimpleObject m1 = builder.BuildUp<SimpleObject>(locator, null, null);
+            SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, null, null);
 
-			ConstructorPolicy policy = new ConstructorPolicy();
-			policy.AddParameter(new ValueParameter<int>(12));
-			builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);
+            //Assert.AreSame(m1, m2);
+        }
 
-			ConstructorPolicy policy2 = new ConstructorPolicy();
-			policy2.AddParameter(new CreationParameter(typeof(SimpleObject)));
-			builder.Policies.Set<ICreationPolicy>(policy2, typeof(ComplexObject), null);
+        public static void CreateComplexObject()
+        {
+            Builder builder = new Builder();
+            Locator locator = CreateLocator();
 
-			builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(SimpleObject), null);
-			builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(ComplexObject), null);
+            ConstructorPolicy policy = new ConstructorPolicy();
+            policy.AddParameter(new ValueParameter<int>(12));
+            builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);
 
-			ComplexObject cm = builder.BuildUp<ComplexObject>(locator, null, null);
-			SimpleObject m = builder.BuildUp<SimpleObject>(locator, null, null);
+            ConstructorPolicy policy2 = new ConstructorPolicy();
+            policy2.AddParameter(new CreationParameter(typeof(SimpleObject)));
+            builder.Policies.Set<ICreationPolicy>(policy2, typeof(ComplexObject), null);
 
-			//Assert.AreSame(m, cm.SimpleObject);
-			//Assert.IsNotNull(cm);
-			//Assert.IsNotNull(cm.SimpleObject);
-			//Assert.AreEqual(12, cm.SimpleObject.IntParam);
-		}
+            builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(SimpleObject), null);
+            builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(ComplexObject), null);
 
-		public static void CanCreateNamedInstance()
-		{
-			Builder builder = new Builder();
-			Locator locator = CreateLocator();
+            ComplexObject cm = builder.BuildUp<ComplexObject>(locator, null, null);
+            SimpleObject m = builder.BuildUp<SimpleObject>(locator, null, null);
 
-			ConstructorPolicy policy1 = new ConstructorPolicy();
-			policy1.AddParameter(new ValueParameter<int>(12));
-			builder.Policies.Set<ICreationPolicy>(policy1, typeof(SimpleObject), "Object1");
+            //Assert.AreSame(m, cm.SimpleObject);
+            //Assert.IsNotNull(cm);
+            //Assert.IsNotNull(cm.SimpleObject);
+            //Assert.AreEqual(12, cm.SimpleObject.IntParam);
+        }
 
-			ConstructorPolicy policy2 = new ConstructorPolicy();
-			policy2.AddParameter(new ValueParameter<int>(32));
-			builder.Policies.Set<ICreationPolicy>(policy2, typeof(SimpleObject), "Object2");
+        public static void CanCreateNamedInstance()
+        {
+            Builder builder = new Builder();
+            Locator locator = CreateLocator();
 
-			SimpleObject m1 = builder.BuildUp<SimpleObject>(locator, "Object1", null);
-			SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, "Object2", null);
+            ConstructorPolicy policy1 = new ConstructorPolicy();
+            policy1.AddParameter(new ValueParameter<int>(12));
+            builder.Policies.Set<ICreationPolicy>(policy1, typeof(SimpleObject), "Object1");
 
-			//Assert.IsNotNull(m1);
-			//Assert.IsNotNull(m2);
-			//Assert.AreEqual(12, m1.IntParam);
-			//Assert.AreEqual(32, m2.IntParam);
-			//Assert.IsTrue(m1 != m2);
-		}
+            ConstructorPolicy policy2 = new ConstructorPolicy();
+            policy2.AddParameter(new ValueParameter<int>(32));
+            builder.Policies.Set<ICreationPolicy>(policy2, typeof(SimpleObject), "Object2");
 
-		public static void RefParamsCanAskForSpecificallyNamedObjects()
-		{
-			Builder builder = new Builder();
-			Locator locator = CreateLocator();
+            SimpleObject m1 = builder.BuildUp<SimpleObject>(locator, "Object1", null);
+            SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, "Object2", null);
 
-			ConstructorPolicy policy1 = new ConstructorPolicy();
-			policy1.AddParameter(new ValueParameter<int>(12));
-			builder.Policies.Set<ICreationPolicy>(policy1, typeof(SimpleObject), "Object1");
-			builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(SimpleObject), "Object1");
+            //Assert.IsNotNull(m1);
+            //Assert.IsNotNull(m2);
+            //Assert.AreEqual(12, m1.IntParam);
+            //Assert.AreEqual(32, m2.IntParam);
+            //Assert.IsTrue(m1 != m2);
+        }
 
-			ConstructorPolicy policy2 = new ConstructorPolicy();
-			policy2.AddParameter(new ValueParameter<int>(32));
-			builder.Policies.Set<ICreationPolicy>(policy2, typeof(SimpleObject), "Object2");
-			builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(SimpleObject), "Object2");
+        public static void RefParamsCanAskForSpecificallyNamedObjects()
+        {
+            Builder builder = new Builder();
+            Locator locator = CreateLocator();
 
-			ConstructorPolicy policy3 = new ConstructorPolicy();
-			policy3.AddParameter(new CreationParameter(typeof(SimpleObject), "Object2"));
-			builder.Policies.Set<ICreationPolicy>(policy3, typeof(ComplexObject), null);
-			builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(ComplexObject), null);
+            ConstructorPolicy policy1 = new ConstructorPolicy();
+            policy1.AddParameter(new ValueParameter<int>(12));
+            builder.Policies.Set<ICreationPolicy>(policy1, typeof(SimpleObject), "Object1");
+            builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(SimpleObject), "Object1");
 
-			ComplexObject cm = builder.BuildUp<ComplexObject>(locator, null, null);
-			SimpleObject sm = builder.BuildUp<SimpleObject>(locator, "Object2", null);
+            ConstructorPolicy policy2 = new ConstructorPolicy();
+            policy2.AddParameter(new ValueParameter<int>(32));
+            builder.Policies.Set<ICreationPolicy>(policy2, typeof(SimpleObject), "Object2");
+            builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(SimpleObject), "Object2");
 
-			//Assert.IsNotNull(cm);
-			//Assert.IsNotNull(cm.SimpleObject);
-			//Assert.AreEqual(32, cm.SimpleObject.IntParam);
-			//Assert.AreSame(sm, cm.SimpleObject);
-		}
+            ConstructorPolicy policy3 = new ConstructorPolicy();
+            policy3.AddParameter(new CreationParameter(typeof(SimpleObject), "Object2"));
+            builder.Policies.Set<ICreationPolicy>(policy3, typeof(ComplexObject), null);
+            builder.Policies.Set<ISingletonPolicy>(new SingletonPolicy(true), typeof(ComplexObject), null);
 
-		public static void CanInjectValuesIntoProperties()
-		{
-			Builder builder = new Builder();
-			Locator locator = CreateLocator();
+            ComplexObject cm = builder.BuildUp<ComplexObject>(locator, null, null);
+            SimpleObject sm = builder.BuildUp<SimpleObject>(locator, "Object2", null);
 
-			PropertySetterPolicy policy = new PropertySetterPolicy();
-			policy.Properties.Add("StringProperty", new PropertySetterInfo("StringProperty", new ValueParameter<string>("Bar is here")));
-			builder.Policies.Set<IPropertySetterPolicy>(policy, typeof(SimpleObject), null);
+            //Assert.IsNotNull(cm);
+            //Assert.IsNotNull(cm.SimpleObject);
+            //Assert.AreEqual(32, cm.SimpleObject.IntParam);
+            //Assert.AreSame(sm, cm.SimpleObject);
+        }
 
-			SimpleObject sm = builder.BuildUp<SimpleObject>(locator, null, null);
+        public static void CanInjectValuesIntoProperties()
+        {
+            Builder builder = new Builder();
+            Locator locator = CreateLocator();
 
-			//Assert.IsNotNull(sm);
-			//Assert.AreEqual("Bar is here", sm.StringProperty);
-		}
+            PropertySetterPolicy policy = new PropertySetterPolicy();
+            policy.Properties.Add("StringProperty", new PropertySetterInfo("StringProperty", new ValueParameter<string>("Bar is here")));
+            builder.Policies.Set<IPropertySetterPolicy>(policy, typeof(SimpleObject), null);
 
-		public static void CanInjectMultiplePropertiesIncludingCreatedObjects()
-		{
-			Builder builder = new Builder();
-			Locator locator = CreateLocator();
+            SimpleObject sm = builder.BuildUp<SimpleObject>(locator, null, null);
 
-			ConstructorPolicy policy = new ConstructorPolicy();
-			policy.AddParameter(new ValueParameter<int>(15));
-			builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);
+            //Assert.IsNotNull(sm);
+            //Assert.AreEqual("Bar is here", sm.StringProperty);
+        }
 
-			PropertySetterPolicy policy1 = new PropertySetterPolicy();
-			policy1.Properties.Add("StringProperty", new PropertySetterInfo("StringProperty", new ValueParameter<string>("Bar is here")));
-			policy1.Properties.Add("SimpleObject", new PropertySetterInfo("SimpleObject", new CreationParameter(typeof(SimpleObject))));
-			builder.Policies.Set<IPropertySetterPolicy>(policy1, typeof(ComplexObject), null);
+        public static void CanInjectMultiplePropertiesIncludingCreatedObjects()
+        {
+            Builder builder = new Builder();
+            Locator locator = CreateLocator();
 
-			ComplexObject co = builder.BuildUp<ComplexObject>(locator, null, null);
+            ConstructorPolicy policy = new ConstructorPolicy();
+            policy.AddParameter(new ValueParameter<int>(15));
+            builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);
 
-			//Assert.IsNotNull(co);
-			//Assert.IsNotNull(co.SimpleObject);
-			//Assert.AreEqual("Bar is here", co.StringProperty);
-			//Assert.AreEqual(15, co.SimpleObject.IntParam);
-		}
+            PropertySetterPolicy policy1 = new PropertySetterPolicy();
+            policy1.Properties.Add("StringProperty", new PropertySetterInfo("StringProperty", new ValueParameter<string>("Bar is here")));
+            policy1.Properties.Add("SimpleObject", new PropertySetterInfo("SimpleObject", new CreationParameter(typeof(SimpleObject))));
+            builder.Policies.Set<IPropertySetterPolicy>(policy1, typeof(ComplexObject), null);
 
-		public static void CanCreateConcreteObjectByAskingForInterface()
-		{
-			Builder builder = new Builder();
-			builder.Policies.Set<ITypeMappingPolicy>(new TypeMappingPolicy(typeof(SimpleObject), null), typeof(ISimpleObject), null);
-			Locator locator = CreateLocator();
+            ComplexObject co = builder.BuildUp<ComplexObject>(locator, null, null);
 
-			ISimpleObject sm = builder.BuildUp<ISimpleObject>(locator, null, null);
+            //Assert.IsNotNull(co);
+            //Assert.IsNotNull(co.SimpleObject);
+            //Assert.AreEqual("Bar is here", co.StringProperty);
+            //Assert.AreEqual(15, co.SimpleObject.IntParam);
+        }
 
-			//Assert.IsNotNull(sm);
-			//Assert.IsTrue(sm is SimpleObject);
-		}
+        public static void CanCreateConcreteObjectByAskingForInterface()
+        {
+            Builder builder = new Builder();
+            builder.Policies.Set<ITypeMappingPolicy>(new TypeMappingPolicy(typeof(SimpleObject), null), typeof(ISimpleObject), null);
+            Locator locator = CreateLocator();
 
-		public static void CanCreateNamedConcreteObjectByAskingForNamedInterface()
-		{
-			Builder builder = new Builder();
-			ConstructorPolicy policy = new ConstructorPolicy(new ValueParameter<int>(12));
-			builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), "Foo");
-			builder.Policies.Set<ITypeMappingPolicy>(new TypeMappingPolicy(typeof(SimpleObject), null), typeof(ISimpleObject), null);
-			builder.Policies.Set<ITypeMappingPolicy>(new TypeMappingPolicy(typeof(SimpleObject), "Foo"), typeof(ISimpleObject), "sm2");
-			Locator locator = CreateLocator();
+            ISimpleObject sm = builder.BuildUp<ISimpleObject>(locator, null, null);
 
-			ISimpleObject sm1 = builder.BuildUp<ISimpleObject>(locator, null, null);
-			ISimpleObject sm2 = builder.BuildUp<ISimpleObject>(locator, "sm2", null);
+            //Assert.IsNotNull(sm);
+            //Assert.IsTrue(sm is SimpleObject);
+        }
 
-			//Assert.IsNotNull(sm1);
-			//Assert.IsNotNull(sm2);
-			//Assert.IsTrue(sm1 is SimpleObject);
-			//Assert.IsTrue(sm2 is SimpleObject);
-			//Assert.AreEqual(0, ((SimpleObject)sm1).IntParam);
-			//Assert.AreEqual(12, ((SimpleObject)sm2).IntParam);
-		}
+        public static void CanCreateNamedConcreteObjectByAskingForNamedInterface()
+        {
+            Builder builder = new Builder();
+            ConstructorPolicy policy = new ConstructorPolicy(new ValueParameter<int>(12));
+            builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), "Foo");
+            builder.Policies.Set<ITypeMappingPolicy>(new TypeMappingPolicy(typeof(SimpleObject), null), typeof(ISimpleObject), null);
+            builder.Policies.Set<ITypeMappingPolicy>(new TypeMappingPolicy(typeof(SimpleObject), "Foo"), typeof(ISimpleObject), "sm2");
+            Locator locator = CreateLocator();
 
-		public static void CanAddStrategiesToBuilder()
-		{
-			Builder builder = new Builder();
-			MockStrategy strategy = new MockStrategy();
-			Locator locator = CreateLocator();
+            ISimpleObject sm1 = builder.BuildUp<ISimpleObject>(locator, null, null);
+            ISimpleObject sm2 = builder.BuildUp<ISimpleObject>(locator, "sm2", null);
 
-			builder.Strategies.Add(strategy, BuilderStage.PostInitialization);
+            //Assert.IsNotNull(sm1);
+            //Assert.IsNotNull(sm2);
+            //Assert.IsTrue(sm1 is SimpleObject);
+            //Assert.IsTrue(sm2 is SimpleObject);
+            //Assert.AreEqual(0, ((SimpleObject)sm1).IntParam);
+            //Assert.AreEqual(12, ((SimpleObject)sm2).IntParam);
+        }
 
-			builder.BuildUp(locator, typeof(object), null, null);
+        public static void CanAddStrategiesToBuilder()
+        {
+            Builder builder = new Builder();
+            MockStrategy strategy = new MockStrategy();
+            Locator locator = CreateLocator();
 
-			//Assert.IsTrue(strategy.WasCalled);
-		}
+            builder.Strategies.Add(strategy, BuilderStage.PostInitialization);
 
-		public static void CanCreateGenericType()
-		{
-			Builder builder = new Builder();
-			Locator locator = CreateLocator();
+            builder.BuildUp(locator, typeof(object), null, null);
 
-			GenericObject<int> result = builder.BuildUp<GenericObject<int>>(locator, null, null);
+            //Assert.IsTrue(strategy.WasCalled);
+        }
 
-			//Assert.IsNotNull(result);
-		}
+        public static void CanCreateGenericType()
+        {
+            Builder builder = new Builder();
+            Locator locator = CreateLocator();
 
-		private static Locator CreateLocator()
-		{
-			Locator locator = new Locator();
-			LifetimeContainer lifetime = new LifetimeContainer();
-			locator.Add(typeof(ILifetimeContainer), lifetime);
-			return locator;
-		}
+            GenericObject<int> result = builder.BuildUp<GenericObject<int>>(locator, null, null);
 
-		private class GenericObject<TValue>
-		{
-			public TValue TheValue;
+            //Assert.IsNotNull(result);
+        }
 
-			public GenericObject(TValue theValue)
-			{
-				TheValue = theValue;
-			}
-		}
+        private static Locator CreateLocator()
+        {
+            Locator locator = new Locator();
+            LifetimeContainer lifetime = new LifetimeContainer();
+            locator.Add(typeof(ILifetimeContainer), lifetime);
+            return locator;
+        }
 
-		public interface ISimpleObject
-		{
-		}
+        private class GenericObject<TValue>
+        {
+            public TValue TheValue;
 
-		public class SimpleObject : ISimpleObject
-		{
-			public int IntParam;
-			private string stringProperty;
+            public GenericObject(TValue theValue)
+            {
+                TheValue = theValue;
+            }
+        }
 
-			public string StringProperty
-			{
-				get { return stringProperty; }
-				set { stringProperty = value; }
-			}
+        public interface ISimpleObject
+        {
+        }
 
-			public SimpleObject(int foo)
-			{
-				IntParam = foo;
-			}
-		}
+        public class SimpleObject : ISimpleObject
+        {
+            public int IntParam;
+            private string stringProperty;
 
-		public class ComplexObject
-		{
-			private SimpleObject simpleObject;
-			private string stringProperty;
+            public string StringProperty
+            {
+                get { return stringProperty; }
+                set { stringProperty = value; }
+            }
 
-			public SimpleObject SimpleObject
-			{
-				get { return simpleObject; }
-				set { simpleObject = value; }
-			}
+            public SimpleObject(int foo)
+            {
+                IntParam = foo;
+            }
+        }
 
-			public string StringProperty
-			{
-				get { return stringProperty; }
-				set { stringProperty = value; }
-			}
+        public class ComplexObject
+        {
+            private SimpleObject simpleObject;
+            private string stringProperty;
 
-			public ComplexObject(SimpleObject monk)
-			{
-				SimpleObject = monk;
-			}
-		}
+            public SimpleObject SimpleObject
+            {
+                get { return simpleObject; }
+                set { simpleObject = value; }
+            }
 
-		public class MockStrategy : BuilderStrategy
-		{
-			public bool WasCalled = false;
+            public string StringProperty
+            {
+                get { return stringProperty; }
+                set { stringProperty = value; }
+            }
 
-			public override object BuildUp(IBuilderContext context, Type t, object existing, string id)
-			{
-				WasCalled = true;
-				return null;
-			}
-		}
+            public ComplexObject(SimpleObject monk)
+            {
+                SimpleObject = monk;
+            }
+        }
+
+        public class MockStrategy : BuilderStrategy
+        {
+            public bool WasCalled = false;
+
+            public override object BuildUp(IBuilderContext context, Type t, object existing, string id)
+            {
+                WasCalled = true;
+                return null;
+            }
+        }
         static void Main(string[] args)
         {
             CanCreateInstances();

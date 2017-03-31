@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -18,54 +18,54 @@ using System.Globalization;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Indicates that an invalid combination of dependency injection attributes were used.
-	/// </summary>
-	[Serializable]
-	public class InvalidAttributeException : Exception
-	{
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		public InvalidAttributeException()
-		{
-		}
+    /// <summary>
+    ///  π”√“¿¿µ◊¢»Î Ù–‘µƒŒﬁ–ß◊È∫œ
+    /// </summary>
+    [Serializable]
+    public class InvalidAttributeException : Exception
+    {
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="InvalidAttributeException"/>¿‡
+        /// </summary>
+        public InvalidAttributeException()
+        {
+        }
 
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		/// <param name="message">Error Message</param>
-		public InvalidAttributeException(string message)
-			: base(message)
-		{
-		}
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="InvalidAttributeException"/>¿‡
+        /// </summary>
+        /// <param name="message">Ω‚ Õ“Ï≥£‘≠“Úµƒ¥ÌŒÛœ˚œ¢°£</param>
+        public InvalidAttributeException(string message)
+            : base(message)
+        {
+        }
 
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		/// <param name="message">Error Message</param>
-		/// <param name="exception">Inner Exception</param>
-		public InvalidAttributeException(string message, Exception exception)
-			: base(message, exception)
-		{
-		}
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="InvalidAttributeException"/>¿‡
+        /// </summary>
+        /// <param name="message">Ω‚ Õ“Ï≥£‘≠“Úµƒ¥ÌŒÛœ˚œ¢°£</param>
+        /// <param name="exception">µº÷¬µ±«∞“Ï≥£µƒ“Ï≥££ª»Áπ˚Œ¥÷∏∂®ƒ⁄≤ø“Ï≥££¨‘Ú «“ª∏ˆ null “˝”√£®‘⁄ Visual Basic ÷–Œ™ Nothing£©°£</param>
+        public InvalidAttributeException(string message, Exception exception)
+            : base(message, exception)
+        {
+        }
 
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		/// <param name="type"></param>
-		/// <param name="memberName"></param>
-		public InvalidAttributeException(Type type, string memberName)
-			: base(String.Format(CultureInfo.CurrentCulture, Properties.Resources.InvalidAttributeCombination, type, memberName))
-		{
-		}
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="InvalidAttributeException"/>¿‡
+        /// </summary>
+        /// <param name="type">¿‡–Õ</param>
+        /// <param name="memberName">≥…‘±√˚≥∆</param>
+        public InvalidAttributeException(Type type, string memberName)
+            : base(String.Format(CultureInfo.CurrentCulture, Properties.Resources.InvalidAttributeCombination, type, memberName))
+        {
+        }
 
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		protected InvalidAttributeException(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-		}
-	}
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="InvalidAttributeException"/>¿‡
+        /// </summary>
+        protected InvalidAttributeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+    }
 }

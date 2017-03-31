@@ -13,33 +13,36 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implementation of <see cref="IBuilderStrategy"/> which remaps type and ID.
-	/// </summary>
-	/// <remarks>
-	/// This strategy looks for policies in the context registered under the interface type
-	/// <see cref="ITypeMappingPolicy"/>. The purpose of this strategy is to allow a user to
-	/// ask for some generic type (say, "the IDatabase with an ID of 'sales'") and have it
-	/// mapped into the appropriate concrete type (say, "an instance of SalesDatabase").
-	/// </remarks>
-	public class TypeMappingStrategy : BuilderStrategy
-	{
-		/// <summary>
-		/// Implementation of <see cref="IBuilderStrategy.BuildUp"/>.
-		/// </summary>
-		public override object BuildUp(IBuilderContext context, Type t, object existing, string id)
-		{
-			DependencyResolutionLocatorKey result = new DependencyResolutionLocatorKey(t, id);
-			ITypeMappingPolicy policy = context.Policies.Get<ITypeMappingPolicy>(t, id);
+    /// <summary>
+    /// 派生自 <see cref="IBuilderStrategy"/> 重新映射类型和ID
+    /// </summary>
+    public class TypeMappingStrategy : BuilderStrategy
+    {
 
-			if (policy != null)
-			{
-				result = policy.Map(result);
-				TraceBuildUp(context, t, id, Properties.Resources.TypeMapped, result.Type, result.ID ?? "(null)");
-				Guard.TypeIsAssignableFromType(t, result.Type, t);
-			}
+        /// <summary>
+        ///  重写 <see cref="BuilderStrategy.BuildUp"/>.
+        /// </summary>
+        /// <param name="context">当前策略的执行上下文</param>
+        /// <param name="t">需要创建的对象类型</param>
+        /// <param name="existing">当前需要创建的对象的实例，一般传null</param>
+        /// <param name="id">需要创建的对象的唯一编号</param>
+        /// <returns></returns>
+        public override object BuildUp(IBuilderContext context, Type t, object existing, string id)
+        {
+            //当前这个一级策略要做的事情
+            DependencyResolutionLocatorKey result = new DependencyResolutionLocatorKey(t, id);
+            //context.Policies存储了当前管道中所有的二级策略
+            //获取二级策略ITypeMappingPolicy
+            ITypeMappingPolicy policy = context.Policies.Get<ITypeMappingPolicy>(t, id);
 
-			return base.BuildUp(context, result.Type, existing, result.ID);
-		}
-	}
+            if (policy != null)
+            {
+                result = policy.Map(result);
+                TraceBuildUp(context, t, id, Properties.Resources.TypeMapped, result.Type, result.ID ?? "(null)");
+                Guard.TypeIsAssignableFromType(t, result.Type, t);
+            }
+
+            return base.BuildUp(context, result.Type, existing, result.ID);
+        }
+    }
 }

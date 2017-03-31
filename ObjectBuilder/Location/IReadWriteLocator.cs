@@ -16,32 +16,22 @@ namespace Microsoft.Practices.ObjectBuilder
     /// <summary>
     /// 可读取和写入的定位器
     /// </summary>
-    /// <remarks>
-    /// <para>A locator is dictionary of keys to values, but it keeps the values with
-    /// weak references, so that locating an object does not keep it alive. If you
-    /// want to keep the object alive too, you should consider using an
-    /// <see cref="ILifetimeContainer"/>.</para>
-    /// <para>Locators have a built-in concept of hierarchy, so you can ask questions
-    /// of a locator and tell it whether to return results from the current locator
-    /// only, or whether to ask the parent locator when local lookups fail.</para>
-    /// </remarks>
     public interface IReadWriteLocator : IReadableLocator
-	{
-		/// <summary>
-		/// Adds an object to the locator, with the given key.
-		/// </summary>
-		/// <param name="key">The key to register the object with.</param>
-		/// <param name="value">The object to be registered.</param>
-		/// <exception cref="ArgumentNullException">Key or value are null.</exception>
-		void Add(object key, object value);
+    {
+        /// <summary>
+        /// 添加一个对象到定位器，与给定的键
+        /// </summary>
+        /// <param name="key">Key，唯一标识</param>
+        /// <param name="value">要注册的对象</param>
+        /// <exception cref="ArgumentNullException">Key或value为null.</exception>
+        void Add(object key, object value);
 
-		/// <summary>
-		/// Removes an object from the locator.
-		/// </summary>
-		/// <param name="key">The key under which the object was registered.</param>
-		/// <returns>Returns true if the object was found in the locator; returns
-		/// false otherwise.</returns>
-		/// <exception cref="ArgumentNullException">Key is null.</exception>
-		bool Remove(object key);
-	}
+        /// <summary>
+        /// 从定位器移除对象
+        /// </summary>
+        /// <param name="key">Key，唯一标识</param>
+        /// <returns>如果在定位器中找到该对象，则返回true；否则返回false</returns>
+        /// <exception cref="ArgumentNullException">Key为null.</exception>
+        bool Remove(object key);
+    }
 }

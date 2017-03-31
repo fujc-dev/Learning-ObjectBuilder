@@ -14,75 +14,74 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// An implementation of <see cref="IReadableLocator"/> that wraps an existing locator
-	/// to ensure items are not written into the locator.
-	/// </summary>
-	public class ReadOnlyLocator : ReadableLocator
-	{
-		private IReadableLocator innerLocator;
+    /// <summary>
+    /// 派生自 <see cref="IReadableLocator"/>类型，只读的定位器.
+    /// </summary>
+    public class ReadOnlyLocator : ReadableLocator
+    {
+        private IReadableLocator innerLocator;
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="innerLocator">The inner locator to be wrapped.</param>
-		public ReadOnlyLocator(IReadableLocator innerLocator)
-		{
-			if (innerLocator == null)
-				throw new ArgumentNullException("innerLocator");
+        /// <summary>
+        /// 构造函数，创建一个只读的定位器
+        /// </summary>
+        /// <param name="innerLocator">默认定位器</param>
+        public ReadOnlyLocator(IReadableLocator innerLocator)
+        {
+            if (innerLocator == null)
+                throw new ArgumentNullException("innerLocator");
 
-			this.innerLocator = innerLocator;
-		}
+            this.innerLocator = innerLocator;
+        }
 
-		/// <summary>
-		/// See <see cref="IReadableLocator.Count"/> for more information.
-		/// </summary>
-		public override int Count
-		{
-			get { return innerLocator.Count; }
-		}
+        /// <summary>
+        /// 返回定位器中的项数
+        /// </summary>
+        public override int Count
+        {
+            get { return innerLocator.Count; }
+        }
 
-		/// <summary>
-		/// See <see cref="IReadableLocator.Count"/> for more information.
-		/// </summary>
-		public override IReadableLocator ParentLocator
-		{
-			get
-			{
-				return new ReadOnlyLocator(innerLocator.ParentLocator);
-			}
-		}
+        /// <summary>
+        /// 父定位器
+        /// </summary>
+        public override IReadableLocator ParentLocator
+        {
+            get
+            {
+                return new ReadOnlyLocator(innerLocator.ParentLocator);
+            }
+        }
 
-		/// <summary>
-		/// See <see cref="IReadableLocator.ReadOnly"/> for more information.
-		/// </summary>
-		public override bool ReadOnly
-		{
-			get { return true; }
-		}
+        /// <summary>
+        /// 如果定位器是只读的，返回true
+        /// </summary>
+        public override bool ReadOnly
+        {
+            get { return true; }
+        }
 
-		/// <summary>
-		/// See <see cref="IReadableLocator.Contains(object, SearchMode)"/> for more information.
-		/// </summary>
-		public override bool Contains(object key, SearchMode options)
-		{
-			return innerLocator.Contains(key, options);
-		}
+        /// <summary>
+        ///  确定定位器是否包含给定键的对象
+        /// </summary>
+        public override bool Contains(object key, SearchMode options)
+        {
+            return innerLocator.Contains(key, options);
+        }
 
-		/// <summary>
-		/// See <see cref="IReadableLocator.Get(object, SearchMode)"/> for more information.
-		/// </summary>
-		public override object Get(object key, SearchMode options)
-		{
-			return innerLocator.Get(key, options);
-		}
+        /// <summary>
+        /// 从定位器中获取一个对象
+        /// </summary>
+        public override object Get(object key, SearchMode options)
+        {
+            return innerLocator.Get(key, options);
+        }
 
-		/// <summary>
-		/// See <see cref="IEnumerable{T}.GetEnumerator()"/> for more information.
-		/// </summary>
-		public override IEnumerator<KeyValuePair<object, object>> GetEnumerator()
-		{
-			return innerLocator.GetEnumerator();
-		}
-	}
+        /// <summary>
+        /// 返回一个循环访问集合的枚举数。
+        /// </summary>
+        public override IEnumerator<KeyValuePair<object, object>> GetEnumerator()
+        {
+            return innerLocator.GetEnumerator();
+        }
+    }
 }

@@ -13,41 +13,38 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// An implementation helper class for <see cref="IParameter"/> which can be used
-	/// when you know the type of the parameter value ahead of time.
-	/// </summary>
-	public abstract class KnownTypeParameter : IParameter
-	{
-		/// <summary>
-		/// The parmeter type.
-		/// </summary>
-		protected Type type;
+    /// <summary>
+    /// 实现 <see cref="IParameter"/> 的帮助类， 当你提前知道参数值的类型时，可以使用它
+    /// </summary>
+    public abstract class KnownTypeParameter : IParameter
+    {
+        /// <summary>
+        /// 参数类型
+        /// </summary>
+        protected Type type;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="KnownTypeParameter"/> class
-		/// using the given type.
-		/// </summary>
-		/// <param name="type">The parameter type.</param>
-		protected KnownTypeParameter(Type type)
-		{
-			this.type = type;
-		}
+        /// <summary>
+        ///  使用给定类型实例化 <see cref="KnownTypeParameter"/> 类
+        /// </summary>
+        /// <param name="type">参数类型</param>
+        protected KnownTypeParameter(Type type)
+        {
+            this.type = type;
+        }
 
-		/// <summary>
-		/// See <see cref="IParameter.GetParameterType"/> for more information.
-		/// </summary>
-		public Type GetParameterType(IBuilderContext context)
-		{
-			return type;
-		}
+        /// <summary>
+        /// 获取参数值的类型
+        /// </summary>
+        public Type GetParameterType(IBuilderContext context)
+        {
+            return type;
+        }
 
-		/// <summary>
-		/// Abstract for <see cref="IParameter.GetValue"/>. Derived classes are required
-		/// to provide the implemenation for providing the value itself.
-		/// </summary>
-		/// <param name="context">The builder context.</param>
-		/// <returns>The parameter value.</returns>
-		public abstract object GetValue(IBuilderContext context);
-	}
+        /// <summary>
+        /// 抽象方法r <see cref="IParameter.GetValue"/> 派生类必须必须实现
+        /// </summary>
+        /// <param name="context">对象创建策略上下文</param>
+        /// <returns>参数值</returns>
+        public abstract object GetValue(IBuilderContext context);
+    }
 }

@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -14,38 +14,46 @@ using System.Reflection;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Simple default creation policy which selects the first public constructor
-	/// of an object, using the builder to resolve/create any parameters the
-	/// constructor requires.
-	/// </summary>
-	public class DefaultCreationPolicy : ICreationPolicy
-	{
-		/// <summary>
-		/// See <see cref="ICreationPolicy.SelectConstructor"/> for more information.
-		/// </summary>
-		public ConstructorInfo SelectConstructor(IBuilderContext context, Type typeToBuild, string idToBuild)
-		{
-			ConstructorInfo[] constructors = typeToBuild.GetConstructors();
+    /// <summary>
+    /// ¼òµ¥µÄÄ¬ÈÏ´´½¨²ßÂÔ£¬ËüÑ¡Ôñ¶ÔÏóµÄµÚÒ»¸ö¹«¹²¹¹Ôìº¯Êı£¬Ê¹ÓÃÉú³ÉÆ÷À´½âÎö/´´½¨¹¹Ôìº¯ÊıËùĞèµÄÈÎºÎ²ÎÊı¡£
+    /// ObjectBuilderÌá¹©µÄ¹¹Ôì¹¹Ôìº¯Êı´¦Àí¶ş¼¶²ßÂÔ
+    /// </summary>
+    public class DefaultCreationPolicy : ICreationPolicy
+    {
+        /// <summary>
+        /// Ñ¡ÔñÓÃÓÚ´´½¨¶ÔÏóµÄ¹¹Ôìº¯Êı
+        /// </summary>
+        /// <param name="context">²ßÂÔÖ´ĞĞÉÏÏÂÎÄ</param>
+        /// <param name="typeToBuild">ĞèÒª´´½¨µÄ¶ÔÏóµÄÀàĞÍ</param>
+        /// <param name="idToBuild">ĞèÒª´´½¨µÄ¶ÔÏóµÄÎ¨Ò»±àºÅ</param>
+        /// <returns>ÒªÊ¹ÓÃµÄ¹¹Ôìº¯Êı£»Èç¹ûÕÒ²»µ½ºÏÊÊµÄ¹¹Ôìº¯Êı£¬Ôò·µ»Ønull</returns>
+        public ConstructorInfo SelectConstructor(IBuilderContext context, Type typeToBuild, string idToBuild)
+        {
+            ConstructorInfo[] constructors = typeToBuild.GetConstructors();
 
-			if (constructors.Length > 0)
-				return constructors[0];
+            if (constructors.Length > 0)
+                return constructors[0];
 
-			return null;
-		}
+            return null;
+        }
 
-		/// <summary>
-		/// See <see cref="ICreationPolicy.GetParameters"/> for more information.
-		/// </summary>
+        /// <summary>
+        /// »ñÈ¡Òª´«µİ¸ø¹¹Ôìº¯ÊıµÄ²ÎÊıÖµ
+        /// </summary>
+        /// <param name="context">²ßÂÔÖ´ĞĞÉÏÏÂÎÄ</param>
+        /// <param name="type">ĞèÒª´´½¨µÄ¶ÔÏóµÄÀàĞÍ</param>
+        /// <param name="id">ĞèÒª´´½¨µÄ¶ÔÏóµÄÎ¨Ò»±àºÅ</param>
+        /// <param name="constructor">·¢ÏÖÀà¹¹Ôìº¯ÊıµÄÊôĞÔ²¢Ìá¹©¶Ô¹¹Ôìº¯ÊıÔªÊı¾İµÄ·ÃÎÊÈ¨</param>
+        /// <returns>´«µİ¸ø¹¹Ôìº¯ÊıµÄ²ÎÊıÊı×é</returns>
 		public object[] GetParameters(IBuilderContext context, Type type, string id, ConstructorInfo constructor)
-		{
-			ParameterInfo[] parms = constructor.GetParameters();
-			object[] parmsValueArray = new object[parms.Length];
+        {
+            ParameterInfo[] parms = constructor.GetParameters();
+            object[] parmsValueArray = new object[parms.Length];
 
-			for (int i = 0; i < parms.Length; ++i)
-				parmsValueArray[i] = context.HeadOfChain.BuildUp(context, parms[i].ParameterType, null, id);
+            for (int i = 0; i < parms.Length; ++i)
+                parmsValueArray[i] = context.HeadOfChain.BuildUp(context, parms[i].ParameterType, null, id);
 
-			return parmsValueArray;
-		}
-	}
+            return parmsValueArray;
+        }
+    }
 }

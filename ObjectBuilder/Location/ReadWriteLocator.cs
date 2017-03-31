@@ -11,27 +11,27 @@
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// A abstract implementation of <see cref="IReadWriteLocator"/>.
-	/// </summary>
-	public abstract class ReadWriteLocator : ReadableLocator, IReadWriteLocator
-	{
-		/// <summary>
-		/// See <see cref="IReadableLocator.ReadOnly"/> for more information.
-		/// </summary>
-		public override bool ReadOnly
-		{
-			get { return false; }
-		}
+    /// <summary>
+    /// 实现 <see cref="IReadWriteLocator"/>接口，可读写的定位器
+    /// </summary>
+    public abstract class ReadWriteLocator : ReadableLocator, IReadWriteLocator
+    {
+        /// <summary>
+        /// 是否只读，默认为false，不可读
+        /// </summary>
+        public override bool ReadOnly
+        {
+            get { return false; }
+        }
 
-		/// <summary>
-		/// See <see cref="IReadWriteLocator.Add(object, object)"/> for more information.
-		/// </summary>
-		public abstract void Add(object key, object value);
+        /// <summary>
+        /// 添加一个对象到定位器，与给定的键
+        /// </summary>
+        public abstract void Add(object key, object value);
 
-		/// <summary>
-		/// See <see cref="IReadWriteLocator.Remove(object)"/> for more information.
-		/// </summary>
-		public abstract bool Remove(object key);
-	}
+        /// <summary>
+        /// 从定位器移除对象
+        /// </summary>
+        public abstract bool Remove(object key);
+    }
 }

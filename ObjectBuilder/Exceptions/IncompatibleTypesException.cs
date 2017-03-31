@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -14,45 +14,44 @@ using System.Runtime.Serialization;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Indicates that a dependency could not be resolved because the resolved type is
-	/// not compatible with the injected type.
-	/// </summary>
-	[Serializable]
-	public class IncompatibleTypesException : Exception
-	{
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		public IncompatibleTypesException()
-		{
-		}
+    /// <summary>
+    /// Œﬁ∑®Ω‚æˆ“¿¿µœÓ£¨“ÚŒ™Ω‚Œˆ¿‡–Õ”Î◊¢»Î¿‡–Õ≤ªºÊ»›
+    /// </summary>
+    [Serializable]
+    public class IncompatibleTypesException : Exception
+    {
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="IncompatibleTypesException"/>¿‡
+        /// </summary>
+        public IncompatibleTypesException()
+        {
+        }
 
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		/// <param name="message">Error Message</param>
-		public IncompatibleTypesException(string message)
-			: base(message)
-		{
-		}
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="IncompatibleTypesException"/>¿‡
+        /// </summary>
+        /// <param name="message">Ω‚ Õ“Ï≥£‘≠“Úµƒ¥ÌŒÛœ˚œ¢°£</param>
+        public IncompatibleTypesException(string message)
+            : base(message)
+        {
+        }
 
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		/// <param name="message">Error Message</param>
-		/// <param name="exception">Inner Exception</param>
-		public IncompatibleTypesException(string message, Exception exception)
-			: base(message, exception)
-		{
-		}
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="IncompatibleTypesException"/>¿‡
+        /// </summary>
+        /// <param name="message">Ω‚ Õ“Ï≥£‘≠“Úµƒ¥ÌŒÛœ˚œ¢°£</param>
+        /// <param name="exception">µº÷¬µ±«∞“Ï≥£µƒ“Ï≥££ª»Áπ˚Œ¥÷∏∂®ƒ⁄≤ø“Ï≥££¨‘Ú «“ª∏ˆ null “˝”√£®‘⁄ Visual Basic ÷–Œ™ Nothing£©°£</param>
+        public IncompatibleTypesException(string message, Exception exception)
+            : base(message, exception)
+        {
+        }
 
-		/// <summary>
-		/// Initializes the exception.
-		/// </summary>
-		protected IncompatibleTypesException(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-		}
-	}
+        /// <summary>
+        /// ≥ı ºªØ“Ï≥£<see cref="IncompatibleTypesException"/>¿‡
+        /// </summary>
+        protected IncompatibleTypesException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+    }
 }
