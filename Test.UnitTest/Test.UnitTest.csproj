@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5C5262F7-FE62-415F-BC8D-3C49CC071403}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Practices</RootNamespace>
+    <AssemblyName>Test.UnitTest</AssemblyName>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\Libs\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ObjectBuilder\BuilderBaseFixture.cs" />
+    <Compile Include="ObjectBuilder\BuilderCodeTests.cs" />
+    <Compile Include="ObjectBuilder\BuilderConfigTests.cs" />
+    <Compile Include="ObjectBuilder\BuilderContextFixture.cs" />
+    <Compile Include="ObjectBuilder\BuilderFixture.cs" />
+    <Compile Include="ObjectBuilder\Configuration\ObjectBuilderXmlConfig.cs">
+      <DependentUpon>ObjectBuilderXmlConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectBuilder\Configuration\ObjectBuilderXmlConfig.Generated.cs" />
+    <Compile Include="ObjectBuilder\Lifetime\LifetimeContainerFixture.cs" />
+    <Compile Include="ObjectBuilder\Location\LocatorFixture.cs" />
+    <Compile Include="ObjectBuilder\Location\ReadOnlyLocatorFixture.cs" />
+    <Compile Include="ObjectBuilder\MockBuilderContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderAware\BuilderAwareStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Creation\ConstructorPolicyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Creation\ConstructorReflectionStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Creation\CreationStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Creation\DefaultCreationPolicyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Method\MethodExecutionStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Method\MethodReflectionStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Parameters\CloneableParameterFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Parameters\CreationParameterFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Parameters\LookupParameterFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Parameters\ValueParameterFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Property\PropertyReflectionStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Property\PropertySetterStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Singleton\SingletonStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\TypeMapping\SimpleTypeMappingPolicyFixture.cs" />
+    <Compile Include="ObjectBuilder\Strategies\TypeMapping\TypeMappingStrategyFixture.cs" />
+    <Compile Include="ObjectBuilder\Utility\DependencyResolverFixture.cs" />
+    <Compile Include="ObjectBuilder\Utility\PolicyListFixture.cs" />
+    <Compile Include="ObjectBuilder\Utility\WeakRefDictionaryFixture.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ObjectBuilder\Configuration\ObjectBuilderXmlConfig.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="ObjectBuilder\Configuration\ObjectBuilderXmlConfig.xsx">
+      <DependentUpon>ObjectBuilderXmlConfig.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ObjectBuilder\ObjectBuilder.csproj">
+      <Project>{2AE49F19-392B-4C50-A13C-F49B2579849D}</Project>
+      <Name>ObjectBuilder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+</Project>
