@@ -15,7 +15,8 @@ using System.Collections.Generic;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 派生自 <see cref="ReadWriteLocator"/>类，描述一个定位器可读写，ObjectBuilder内部默认的定位器，一般参数传递的定位器实例就的它的实例
+    /// 派生自 <see cref="ReadWriteLocator"/>类，描述一个定位器可读写，ObjectBuilder内部默认的定位器，一般参数传递的定位器实例就的它的实例，
+	/// Locator扮演着两种角色，第一个角色是提供Strategy读写创建的对象，第二种角色可以作为一个Service Locator使用，
     /// </summary>
     public class Locator : ReadWriteLocator
     {

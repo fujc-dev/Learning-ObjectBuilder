@@ -291,7 +291,7 @@ namespace ObjectBuilder.SourceAnalysis
                 return null;
             }
         }
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
             CanCreateInstances();
         }

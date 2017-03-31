@@ -15,17 +15,16 @@ using System.Globalization;
 namespace Microsoft.Practices.ObjectBuilder
 {
 	/// <summary>
-	/// Dependency resolver worker object
+	/// 依赖解析器工作者对象
 	/// </summary>
 	public class DependencyResolver
 	{
 		IBuilderContext context;
 
 		/// <summary>
-		/// Constructor.
+		/// DependencyResolver构造函数.
 		/// </summary>
-		/// <param name="context">The builder context in which the resolver will resolve
-		/// dependencies.</param>
+		/// <param name="context">对象创建策略上下文</param>
 		public DependencyResolver(IBuilderContext context)
 		{
 			if (context == null)
@@ -35,7 +34,7 @@ namespace Microsoft.Practices.ObjectBuilder
 		}
 
 		/// <summary>
-		/// Resolves a dependency.
+		/// 解析依赖
 		/// </summary>
 		/// <param name="typeToResolve">The type to be resolved.</param>
 		/// <param name="typeToCreate">The type to be created, if the type cannot be resolved
