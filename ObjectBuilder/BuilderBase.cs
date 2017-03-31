@@ -94,30 +94,40 @@ namespace Microsoft.Practices.ObjectBuilder
 
         private object DoBuildUp(IReadWriteLocator locator, Type typeToBuild, string idToBuild, object existing, PolicyList[] transientPolicies)
         {
-            IBuilderStrategyChain chain = strategies.MakeStrategyChain();
-            ThrowIfNoStrategiesInChain(chain);
+            IBuilderStrategyChain chain = strategies.MakeStrategyChain();  //获取责任链中所有的策略后
+
+            ThrowIfNoStrategiesInChain(chain); //检测当前策略责任链中是否包含策略，不包含就抛出一个异常
 
             IBuilderContext context = MakeContext(chain, locator, transientPolicies);
+
             IBuilderTracePolicy trace = context.Policies.Get<IBuilderTracePolicy>(null, null);
 
-            if (trace != null)
-                trace.Trace(Properties.Resources.BuildUpStarting, typeToBuild, idToBuild ?? "(null)");
-
-            object result = chain.Head.BuildUp(context, typeToBuild, existing, idToBuild);
-
-            if (trace != null)
-                trace.Trace(Properties.Resources.BuildUpFinished, typeToBuild, idToBuild ?? "(null)");
+            if (trace != null) trace.Trace(Properties.Resources.BuildUpStarting, typeToBuild, idToBuild ?? "(null)");
+            //获取一级策略集合中的索引为0的策略执行，取第一个策略进行执行
+            object result = null;
+            if (chain.Head != null) //默认是不会出现Head为null的情况，因为初始化时框架会初始化一些默认的策略
+            {
+                result = chain.Head.BuildUp(context, typeToBuild, existing, idToBuild);  //执行对象创建，
+            }
+            if (trace != null) trace.Trace(Properties.Resources.BuildUpFinished, typeToBuild, idToBuild ?? "(null)");
 
             return result;
         }
 
+        /// <summary>
+        /// ObjectBuilder对象创建上下文，可以理解为每一个策略执行时的一个上下文信息，通过这个上下文可以在策略责任链中传递执行
+        /// </summary>
+        /// <param name="chain">策略责任链，默认的策略或自定义的策略</param>
+        /// <param name="locator">生成对象的定位器，当对象已存在时直接在定位器中获取</param>
+        /// <param name="transientPolicies">当前附加的二级策略</param>
+        /// <returns></returns>
         private IBuilderContext MakeContext(IBuilderStrategyChain chain, IReadWriteLocator locator, params PolicyList[] transientPolicies)
         {
-            PolicyList policies = new PolicyList(this.policies);
-
+            PolicyList policies = new PolicyList(this.policies); //将当前的临时策略添加到策略集合中，这里面包含默认二级策略和临时二级策略
             foreach (PolicyList policyList in transientPolicies)
+            {
                 policies.AddPolicies(policyList);
-
+            }
             return new BuilderContext(chain, locator, policies);
         }
 

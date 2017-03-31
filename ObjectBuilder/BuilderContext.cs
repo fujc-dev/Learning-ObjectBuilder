@@ -13,91 +13,102 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// An implementation of <see cref="IBuilderContext"/>.
-	/// </summary>
-	public class BuilderContext : IBuilderContext
-	{
-		private IBuilderStrategyChain chain;
-		private IReadWriteLocator locator;
-		private PolicyList policies;
+    /// <summary>
+    /// 实现 <see cref="IBuilderContext"/>的类
+    /// </summary>
+    public class BuilderContext : IBuilderContext
+    {
+        /// <summary>
+        /// 策略责任链
+        /// </summary>
+        private IBuilderStrategyChain chain;
+        /// <summary>
+        /// 生成对象的定位器，当对象已存在时直接在定位器中获取
+        /// </summary>
+        private IReadWriteLocator locator;
+        /// <summary>
+        /// 将当前的临时策略添加到策略集合中，这里面包含默认二级策略和临时二级策略
+        /// </summary>
+        private PolicyList policies;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BuilderContext"/> class.
-		/// </summary>
-		protected BuilderContext()
-		{
-		}
+        /// <summary>
+        /// 实例化<see cref="BuilderContext"/> 类
+        /// </summary>
+        protected BuilderContext()
+        {
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BuilderContext"/> class using
-		/// the provided chain, locator, and policies.
-		/// </summary>
-		/// <param name="chain">The strategy chain.</param>
-		/// <param name="locator">The locator.</param>
-		/// <param name="policies">The permanent policies from the builder.</param>
-		public BuilderContext(IBuilderStrategyChain chain, IReadWriteLocator locator, PolicyList policies)
-		{
-			this.chain = chain;
-			this.locator = locator;
-			this.policies = new PolicyList(policies);
-		}
+        /// <summary>
+        /// 实例化 <see cref="BuilderContext"/> 类
+        /// </summary>
+        /// <param name="chain">策略责任链，默认的策略或自定义的策略</param>
+        /// <param name="locator">生成对象的定位器，当对象已存在时直接在定位器中获取</param>
+        /// <param name="policies">二级策略集合，这里面包含默认二级策略和临时二级策略</param>
+        public BuilderContext(IBuilderStrategyChain chain, IReadWriteLocator locator, PolicyList policies)
+        {
+            this.chain = chain;
+            this.locator = locator;
+            this.policies = new PolicyList(policies);
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilderContext.HeadOfChain"/> for more information.
-		/// </summary>
-		public IBuilderStrategy HeadOfChain
-		{
-			get { return chain.Head; }
-		}
+        /// <summary>
+        /// 在 <see cref="IBuilderContext.HeadOfChain"/> 中查看更多
+        /// </summary>
+        public IBuilderStrategy HeadOfChain
+        {
+            get { return chain.Head; }
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilderContext.Locator"/> for more information.
-		/// </summary>
-		public IReadWriteLocator Locator
-		{
-			get { return locator; }
-		}
+        /// <summary>
+        /// 在 <see cref="IBuilderContext.Locator"/> 中查看更多
+        /// </summary>
+        public IReadWriteLocator Locator
+        {
+            get { return locator; }
+        }
 
-		/// <summary>
-		/// Sets the locator.
-		/// </summary>
-		protected void SetLocator(IReadWriteLocator locator)
-		{
-			this.locator = locator;
-		}
 
-		/// <summary>
-		/// See <see cref="IBuilderContext.Policies"/> for more information.
-		/// </summary>
-		public PolicyList Policies
-		{
-			get { return policies; }
-		}
 
-		/// <summary>
-		/// Sets the policies.
-		/// </summary>
-		protected void SetPolicies(PolicyList policies)
-		{
-			this.policies = policies;
-		}
+        /// <summary>
+        /// 在 <see cref="IBuilderContext.Policies"/> 中查看更多
+        /// </summary>
+        public PolicyList Policies
+        {
+            get { return policies; }
+        }
 
-		/// <summary>
-		/// The strategy chain.
-		/// </summary>
-		protected IBuilderStrategyChain StrategyChain
-		{
-			get { return chain; }
-			set { chain = value; }
-		}
+        /// <summary>
+        /// 设置生成对象的定位器，当对象已存在时直接在定位器中获取
+        /// </summary>
+        protected void SetLocator(IReadWriteLocator locator)
+        {
+            this.locator = locator;
+        }
 
-		/// <summary>
-		/// See <see cref="IBuilderContext.GetNextInChain"/> for more information.
-		/// </summary>
-		public IBuilderStrategy GetNextInChain(IBuilderStrategy currentStrategy)
-		{
-			return chain.GetNext(currentStrategy);
-		}
-	}
+        /// <summary>
+        /// 设置二级策略集合，这里面包含默认二级策略和临时二级策略
+        /// </summary>
+        protected void SetPolicies(PolicyList policies)
+        {
+            this.policies = policies;
+        }
+
+        /// <summary>
+        /// 测了责任链
+        /// </summary>
+        protected IBuilderStrategyChain StrategyChain
+        {
+            get { return chain; }
+            set { chain = value; }
+        }
+
+        /// <summary>
+        /// 在 <see cref="IBuilderContext.GetNextInChain"/> 中查看更多
+        /// 检索策略链中的下一个项目，相对于即将运行策略项
+        /// </summary>
+        public IBuilderStrategy GetNextInChain(IBuilderStrategy currentStrategy)
+        {
+            return chain.GetNext(currentStrategy);
+        }
+    }
 }

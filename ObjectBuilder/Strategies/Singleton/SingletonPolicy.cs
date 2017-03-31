@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -11,28 +11,28 @@
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implementation of <see cref="ISingletonPolicy"/>.
-	/// </summary>
-	public class SingletonPolicy : ISingletonPolicy
-	{
-		private bool isSingleton;
+    /// <summary>
+    /// ÊµÏÖ½Ó¿Ú<see cref="ISingletonPolicy"/>µÄÀà
+    /// </summary>
+    public class SingletonPolicy : ISingletonPolicy
+    {
+        private bool isSingleton;
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="isSingleton">Whether the object should be a singleton.</param>
-		public SingletonPolicy(bool isSingleton)
-		{
-			this.isSingleton = isSingleton;
-		}
+        /// <summary>
+        /// ¹¹Ôìº¯Êý
+        /// </summary>
+        /// <param name="isSingleton">¶ÔÏóÊÇ·ñÎªµ¥Àý</param>
+        public SingletonPolicy(bool isSingleton)
+        {
+            this.isSingleton = isSingleton;
+        }
 
-		/// <summary>
-		/// See <see cref="ISingletonPolicy.IsSingleton"/> for more information.
-		/// </summary>
-		public bool IsSingleton
-		{
-			get { return isSingleton; }
-		}
-	}
+        /// <summary>
+        /// ÔÚ <see cref="ISingletonPolicy.IsSingleton"/> ÖÐ²é¿´¸ü¶à
+        /// </summary>
+        public bool IsSingleton
+        {
+            get { return isSingleton; }
+        }
+    }
 }

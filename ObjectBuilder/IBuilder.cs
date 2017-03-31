@@ -16,7 +16,7 @@ namespace Microsoft.Practices.ObjectBuilder
     /// <summary>
     /// 对象创建框架的主接口
     /// </summary>
-    /// <typeparam name="TStageEnum">这个枚举的泛型表示类型创建策略</typeparam>
+    /// <typeparam name="TStageEnum">ObjectBuilder创建对象实例的策略的执行顺序</typeparam>
     public interface IBuilder<TStageEnum>
     {
         /// <summary>

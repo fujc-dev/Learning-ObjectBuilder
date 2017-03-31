@@ -13,19 +13,19 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents a locator that can be read from and written to.
-	/// </summary>
-	/// <remarks>
-	/// <para>A locator is dictionary of keys to values, but it keeps the values with
-	/// weak references, so that locating an object does not keep it alive. If you
-	/// want to keep the object alive too, you should consider using an
-	/// <see cref="ILifetimeContainer"/>.</para>
-	/// <para>Locators have a built-in concept of hierarchy, so you can ask questions
-	/// of a locator and tell it whether to return results from the current locator
-	/// only, or whether to ask the parent locator when local lookups fail.</para>
-	/// </remarks>
-	public interface IReadWriteLocator : IReadableLocator
+    /// <summary>
+    /// 可读取和写入的定位器
+    /// </summary>
+    /// <remarks>
+    /// <para>A locator is dictionary of keys to values, but it keeps the values with
+    /// weak references, so that locating an object does not keep it alive. If you
+    /// want to keep the object alive too, you should consider using an
+    /// <see cref="ILifetimeContainer"/>.</para>
+    /// <para>Locators have a built-in concept of hierarchy, so you can ask questions
+    /// of a locator and tell it whether to return results from the current locator
+    /// only, or whether to ask the parent locator when local lookups fail.</para>
+    /// </remarks>
+    public interface IReadWriteLocator : IReadableLocator
 	{
 		/// <summary>
 		/// Adds an object to the locator, with the given key.

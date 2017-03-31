@@ -14,103 +14,113 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// A custom collection type for multi-stage strategies.
-	/// </summary>
-	/// <typeparam name="TStageEnum">The enumeration type that describes the policies.</typeparam>
-	public class StrategyList<TStageEnum>
-	{
+    /// <summary>
+    /// 一级策略的自定义集合类型
+    /// </summary>
+    /// <typeparam name="TStageEnum">ObjectBuilder创建对象实例的策略的执行顺序</typeparam>
+    public class StrategyList<TStageEnum>
+    {
+        /// <summary>
+        /// ObjectBuilder创建对象实例的策略的执行顺序，存储执行顺序
+        /// </summary>
 		private readonly static Array stageValues = Enum.GetValues(typeof(TStageEnum));
+        /// <summary>
+        /// ObjectBuilder创建对象实例的策略的执行顺序的键值对集合，每一个执行策略执行顺序中包含多个一级策略
+        /// </summary>
 		private Dictionary<TStageEnum, List<IBuilderStrategy>> stages;
+        /// <summary>
+        /// 同步锁
+        /// </summary>
 		private object lockObject = new object();
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="StrategyList{T}"/> class.
-		/// </summary>
-		public StrategyList()
-		{
-			stages = new Dictionary<TStageEnum, List<IBuilderStrategy>>();
+        /// <summary>
+        /// 实例化 <see cref="StrategyList{T}"/> 类
+        /// </summary>
+        public StrategyList()
+        {
+            stages = new Dictionary<TStageEnum, List<IBuilderStrategy>>();
+            foreach (TStageEnum stage in stageValues)
+            {
+                stages[stage] = new List<IBuilderStrategy>();
+            }
+        }
 
-			foreach (TStageEnum stage in stageValues)
-				stages[stage] = new List<IBuilderStrategy>();
-		}
+        /// <summary>
+        /// 添加一级策略
+        /// </summary>
+        /// <param name="strategy">一级策略的对象实例</param>
+        /// <param name="stage">ObjectBuilder创建对象实例的策略的执行顺序</param>
+        public void Add(IBuilderStrategy strategy, TStageEnum stage)
+        {
+            lock (lockObject)
+            {
+                stages[stage].Add(strategy);
+            }
+        }
 
-		/// <summary>
-		/// Add a strategy to the list.
-		/// </summary>
-		/// <param name="strategy">The strategy to be added.</param>
-		/// <param name="stage">The stage to add the strategy to.</param>
-		public void Add(IBuilderStrategy strategy, TStageEnum stage)
-		{
-			lock (lockObject)
-			{
-				stages[stage].Add(strategy);
-			}
-		}
+        /// <summary>
+        /// 创建新策略并将其添加到列表中
+        /// </summary>
+        /// <typeparam name="TStrategy">要创建的策略类型。必须有一个无参数的构造函数</typeparam>
+        /// <param name="stage">ObjectBuilder创建对象实例的策略的执行顺序</param>
+        public void AddNew<TStrategy>(TStageEnum stage)
+            where TStrategy : IBuilderStrategy, new()
+        {
+            lock (lockObject)
+            {
+                stages[stage].Add(new TStrategy());
+            }
+        }
 
-		/// <summary>
-		/// Creates a new strategy and adds it to the list.
-		/// </summary>
-		/// <typeparam name="TStrategy">The strategy type to be created. Must have a parameterless constructor.</typeparam>
-		/// <param name="stage">The stage to add the strategy to.</param>
-		public void AddNew<TStrategy>(TStageEnum stage)
-			where TStrategy : IBuilderStrategy, new()
-		{
-			lock (lockObject)
-			{
-				stages[stage].Add(new TStrategy());
-			}
-		}
+        /// <summary>
+        /// 清空一级策略列表
+        /// </summary>
+        public void Clear()
+        {
+            lock (lockObject)
+            {
+                foreach (TStageEnum stage in stageValues)
+                {
+                    stages[stage].Clear();
+                }
+            }
+        }
 
-		/// <summary>
-		/// Clears the strategy list.
-		/// </summary>
-		public void Clear()
-		{
-			lock (lockObject)
-			{
-				foreach (TStageEnum stage in stageValues)
-					stages[stage].Clear();
-			}
-		}
+        /// <summary>
+        /// 根据列表中的策略创建反向策略链。用于销毁策略操作（运行策略在建立操作反向）
+        /// </summary>
+        /// <returns>新的策略责任链</returns>
+        public IBuilderStrategyChain MakeReverseStrategyChain()
+        {
+            lock (lockObject)
+            {
+                List<IBuilderStrategy> tempList = new List<IBuilderStrategy>();
+                foreach (TStageEnum stage in stageValues)
+                {
+                    tempList.AddRange(stages[stage]);
+                }
+                tempList.Reverse();
+                BuilderStrategyChain result = new BuilderStrategyChain();
+                result.AddRange(tempList);
+                return result;
+            }
+        }
 
-		/// <summary>
-		/// Creates a reverse strategy chain based on the strategies in the list. Useful
-		/// for unbuild operations (which run strategies in reverse of build operations).
-		/// </summary>
-		/// <returns>The new strategy chain.</returns>
-		public IBuilderStrategyChain MakeReverseStrategyChain()
-		{
-			lock (lockObject)
-			{
-				List<IBuilderStrategy> tempList = new List<IBuilderStrategy>();
-				foreach (TStageEnum stage in stageValues)
-					tempList.AddRange(stages[stage]);
-
-				tempList.Reverse();
-
-				BuilderStrategyChain result = new BuilderStrategyChain();
-				result.AddRange(tempList);
-				return result;
-			}
-		}
-
-		/// <summary>
-		/// Creates a strategy chain based on the strategies in the list. Useful for
-		/// build operations.
-		/// </summary>
-		/// <returns>The new strategy chain.</returns>
-		public IBuilderStrategyChain MakeStrategyChain()
-		{
-			lock (lockObject)
-			{
-				BuilderStrategyChain result = new BuilderStrategyChain();
-
-				foreach (TStageEnum stage in stageValues)
-					result.AddRange(stages[stage]);
-
-				return result;
-			}
-		}
-	}
+        /// <summary>
+        /// 根据清单中的策略创建战略链。用于构建操作有用
+        /// </summary>
+        /// <returns>新的策略责任链</returns>
+        public IBuilderStrategyChain MakeStrategyChain()
+        {
+            lock (lockObject)
+            {
+                BuilderStrategyChain result = new BuilderStrategyChain();
+                foreach (TStageEnum stage in stageValues)
+                {
+                    result.AddRange(stages[stage]);
+                }
+                return result;
+            }
+        }
+    }
 }

@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -11,14 +11,14 @@
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents a policy for <see cref="SingletonStrategy"/>.
-	/// </summary>
-	public interface ISingletonPolicy : IBuilderPolicy
-	{
-		/// <summary>
-		/// Returns true if the object should be a singleton.
-		/// </summary>
-		bool IsSingleton { get; }
-	}
+    /// <summary>
+    /// ÅÉÉú×Ô<see cref="IBuilderPolicy"/>µÄ½Ó¿Ú£¬µ¥Àý²ßÂÔ(ÅÉÉú×Ô<see cref="IBuilderPolicy"/>½Ó¿ÚµÄ²ßÂÔÎªÁË±ãÓÚÀí½âÎÒ½«Æä³ÆÎª¶þ¼¶²ßÂÔ)
+    /// </summary>
+    public interface ISingletonPolicy : IBuilderPolicy
+    {
+        /// <summary>
+        /// Èç¹û¶ÔÏóÓ¦¸ÃÊÇµ¥Àý£¬·µ»Øtrue
+        /// </summary>
+        bool IsSingleton { get; }
+    }
 }

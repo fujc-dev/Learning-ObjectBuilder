@@ -12,7 +12,7 @@
 namespace Microsoft.Practices.ObjectBuilder
 {
 	/// <summary>
-	/// ObjectBuilder对象创建顺序
+	/// ObjectBuilder对象创建策略的执行顺序
 	/// </summary>
 	public enum BuilderStage
 	{
