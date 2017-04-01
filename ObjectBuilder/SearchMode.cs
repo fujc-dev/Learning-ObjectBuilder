@@ -21,9 +21,9 @@ namespace Microsoft.Practices.ObjectBuilder
         /// </summary>
         Up,
 
-		/// <summary>
-		/// 本地搜索
-		/// </summary>
-		Local
-	}
+        /// <summary>
+        /// 只查询当前位置
+        /// </summary>
+        Local
+    }
 }

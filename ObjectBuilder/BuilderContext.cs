@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 实现 <see cref="IBuilderContext"/>的类
+    /// 实现 <see cref="IBuilderContext"/>的类，<see cref="BuilderContext"/> 类作为创建过程的信息载体，它包含了一个策略链表，一个策略使用的方针表以及一个用来保存创建对象的定位器
     /// </summary>
     public class BuilderContext : IBuilderContext
     {

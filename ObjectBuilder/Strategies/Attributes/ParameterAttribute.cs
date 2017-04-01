@@ -13,25 +13,21 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Attribute that represents dependency injection members, whose value at 
-	/// build time will be determined by the <see cref="IParameter"/> returned 
-	/// from the attribute <see cref="CreateParameter"/> factory method.
-	/// </summary>
-	public abstract class ParameterAttribute : Attribute
-	{
-		/// <summary>
-		/// Initializes an instance of the <see cref="ParameterAttribute"/> class.
-		/// </summary>
-		protected ParameterAttribute() { }
+    /// <summary>
+    /// 属性表示的依赖注入的成员，其值在编译时将由 <see cref="IParameter"/> 返回属性 <see cref="ParameterAttribute.CreateParameter"/> 工厂方法.
+    /// </summary>
+    public abstract class ParameterAttribute : Attribute
+    {
+        /// <summary>
+        /// 实例化 <see cref="ParameterAttribute"/> 类
+        /// </summary>
+        protected ParameterAttribute() { }
 
-		/// <summary>
-		/// Creates a parameter for use with various <see cref="IBuilderPolicy"/> implementations 
-		/// that can process <see cref="IParameter"/>s.
-		/// </summary>
-		/// <param name="memberType">The type of the annotated member, such as a property or a 
-		/// constructor parameter.</param>
-		/// <returns>The parameter instance that knows how to retrieve a value for the dependency.</returns>
-		public abstract IParameter CreateParameter(Type memberType);
-	}
+        /// <summary>
+        /// 创建一个参数用于各种 <see cref="IBuilderPolicy"/> 实现可以处理 <see cref="IParameter"/>
+        /// </summary>
+        /// <param name="memberType">成员的类型，如属性或构造函数参数</param>
+        /// <returns>依赖项的值的参数实例</returns>
+        public abstract IParameter CreateParameter(Type memberType);
+    }
 }

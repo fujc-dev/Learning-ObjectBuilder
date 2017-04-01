@@ -16,7 +16,7 @@ using System.Collections;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 实现 <see cref="IReadableLocator"/>接口，
+    /// 一个抽象类<see cref="ReadableLocator"/>用来实现<see cref="IReadableLocator"/>接口的公共方法
     /// </summary>
     public abstract class ReadableLocator : IReadableLocator
     {
@@ -54,32 +54,51 @@ namespace Microsoft.Practices.ObjectBuilder
         public abstract bool Contains(object key, SearchMode options);
 
         /// <summary>
-        /// 自定义搜索条件，并返回一个临时对象
+        /// 使用谓词操作来查找包含给定对象的定位器
         /// </summary>
+        /// <param name="predicate">自定义的条件检测是否包含<see cref="IReadableLocator"/>对象</param>
+        /// <returns>返回一个新的定位器</returns>
+        /// <exception cref="ArgumentNullException">Predicate为null</exception>
         public IReadableLocator FindBy(Predicate<KeyValuePair<object, object>> predicate)
         {
             return FindBy(SearchMode.Up, predicate);
         }
 
         /// <summary>
-        /// 自定义搜索条件，并返回一个临时只读定位器对象
+        /// 根据是否回溯的选项，使用谓词操作来查找包含对象的定位器
         /// </summary>
+        /// <param name="options">查找选项(一个枚举)</param>
+        /// <param name="predicate">自定义的条件检测是否包含<see cref="IReadableLocator"/>对象</param>
+        /// <returns>返回一个新的定位器</returns>
+        /// <exception cref="ArgumentNullException">Predicate为null</exception>
+        /// <exception cref="ArgumentException">SearchMode选项不是有效枚举值</exception>
         public IReadableLocator FindBy(SearchMode options, Predicate<KeyValuePair<object, object>> predicate)
         {
+            //没有指定predicate委托，直接则抛出异常
             if (predicate == null) throw new ArgumentNullException("predicate");
+            //没有指定的搜索选项，也抛出异常
             if (!Enum.IsDefined(typeof(SearchMode), options)) throw new ArgumentException(Properties.Resources.InvalidEnumerationValue, "options");
-
-            Locator results = new Locator();
+            //
+            Locator results = new Locator(); //依赖子类？很多牛逼的代码都会这样做，为什么？有点意思啊~~ 组合模式？
             IReadableLocator currentLocator = this;
-
+            //一个循环调用FindInLocator私有方法，如果查询选项是只搜索当前定位器，那么直接中断循环
             while (currentLocator != null)
             {
+                //遍历定位，查找对象是否在定位器中存在
                 FindInLocator(predicate, results, currentLocator);
+                //获取下一次遍历的定位器(要么为null，要么就去当前定位器的父级定位器)
                 currentLocator = options == SearchMode.Local ? null : currentLocator.ParentLocator;
             }
+            //返回一个只读的定位器新实例
             return new ReadOnlyLocator(results);
         }
 
+        /// <summary>
+        /// 遍历定位器，将找到的对象存入一个临时的定位器
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="results"></param>
+        /// <param name="currentLocator"></param>
         private void FindInLocator(Predicate<KeyValuePair<object, object>> predicate, Locator results, IReadableLocator currentLocator)
         {
             foreach (KeyValuePair<object, object> kvp in currentLocator)
@@ -133,11 +152,6 @@ namespace Microsoft.Practices.ObjectBuilder
         /// </summary>
         public abstract IEnumerator<KeyValuePair<object, object>> GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
         /// <summary>
         /// 设置此定位器的父定位器
         /// </summary>
@@ -146,5 +160,16 @@ namespace Microsoft.Practices.ObjectBuilder
         {
             this.parentLocator = parentLocator;
         }
+
+        #region IEnumerable<KeyValuePair<object, object>>
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
+
+
     }
 }

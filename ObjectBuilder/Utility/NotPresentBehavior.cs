@@ -12,12 +12,12 @@
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 描述依赖项不存在时如何处理的枚举
+    /// 对象未找到时的行为定义
     /// </summary>
     public enum NotPresentBehavior
     {
         /// <summary>
-        /// Create the object
+        /// 创建该对象
         /// </summary>
         CreateNew,
 

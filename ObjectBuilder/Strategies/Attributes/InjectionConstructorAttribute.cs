@@ -13,10 +13,10 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Attribute to specify which constructor on an object will be used for dependency injection.
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Constructor)]
+    /// <summary>
+    /// 当存在多个构造器时，用下面的特性表示被注入使用的构造器
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Constructor)]
 	public class InjectionConstructorAttribute : Attribute
 	{
 	}

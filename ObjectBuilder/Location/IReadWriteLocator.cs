@@ -19,7 +19,7 @@ namespace Microsoft.Practices.ObjectBuilder
     public interface IReadWriteLocator : IReadableLocator
     {
         /// <summary>
-        /// 添加一个对象到定位器，与给定的键
+        /// 保存对象到定位器
         /// </summary>
         /// <param name="key">Key，唯一标识</param>
         /// <param name="value">要注册的对象</param>
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.ObjectBuilder
         void Add(object key, object value);
 
         /// <summary>
-        /// 从定位器移除对象
+        /// 从定位器中删除一个对象，如果成功返回真，否则返回假
         /// </summary>
         /// <param name="key">Key，唯一标识</param>
         /// <returns>如果在定位器中找到该对象，则返回true；否则返回false</returns>

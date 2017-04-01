@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBuilder.SourceAnalysis", "ObjectBuilder.SourceAnalysis\ObjectBuilder.SourceAnalysis.csproj", "{E45592C0-0A32-409B-B0E7-471A4A581715}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication", "WindowsFormsApplication\WindowsFormsApplication.csproj", "{5B30BEB3-2A10-476A-BCE0-34F0DCF4B6B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{E45592C0-0A32-409B-B0E7-471A4A581715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E45592C0-0A32-409B-B0E7-471A4A581715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E45592C0-0A32-409B-B0E7-471A4A581715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B30BEB3-2A10-476A-BCE0-34F0DCF4B6B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B30BEB3-2A10-476A-BCE0-34F0DCF4B6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B30BEB3-2A10-476A-BCE0-34F0DCF4B6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B30BEB3-2A10-476A-BCE0-34F0DCF4B6B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

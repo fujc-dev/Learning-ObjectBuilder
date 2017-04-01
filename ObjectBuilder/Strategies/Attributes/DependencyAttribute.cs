@@ -32,50 +32,47 @@ namespace Microsoft.Practices.ObjectBuilder
 		{
 		}
 
-		/// <summary>
-		/// The name of the object to inject. Optional.
-		/// </summary>
-		public string Name
+        /// <summary>
+        /// 所要注入的对象名称。可选
+        /// </summary>
+        public string Name
 		{
 			get { return name; }
 			set { name = value; }
 		}
 
-		/// <summary>
-		/// The type to be created, when <see cref="DependencyAttribute.NotPresentBehavior"/> is set
-		/// to <see cref="Microsoft.Practices.ObjectBuilder.NotPresentBehavior.CreateNew"/>
-		/// and an existing object cannot be found. Optional.
-		/// </summary>
-		public Type CreateType
+        /// <summary>
+        /// 当依赖的对象没有找到，如果指定创建一个新的依赖对象，指定它的类型。可选
+        /// </summary>
+        public Type CreateType
 		{
 			get { return createType; }
 			set { createType = value; }
 		}
 
-		/// <summary>
-		/// Specifies how the dependency will be searched in the locator.
-		/// </summary>
-		public SearchMode SearchMode
+        /// <summary>
+        /// 指定在定位器中搜索对象的模式
+        /// </summary>
+        public SearchMode SearchMode
 		{
 			get { return searchMode; }
 			set { searchMode = value; }
 		}
 
 
-		/// <summary>
-		/// The behavior when the object isn't found. Defaults to 
-		/// <see cref="Microsoft.Practices.ObjectBuilder.NotPresentBehavior.CreateNew"/>.
-		/// </summary>
-		public NotPresentBehavior NotPresentBehavior
+        /// <summary>
+        /// 依赖对象为找到时的行为，默认为 CreateNew<see cref="Microsoft.Practices.ObjectBuilder.NotPresentBehavior.CreateNew"/>.
+        /// </summary>
+        public NotPresentBehavior NotPresentBehavior
 		{
 			get { return notPresentBehavior; }
 			set { notPresentBehavior = value; }
 		}
 
-		/// <summary>
-		/// See <see cref="ParameterAttribute.CreateParameter"/> for more information.
-		/// </summary>
-		public override IParameter CreateParameter(Type annotatedMemberType)
+        /// <summary>
+        /// 创建需要的参数，在 <see cref="ParameterAttribute.CreateParameter"/> 中查看更多
+        /// </summary>
+        public override IParameter CreateParameter(Type annotatedMemberType)
 		{
 			return new DependencyParameter(annotatedMemberType, name, createType, notPresentBehavior, searchMode);
 		}

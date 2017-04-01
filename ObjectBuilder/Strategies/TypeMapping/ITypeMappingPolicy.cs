@@ -11,16 +11,16 @@
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents a policy for <see cref="TypeMappingStrategy"/>.
-	/// </summary>
-	public interface ITypeMappingPolicy : IBuilderPolicy
-	{
-		/// <summary>
-		/// Maps one Type/ID pair to another.
-		/// </summary>
-		/// <param name="incomingTypeIDPair">The incoming Type/ID pair.</param>
-		/// <returns>The new Type/ID pair.</returns>
-		DependencyResolutionLocatorKey Map(DependencyResolutionLocatorKey incomingTypeIDPair);
-	}
+    /// <summary>
+    /// 代表的策略为 <see cref="TypeMappingStrategy"/>，派生自 <see cref="IBuilderPolicy"/> 的映射处理二级策略
+    /// </summary>
+    public interface ITypeMappingPolicy : IBuilderPolicy
+    {
+        /// <summary>
+        /// 映射一个[类型/ID]
+        /// </summary>
+        /// <param name="incomingTypeIDPair">传入类[型/ID]</param>
+        /// <returns>新的[型/ID]</returns>
+        DependencyResolutionLocatorKey Map(DependencyResolutionLocatorKey incomingTypeIDPair);
+    }
 }

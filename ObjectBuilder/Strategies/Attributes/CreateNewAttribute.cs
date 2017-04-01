@@ -13,11 +13,10 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Attribute applied to properties and constructor parameters, to describe when the
-	/// dependency injection system should always create new instances of the requested object.
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    /// <summary>
+    /// 用于属性和构造函数参数，以描述依赖注入系统何时应创建所请求对象的新实例
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
 	public sealed class CreateNewAttribute : ParameterAttribute
 	{
 		/// <summary>

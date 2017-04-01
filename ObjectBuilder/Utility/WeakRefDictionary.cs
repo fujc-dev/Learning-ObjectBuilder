@@ -15,14 +15,14 @@ using System.Collections.Generic;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 表示将值存储为弱引用而不是强引用的字典，支持空值
+    /// 一个保存弱引用对象的字典结构，表示将值存储为弱引用而不是强引用的字典，支持空值
     /// </summary>
     /// <typeparam name="TKey">键类型</typeparam>
     /// <typeparam name="TValue">值类型</typeparam>
     public class WeakRefDictionary<TKey, TValue>
     {
         /// <summary>
-        /// 弱引用类型集合，表示弱引用，即在引用对象的同时仍然允许垃圾回收来回收该对象。
+        /// 弱引用类型集合，表示弱引用，即在引用对象的同时仍然允许垃圾回收来回收该对象
         /// </summary>
         private Dictionary<TKey, WeakReference> inner = new Dictionary<TKey, WeakReference>();
 

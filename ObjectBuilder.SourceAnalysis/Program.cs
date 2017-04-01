@@ -8,7 +8,7 @@ namespace ObjectBuilder.SourceAnalysis
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main2(string[] args)
 		{
 			Builder builder = new Builder();
 			TestObject obj = builder.BuildUp<TestObject>(new Locator(), null, null);

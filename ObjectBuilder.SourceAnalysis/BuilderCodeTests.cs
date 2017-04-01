@@ -292,9 +292,9 @@ namespace ObjectBuilder.SourceAnalysis
                 return null;
             }
         }
-        static void Main1(string[] args)
+        static void Main(string[] args)
         {
-            CanCreateInstances();
+            CanCreateConcreteObjectByAskingForInterface();
         }
     }
 }

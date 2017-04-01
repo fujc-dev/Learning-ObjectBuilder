@@ -14,7 +14,8 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 表示一对类型和ID，依赖解析定位器的唯一标识，当前需要创建对象的类型和标记当前创建类型的唯一标识
+    /// 表示一对类型和ID，依赖解析定位器的唯一标识，当前需要创建对象的类型和标记当前创建类型的唯一标识，
+    /// 存储器是对象主键和对象的序列集合，对象主键由对象的 Type 和 ID 构成，由<see cref="DependencyResolutionLocatorKey"/> 对象表示
     /// </summary>
     public sealed class DependencyResolutionLocatorKey
     {
