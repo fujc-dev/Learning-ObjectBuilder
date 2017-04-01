@@ -27,8 +27,7 @@ namespace Microsoft.Practices.ObjectBuilder
 		/// Initializes a new instance of the <see cref="DependencyParameter"/> class using the
 		/// provided parameter type, name, creation type, not present behavior, and search mode.
 		/// </summary>
-		public DependencyParameter(Type parameterType, string name,
-			 Type createType, NotPresentBehavior notPresentBehavior, SearchMode searchMode)
+		public DependencyParameter(Type parameterType, string name, Type createType, NotPresentBehavior notPresentBehavior, SearchMode searchMode)
 			: base(parameterType)
 		{
 			this.name = name;
@@ -42,8 +41,7 @@ namespace Microsoft.Practices.ObjectBuilder
 		/// </summary>
 		public override object GetValue(IBuilderContext context)
 		{
-			return new DependencyResolver(context).Resolve(
-				 base.type, createType, name, notPresentBehavior, searchMode);
+			return new DependencyResolver(context).Resolve(base.type, createType, name, notPresentBehavior, searchMode);
 		}
 	}
 }
