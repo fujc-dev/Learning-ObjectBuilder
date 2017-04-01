@@ -19,7 +19,7 @@ namespace Microsoft.Practices.ObjectBuilder
         private bool isSingleton;
 
         /// <summary>
-        /// 构造函数
+        /// 单例注入构造函数
         /// </summary>
         /// <param name="isSingleton">对象是否为单例</param>
         public SingletonPolicy(bool isSingleton)

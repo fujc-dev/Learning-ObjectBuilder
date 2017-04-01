@@ -16,10 +16,10 @@ using System.Reflection;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Strategy that performs injection of constructor policies.
-	/// </summary>
-	public class ConstructorReflectionStrategy : ReflectionStrategy<ConstructorInfo>
+    /// <summary>
+    /// 执行构造函数策略注入的策略
+    /// </summary>
+    public class ConstructorReflectionStrategy : ReflectionStrategy<ConstructorInfo>
 	{
 		/// <summary>
 		/// See <see cref="ReflectionStrategy{T}.GetMembers"/> for more information.

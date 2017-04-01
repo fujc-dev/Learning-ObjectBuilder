@@ -25,6 +25,7 @@ namespace ObjectBuilder.SourceAnalysis
             SimpleObject _ = new SimpleObject(100);
             SimpleObject m1 = builder.BuildUp<SimpleObject>(locator, null, null);
             SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, null, _);
+            SimpleObject m3 = builder.BuildUp<SimpleObject>(locator, null, "123");
 
             Console.WriteLine(m2.IntParam);
             //Assert.IsNotNull(m1);

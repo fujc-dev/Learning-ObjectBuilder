@@ -15,9 +15,7 @@ using System.Reflection;
 namespace Microsoft.Practices.ObjectBuilder
 {
 	/// <summary>
-	/// Interface used by the <see cref="ReflectionStrategy{T}"/> base class to encapsulate the information
-	/// required from members that use the strategy. This interface is required because direct access to
-	/// the <see cref="MemberInfo"/> object may not give the desired results.
+	/// Interface used by the <see cref="ReflectionStrategy{T}"/> base class to encapsulate the information required from members that use the strategy. This interface is required because direct access to the <see cref="MemberInfo"/> object may not give the desired results.
 	/// </summary>
 	public interface IReflectionMemberInfo<TMemberInfo>
 	{
