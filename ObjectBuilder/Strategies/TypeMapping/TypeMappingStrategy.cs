@@ -34,8 +34,7 @@ namespace Microsoft.Practices.ObjectBuilder
             DependencyResolutionLocatorKey result = new DependencyResolutionLocatorKey(t, id);
             //context.Policies存储了当前管道中所有的二级策略
             //获取二级策略ITypeMappingPolicy
-            ITypeMappingPolicy policy = context.Policies.Get<ITypeMappingPolicy>(t, id);
-           
+            ITypeMappingPolicy policy = context.Policies.Get<ITypeMappingPolicy>(t, id);           
             if (policy != null)
             {
                 result = policy.Map(result); //映射策略的作用是将当前将要被创建的类型与二级策略的映射关系做一些微调，一般是指接口，派生类之间
@@ -43,7 +42,6 @@ namespace Microsoft.Practices.ObjectBuilder
                 //类型result.Type是否派生自t，或者本身result.Type与t是相同类型，满足这两个条件映射才有效，否则抛出异常
                 Guard.TypeIsAssignableFromType(t, result.Type, t);
             }
-
             return base.BuildUp(context, result.Type, existing, result.ID);
         }
     }
