@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 实现 <see cref="IParameter"/> 的帮助类， 当你提前知道参数值的类型时，可以使用它
+    /// 实现 <see cref="IParameter"/> 的帮助类， 当你提前知道参数值的类型时，可以使用它，用于实现那些你已经预先知道参数值类型的参数的助手类 
     /// </summary>
     public abstract class KnownTypeParameter : IParameter
     {

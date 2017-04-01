@@ -16,23 +16,22 @@ using System.Reflection;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 派生自 <see cref="BuilderStrategy"/> 类，所有注入处理器的基本通用策略
+    /// 派生自 <see cref="BuilderStrategy"/> 类，所有注入处理器的基本通用策略，实施反射策略的一个主要目的就是支持对象创建时的依赖注入
     /// </summary>
     public abstract class ReflectionStrategy<TMemberInfo> : BuilderStrategy
     {
         /// <summary>
-        /// Retrieves the list of members to iterate looking for  injection attributes, such as properties and constructor parameters.
+        /// 查找类型中实施了依赖注入特性的成员（属性或者构造器的参数）
         /// </summary>
         /// <param name="context">对象创建上下文</param>
         /// <param name="typeToBuild">被创建的对象类型</param>
         /// <param name="existing">Existing object being built, if available.</param>
         /// <param name="idToBuild">The ID being built.</param>
-        /// <returns>An enumerable wrapper around the IReflectionMemberInfo{T} interfaces that
-        /// represent the members to be inspected for reflection.</returns>
+        /// <returns>An enumerable wrapper around the IReflectionMemberInfo{T} interfaces that represent the members to be inspected for reflection.</returns>
         protected abstract IEnumerable<IReflectionMemberInfo<TMemberInfo>> GetMembers(IBuilderContext context, Type typeToBuild, object existing, string idToBuild);
 
         /// <summary>
-        /// See <see cref="BuilderStrategy.BuildUp"/> for more information.
+        /// 对每一个找到的成员，如果需要处理的话，就生成相应的信息（参数类型、参数值等），并保存到上下文的对应的方针中，以便在创建阶段得到正确的创建，在<see cref="BuilderStrategy.BuildUp"/> 中查看更多
         /// </summary>
         public override object BuildUp(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
         {
@@ -49,17 +48,16 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// Abstract method which takes parameters and adds them to the appropriate policy.
-        /// Must be overridden in derived classes.
+        /// 用于派生类实现增加参数信息到二级策略中的方法。
         /// </summary>
         /// <param name="context">The build context.</param>
         /// <param name="typeToBuild">The type being built.</param>
         /// <param name="idToBuild">The ID being built.</param>
         /// <param name="member">The member that's being reflected over.</param>
         /// <param name="parameters">The parameters used to satisfy the member call.</param>
-        protected abstract void AddParametersToPolicy(IBuilderContext context, Type typeToBuild, string idToBuild,
-            IReflectionMemberInfo<TMemberInfo> member, IEnumerable<IParameter> parameters);
+        protected abstract void AddParametersToPolicy(IBuilderContext context, Type typeToBuild, string idToBuild, IReflectionMemberInfo<TMemberInfo> member, IEnumerable<IParameter> parameters);
 
+        //从参数信息中生成参数
         private IEnumerable<IParameter> GenerateIParametersFromParameterInfos(ParameterInfo[] parameterInfos)
         {
             List<IParameter> result = new List<IParameter>();
@@ -72,7 +70,7 @@ namespace Microsoft.Practices.ObjectBuilder
 
             return result;
         }
-
+        //获取参数特性的方法
         private ParameterAttribute GetInjectionAttribute(ParameterInfo parameterInfo)
         {
             ParameterAttribute[] attributes = (ParameterAttribute[])parameterInfo.GetCustomAttributes(typeof(ParameterAttribute), true);
@@ -91,8 +89,7 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// Abstract method used to determine whether a member should be processed. Must be overridden
-        /// in derived classes.
+        /// 派生类决定一个成员是否需要处理
         /// </summary>
         /// <param name="member">The member being reflected over.</param>
         /// <returns>Returns true if the member should get injection; false otherwise.</returns>

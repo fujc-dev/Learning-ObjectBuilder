@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 实现 <see cref="IParameter"/> 直接持有用于参数的值
+    /// 实现 <see cref="IParameter"/> 保存直接被参数使用的值的参数 
     /// </summary>
     /// <typeparam name="TValue">参数值类型</typeparam>
     public class ValueParameter<TValue> : KnownTypeParameter

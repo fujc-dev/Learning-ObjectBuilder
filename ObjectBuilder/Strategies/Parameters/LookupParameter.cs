@@ -2,7 +2,7 @@
 // Microsoft patterns & practices
 // ObjectBuilder Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright ?Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -13,11 +13,10 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implementation of <see cref="IParameter"/> which looks up the parameter value
-	/// in the build context locator.
-	/// </summary>
-	public class LookupParameter : IParameter
+    /// <summary>
+    /// ÊµÏÖ <see cref="IParameter"/>£¬´Ó´´½¨Æ÷ÉÏÏÂÎÄÖ¸¶¨µÄ¶¨Î»Æ÷ÖÐ»ñÈ¡²ÎÊýÖµµÄ²ÎÊý
+    /// </summary>
+    public class LookupParameter : IParameter
 	{
 		private object key;
 

@@ -17,7 +17,7 @@ using System.Reflection;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 执行构造函数策略注入的策略
+    /// 构造器反射策略
     /// </summary>
     public class ConstructorReflectionStrategy : ReflectionStrategy<ConstructorInfo>
 	{

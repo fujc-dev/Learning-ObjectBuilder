@@ -13,11 +13,10 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implementation of <see cref="IParameter"/> which runs the entire build chain to
-	/// generate the parameter value.
-	/// </summary>
-	public class CreationParameter : KnownTypeParameter
+    /// <summary>
+    /// 实现 <see cref="IParameter"/> 从创建器上下文指定的定位器中获取参数值的参数
+    /// </summary>
+    public class CreationParameter : KnownTypeParameter
 	{
 		private string creationID;
 

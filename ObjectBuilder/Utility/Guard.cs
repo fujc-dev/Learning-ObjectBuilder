@@ -19,6 +19,7 @@ namespace Microsoft.Practices.ObjectBuilder
 {
 	internal static class Guard
 	{
+
 		public static void TypeIsAssignableFromType(Type assignee, Type providedType, Type classBeingBuilt)
 		{
 			if (!assignee.IsAssignableFrom(providedType))

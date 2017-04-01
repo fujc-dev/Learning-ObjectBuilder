@@ -16,18 +16,20 @@ namespace ObjectBuilder.SourceAnalysis
 
             ConstructorPolicy policy = new ConstructorPolicy();
             policy.AddParameter(new ValueParameter<int>(12));
-            //ITypeMappingPolicy _ = new TypeMappingPolicy(typeof(SimpleObject), null);
+            ITypeMappingPolicy _ = new TypeMappingPolicy(typeof(BuilderCodeTests), null);
+            
 
             builder.Policies.Set<ICreationPolicy>(policy, typeof(SimpleObject), null);  //
             //builder.Policies.Set<ITypeMappingPolicy>(_, typeof(SimpleObject), null);
+            builder.Policies.Set<ITypeMappingPolicy>(new TypeMappingPolicy(typeof(SimpleObject), null), typeof(SimpleObject), null);
 
-
-            SimpleObject _ = new SimpleObject(100);
+            SimpleObject __ = new SimpleObject(100);
             SimpleObject m1 = builder.BuildUp<SimpleObject>(locator, null, null);
-            SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, null, _);
-            SimpleObject m3 = builder.BuildUp<SimpleObject>(locator, null, "123");
+            SimpleObject m5 = builder.BuildUp<SimpleObject>(locator, null, null);
+            //SimpleObject m2 = builder.BuildUp<SimpleObject>(locator, null, __);
+            //SimpleObject m3 = builder.BuildUp<SimpleObject>(locator, null, "123");
 
-            Console.WriteLine(m2.IntParam);
+            //Console.WriteLine(m2.IntParam);
             //Assert.IsNotNull(m1);
             //Assert.IsNotNull(m2);
             //Assert.AreEqual(12, m1.IntParam);
@@ -171,8 +173,8 @@ namespace ObjectBuilder.SourceAnalysis
             builder.Policies.Set<ITypeMappingPolicy>(new TypeMappingPolicy(typeof(SimpleObject), null), typeof(ISimpleObject), null);
             Locator locator = CreateLocator();
 
-            ISimpleObject sm = builder.BuildUp<ISimpleObject>(locator, null, null);
-
+            ISimpleObject sm1 = builder.BuildUp<ISimpleObject>(locator, null, null);
+            ISimpleObject sm2 = builder.BuildUp<ISimpleObject>(locator, null, null);
             //Assert.IsNotNull(sm);
             //Assert.IsTrue(sm is SimpleObject);
         }
@@ -188,7 +190,7 @@ namespace ObjectBuilder.SourceAnalysis
 
             ISimpleObject sm1 = builder.BuildUp<ISimpleObject>(locator, null, null);
             ISimpleObject sm2 = builder.BuildUp<ISimpleObject>(locator, "sm2", null);
-
+            ISimpleObject sm3 = builder.BuildUp<ISimpleObject>(locator, "sm2", null);
             //Assert.IsNotNull(sm1);
             //Assert.IsNotNull(sm2);
             //Assert.IsTrue(sm1 is SimpleObject);
@@ -294,7 +296,7 @@ namespace ObjectBuilder.SourceAnalysis
         }
         static void Main(string[] args)
         {
-            CanCreateConcreteObjectByAskingForInterface();
+            CanCreateInstances();
         }
     }
 }

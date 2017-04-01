@@ -13,10 +13,10 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Parameter that performs value retrieval depending on dependency injection attributes.
-	/// </summary>
-	public class DependencyParameter : KnownTypeParameter
+    /// <summary>
+    /// 依靠依赖注入特性来获取值的参数
+    /// </summary>
+    public class DependencyParameter : KnownTypeParameter
 	{
 		private string name;
 		private Type createType;

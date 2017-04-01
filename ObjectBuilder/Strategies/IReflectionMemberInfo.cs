@@ -14,31 +14,31 @@ using System.Reflection;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Interface used by the <see cref="ReflectionStrategy{T}"/> base class to encapsulate the information required from members that use the strategy. This interface is required because direct access to the <see cref="MemberInfo"/> object may not give the desired results.
-	/// </summary>
-	public interface IReflectionMemberInfo<TMemberInfo>
-	{
-		/// <summary>
-		/// Gets the original member info object.
-		/// </summary>
-		TMemberInfo MemberInfo { get; }
+    /// <summary>
+    /// <see cref="IReflectionMemberInfo{TMemberInfo}"/> 类型的枚举集合
+    /// </summary>
+    public interface IReflectionMemberInfo<TMemberInfo>
+    {
+        /// <summary>
+        /// 原成员信息对象
+        /// </summary>
+        TMemberInfo MemberInfo { get; }
 
-		/// <summary>
-		/// Gets the name of the member.
-		/// </summary>
-		string Name { get; }
+        /// <summary>
+        /// 成员名称
+        /// </summary>
+        string Name { get; }
 
-		/// <summary>
-		/// Gets the custom attributes of the member.
-		/// </summary>
-		/// <returns></returns>
-		object[] GetCustomAttributes(Type attributeType, bool inherit);
+        /// <summary>
+        /// 成员的自定义特性
+        /// </summary>
+        /// <returns></returns>
+        object[] GetCustomAttributes(Type attributeType, bool inherit);
 
-		/// <summary>
-		/// Gets the parameters to be passed to the member.
-		/// </summary>
-		/// <returns></returns>
-		ParameterInfo[] GetParameters();
-	}
+        /// <summary>
+        /// 传递给成员的参数
+        /// </summary>
+        /// <returns></returns>
+        ParameterInfo[] GetParameters();
+    }
 }

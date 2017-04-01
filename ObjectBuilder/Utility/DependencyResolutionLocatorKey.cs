@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 表示一对类型和ID，依赖解析定位器的唯一标识，当前需要创建对象的类型和标记当前创建类型的唯一标识，
+    /// 两个对象如果它们类型和字符串标识一致，就认为是同一个对象，依赖解析定位器的唯一标识，当前需要创建对象的类型和标记当前创建类型的唯一标识，
     /// 存储器是对象主键和对象的序列集合，对象主键由对象的 Type 和 ID 构成，由<see cref="DependencyResolutionLocatorKey"/> 对象表示
     /// </summary>
     public sealed class DependencyResolutionLocatorKey
@@ -67,7 +67,7 @@ namespace Microsoft.Practices.ObjectBuilder
             if (other == null)
                 return false;
 
-            return (Equals(type, other.type) && Equals(id, other.id));
+            return (Equals(type, other.type) && Equals(id, other.id));//两个对象的类型相同并且id相等时，默认他们相等
         }
 
         /// <summary>

@@ -13,39 +13,30 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implementation of <see cref="IBuilderStrategy"/> which allows objects to be
-	/// singletons.
-	/// </summary>
-	/// <remarks>
-	/// This strategy looks for policies in the context registered under the interface type
-	/// <see cref="ISingletonPolicy"/>. It uses the locator in the build context to rememeber
-	/// singleton objects, and the lifetime container contained in the locator to ensure they
-	/// are not garbage collected. Upon the second request for an object, it will short-circuit
-	/// the strategy chain and return the singleton instance (and will not re-inject the
-	/// object).
-	/// </remarks>
-	public class SingletonStrategy : BuilderStrategy
-	{
-		/// <summary>
-		/// Implementation of <see cref="IBuilderStrategy.BuildUp"/>.
-		/// </summary>
-		/// <param name="context">The build context.</param>
-		/// <param name="typeToBuild">The type of the object being built.</param>
-		/// <param name="existing">The existing instance of the object.</param>
-		/// <param name="idToBuild">The ID of the object being built.</param>
-		/// <returns>The built object.</returns>
+    /// <summary>
+    /// 派生自 <see cref="IBuilderStrategy"/> ，单例策略所指的单例概念不同，单例策略在这里的作用是充当短路器，它查看当前的定位器中是否已经存在要创建的对象，如果有，它就把对象返回，否则它把控制权移交给下一个策略
+    /// </summary>
+    public class SingletonStrategy : BuilderStrategy
+    {
+        /// <summary>
+        /// 用于构建对象在责任链中调用
+        /// </summary>
+        /// <param name="context">操作上下文</param>
+        /// <param name="typeToBuild">需要创建的对象的类型</param>
+        /// <param name="existing">一般默认传null对象创建器会在生成链中创建一个新的对象实例，如果不为null则将运行生成链的现有对象</param>
+        /// <param name="idToBuild">需要创建的对象的唯一编号</param>
+        /// <returns>创建的对象</returns>
 		public override object BuildUp(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
-		{
-			DependencyResolutionLocatorKey key = new DependencyResolutionLocatorKey(typeToBuild, idToBuild);
+        {
+            DependencyResolutionLocatorKey key = new DependencyResolutionLocatorKey(typeToBuild, idToBuild);  //
 
-			if (context.Locator != null && context.Locator.Contains(key, SearchMode.Local))
-			{
-				TraceBuildUp(context, typeToBuild, idToBuild, "");
-				return context.Locator.Get(key);
-			}
+            if (context.Locator != null && context.Locator.Contains(key, SearchMode.Local)) //
+            {
+                TraceBuildUp(context, typeToBuild, idToBuild, "");
+                return context.Locator.Get(key);
+            }
 
-			return base.BuildUp(context, typeToBuild, existing, idToBuild);
-		}
-	}
+            return base.BuildUp(context, typeToBuild, existing, idToBuild);
+        }
+    }
 }

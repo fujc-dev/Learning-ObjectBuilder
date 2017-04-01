@@ -15,10 +15,10 @@ using System.Text;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implemented on a class when it wants to receive notifications about the build process.
-	/// </summary>
-	public interface IBuilderAware
+    /// <summary>
+    /// 任何实现了IBuiderAware接口的对象，在这个阶段会得到一个OnBuilltUp的事件通知。同时在对象被卸载的时候会得到OnTearingDown的通知。激活通知事件就是BuilderAwareStrategy的工作
+    /// </summary>
+    public interface IBuilderAware
 	{
 		/// <summary>
 		/// Called by the <see cref="BuilderAwareStrategy"/> when the object is being built up.
