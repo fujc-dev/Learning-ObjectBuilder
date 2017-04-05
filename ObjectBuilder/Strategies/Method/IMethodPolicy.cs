@@ -13,14 +13,14 @@ using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Represents a policy for <see cref="MethodExecutionStrategy"/>.
-	/// </summary>
-	public interface IMethodPolicy : IBuilderPolicy
+    /// <summary>
+    /// 方法执行政策
+    /// </summary>
+    public interface IMethodPolicy : IBuilderPolicy
 	{
-		/// <summary>
-		/// A collection of methods to be called on the object instance.
-		/// </summary>
-		Dictionary<string, IMethodCallInfo> Methods { get; }
+        /// <summary>
+        ///需要执行的方法集合
+        /// </summary>
+        Dictionary<string, IMethodCallInfo> Methods { get; }
 	}
 }

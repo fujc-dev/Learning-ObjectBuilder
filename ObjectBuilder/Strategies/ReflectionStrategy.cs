@@ -21,7 +21,7 @@ namespace Microsoft.Practices.ObjectBuilder
     public abstract class ReflectionStrategy<TMemberInfo> : BuilderStrategy
     {
         /// <summary>
-        /// 查找类型中实施了依赖注入特性的成员（属性或者构造器的参数）
+        /// 获取需要反射的成员信息
         /// </summary>
         /// <param name="context">对象创建上下文</param>
         /// <param name="typeToBuild">被创建的对象类型</param>
@@ -39,16 +39,18 @@ namespace Microsoft.Practices.ObjectBuilder
             {
                 if (MemberRequiresProcessing(member))
                 {
+                    //根据所有成员的成员信息，获取对应的IParameter集合
                     IEnumerable<IParameter> parameters = GenerateIParametersFromParameterInfos(member.GetParameters());
+                    //将解决的参数保存的策略中。
                     AddParametersToPolicy(context, typeToBuild, idToBuild, member, parameters);
                 }
             }
-
+            //调用下一个策略，由下一个策略获取解决的参数执行构建。
             return base.BuildUp(context, typeToBuild, existing, idToBuild);
         }
 
         /// <summary>
-        /// 用于派生类实现增加参数信息到二级策略中的方法。
+        /// 将属性和值序列插入到属性设置政策中
         /// </summary>
         /// <param name="context">The build context.</param>
         /// <param name="typeToBuild">The type being built.</param>
@@ -57,7 +59,7 @@ namespace Microsoft.Practices.ObjectBuilder
         /// <param name="parameters">The parameters used to satisfy the member call.</param>
         protected abstract void AddParametersToPolicy(IBuilderContext context, Type typeToBuild, string idToBuild, IReflectionMemberInfo<TMemberInfo> member, IEnumerable<IParameter> parameters);
 
-        //从参数信息中生成参数
+        //获取IParameter集合。获取每一个参数的特性，调用特性的CreateParameter方法获取参数值
         private IEnumerable<IParameter> GenerateIParametersFromParameterInfos(ParameterInfo[] parameterInfos)
         {
             List<IParameter> result = new List<IParameter>();
@@ -70,7 +72,7 @@ namespace Microsoft.Practices.ObjectBuilder
 
             return result;
         }
-        //获取参数特性的方法
+        //获取参数特性的方法，获取注入参数特性。默认是DependencyAttribute
         private ParameterAttribute GetInjectionAttribute(ParameterInfo parameterInfo)
         {
             ParameterAttribute[] attributes = (ParameterAttribute[])parameterInfo.GetCustomAttributes(typeof(ParameterAttribute), true);
@@ -89,7 +91,7 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// 派生类决定一个成员是否需要处理
+        /// 判断一个属性是否需要解决依赖注入
         /// </summary>
         /// <param name="member">The member being reflected over.</param>
         /// <returns>Returns true if the member should get injection; false otherwise.</returns>

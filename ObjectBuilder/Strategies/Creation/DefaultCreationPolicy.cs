@@ -21,7 +21,7 @@ namespace Microsoft.Practices.ObjectBuilder
     public class DefaultCreationPolicy : ICreationPolicy
     {
         /// <summary>
-        /// 选择用于创建对象的构造函数
+        /// 选择用于创建对象的构造函数，返回第一个构造器。
         /// </summary>
         /// <param name="context">策略执行上下文</param>
         /// <param name="typeToBuild">需要创建的对象的类型</param>
@@ -38,7 +38,7 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// 获取要传递给构造函数的参数值
+        /// 获取要传递给构造函数的参数值，为每一个参数构建对象，并返回。
         /// </summary>
         /// <param name="context">策略执行上下文</param>
         /// <param name="type">需要创建的对象的类型</param>

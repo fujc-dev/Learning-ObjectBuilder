@@ -27,6 +27,7 @@ namespace Microsoft.Practices.ObjectBuilder
         /// </summary>
         public override object BuildUp(IBuilderContext context, Type t, object existing, string id)
         {
+            //如果该对象事项IBuilderAware方法，则触发事件
             IBuilderAware awareObject = existing as IBuilderAware;
 
             if (awareObject != null)
@@ -43,6 +44,7 @@ namespace Microsoft.Practices.ObjectBuilder
         /// </summary>
         public override object TearDown(IBuilderContext context, object item)
         {
+            //如果该对象事项IBuilderAware方法，则触发事件
             IBuilderAware awareObject = item as IBuilderAware;
 
             if (awareObject != null)

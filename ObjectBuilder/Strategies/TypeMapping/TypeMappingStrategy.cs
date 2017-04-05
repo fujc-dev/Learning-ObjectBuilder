@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 派生自 <see cref="BuilderStrategy"/>，类型映射策略，首先构建的是存储器主键，
+    /// 派生自 <see cref="BuilderStrategy"/>，类型映射策略，首先构建的是存储器主键，类型映射策略，用于解决正确的依赖类型
     /// 即新建一个<see cref="DependencyResolutionLocatorKey"/>对象，
     /// 然后获取该对象对应的<see cref="ITypeMappingPolicy"/>政策方针(二级策略)，
     /// 调用该对象的Map方法，获取正确的类型、ID和主键，并将正确的类型传递给下一个策略(单例策略)。
@@ -45,6 +45,7 @@ namespace Microsoft.Practices.ObjectBuilder
                 //类型result.Type是否派生自t，或者本身result.Type与t是相同类型，满足这两个条件映射才有效，否则抛出异常
                 Guard.TypeIsAssignableFromType(t, result.Type, t);
             }
+            //将正确的类型传递给下一个策略执行构建。
             return base.BuildUp(context, result.Type, existing, result.ID);
         }
     }

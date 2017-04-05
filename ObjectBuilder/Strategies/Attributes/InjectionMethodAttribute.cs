@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 实施到一个被注入时必须调用的方法上面
+    /// 用于声明在 BuildUp 中必须调用的方法
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
 	public sealed class InjectionMethodAttribute : Attribute

@@ -16,70 +16,68 @@ using System.Globalization;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implementation of <see cref="IBuilderStrategy"/> which sets property values.
-	/// </summary>
-	/// <remarks>
-	/// This strategy looks for policies in the context registered under the interface type
-	/// <see cref="IPropertySetterPolicy"/>, and sets the property values. If no policy is
-	/// found, the no property values are set.
-	/// </remarks>
-	public class PropertySetterStrategy : BuilderStrategy
-	{
-		/// <summary>
-		/// Implementation of <see cref="IBuilderStrategy.BuildUp"/>. Sets the property values.
-		/// </summary>
-		/// <param name="context">The build context.</param>
-		/// <param name="typeToBuild">The type being built.</param>
-		/// <param name="existing">The object on which to inject property values.</param>
-		/// <param name="idToBuild">The ID of the object being built.</param>
-		/// <returns>The built object.</returns>
-		public override object BuildUp(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
-		{
-			if (existing != null)
-				InjectProperties(context, existing, idToBuild);
+    /// <summary>
+    /// 实现 <see cref="IBuilderStrategy"/> ，属性设置策略
+    /// </summary>
+    /// <remarks>
+    public class PropertySetterStrategy : BuilderStrategy
+    {
+        /// <summary>
+        /// 用于构建对象在责任链中调用
+        /// </summary>
+        /// <param name="context">操作上下文</param>
+        /// <param name="typeToBuild">需要创建的对象的类型</param>
+        /// <param name="existing">一般默认传null对象创建器会在生成链中创建一个新的对象实例，如果不为null则将运行生成链的现有对象</param>
+        /// <param name="idToBuild">需要创建的对象的唯一编号</param>
+        /// <returns>创建的对象</returns>
+        public override object BuildUp(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
+        {
+            if (existing != null)
+                InjectProperties(context, existing, idToBuild);
 
-			return base.BuildUp(context, typeToBuild, existing, idToBuild);
-		}
+            return base.BuildUp(context, typeToBuild, existing, idToBuild);
+        }
 
-		private void InjectProperties(IBuilderContext context, object obj, string id)
-		{
-			if (obj == null)
-				return;
+        private void InjectProperties(IBuilderContext context, object obj, string id)
+        {
+            if (obj == null)
+                return;
 
-			Type type = obj.GetType();
-			IPropertySetterPolicy policy = context.Policies.Get<IPropertySetterPolicy>(type, id);
+            Type type = obj.GetType();
+            //获取设置政策
+            IPropertySetterPolicy policy = context.Policies.Get<IPropertySetterPolicy>(type, id);
+            //不需要解决依赖
+            if (policy == null)
+                return;
+            //为每一个属性解决依赖
+            foreach (IPropertySetterInfo propSetterInfo in policy.Properties.Values)
+            {
+                //获取属性信息
+                PropertyInfo propInfo = propSetterInfo.SelectProperty(context, type, id);
 
-			if (policy == null)
-				return;
+                if (propInfo != null)
+                {
+                    if (propInfo.CanWrite)
+                    {
+                        object value = propSetterInfo.GetValue(context, type, id, propInfo);
 
-			foreach (IPropertySetterInfo propSetterInfo in policy.Properties.Values)
-			{
-				PropertyInfo propInfo = propSetterInfo.SelectProperty(context, type, id);
+                        if (value != null)
+                            Guard.TypeIsAssignableFromType(propInfo.PropertyType, value.GetType(), obj.GetType());
 
-				if (propInfo != null)
-				{
-					if (propInfo.CanWrite)
-					{
-						object value = propSetterInfo.GetValue(context, type, id, propInfo);
-
-						if( value != null )
-							Guard.TypeIsAssignableFromType(propInfo.PropertyType, value.GetType(), obj.GetType());
-
-						if (TraceEnabled(context))
-							TraceBuildUp(context, type, id, Properties.Resources.CallingProperty, propInfo.Name, propInfo.PropertyType.Name);
-
-						propInfo.SetValue(obj, value, null);
-					}
-					else
-					{
-						throw new ArgumentException(String.Format(
-							CultureInfo.CurrentCulture,
-							Properties.Resources.CannotInjectReadOnlyProperty,
-							type, propInfo.Name));
-					}
-				}
-			}
-		}
-	}
+                        if (TraceEnabled(context))
+                            TraceBuildUp(context, type, id, Properties.Resources.CallingProperty, propInfo.Name, propInfo.PropertyType.Name);
+                        //设置属性值。
+                        propInfo.SetValue(obj, value, null);
+                    }
+                    else
+                    {
+                        throw new ArgumentException(String.Format(
+                            CultureInfo.CurrentCulture,
+                            Properties.Resources.CannotInjectReadOnlyProperty,
+                            type, propInfo.Name));
+                    }
+                }
+            }
+        }
+    }
 }

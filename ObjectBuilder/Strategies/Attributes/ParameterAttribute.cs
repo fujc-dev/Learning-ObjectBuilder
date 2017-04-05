@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 属性表示的依赖注入的成员，其值在编译时将由 <see cref="IParameter"/> 返回属性 <see cref="ParameterAttribute.CreateParameter"/> 工厂方法.
+    /// 属性表示的依赖注入的成员，其值在编译时将由 <see cref="IParameter"/> 返回属性 <see cref="ParameterAttribute.CreateParameter"/> 工厂方法，声明一个参数需要解决依赖。
     /// </summary>
     public abstract class ParameterAttribute : Attribute
     {

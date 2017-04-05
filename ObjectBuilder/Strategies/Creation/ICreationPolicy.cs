@@ -15,7 +15,7 @@ using System.Reflection;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 二级策略的构建策略，创建一个对象的二级策略 <see cref="CreationStrategy"/>.
+    /// 创建型政策，二级策略的构建策略，创建一个对象的二级策略 <see cref="CreationStrategy"/>，
     /// </summary>
     public interface ICreationPolicy : IBuilderPolicy
     {

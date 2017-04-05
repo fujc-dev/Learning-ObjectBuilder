@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 实现 <see cref="ITypeMappingPolicy"/>
+    /// 实现 <see cref="ITypeMappingPolicy"/>，默认映射策略，直接返回 Type/ID
     /// </summary>
     public class TypeMappingPolicy : ITypeMappingPolicy
     {

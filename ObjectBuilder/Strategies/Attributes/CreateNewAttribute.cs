@@ -14,17 +14,19 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 用于属性和构造函数参数，以描述依赖注入系统何时应创建所请求对象的新实例
+    /// 声明一个参数总是新建实例
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
-	public sealed class CreateNewAttribute : ParameterAttribute
-	{
-		/// <summary>
-		/// See <see cref="ParameterAttribute.CreateParameter"/> for more information.
-		/// </summary>
-		public override IParameter CreateParameter(Type annotatedMemberType)
-		{
-			return new CreationParameter(annotatedMemberType, Guid.NewGuid().ToString());
-		}
-	}
+    public sealed class CreateNewAttribute : ParameterAttribute
+    {
+        /// <summary>
+        /// 创建一个参数用于各种 <see cref="IBuilderPolicy"/> 实现可以处理 <see cref="IParameter"/>
+        /// </summary>
+        /// <param name="annotatedMemberType">成员的类型，如属性或构造函数参数</param>
+        /// <returns>依赖项的值的参数实例</returns>
+        public override IParameter CreateParameter(Type annotatedMemberType)
+        {
+            return new CreationParameter(annotatedMemberType, Guid.NewGuid().ToString());
+        }
+    }
 }

@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 当存在多个构造器时，用下面的特性表示被注入使用的构造器
+    /// 当存在多个构造器时，用下面的特性表示被注入使用的构造器，指定默认的注入构造器
     /// </summary>
     [AttributeUsage(AttributeTargets.Constructor)]
 	public class InjectionConstructorAttribute : Attribute

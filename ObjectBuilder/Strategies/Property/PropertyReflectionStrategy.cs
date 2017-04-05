@@ -17,12 +17,12 @@ using System.Reflection;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 属性反射策略
+    /// 描述需要解决依赖注入的属性
     /// </summary>
     public class PropertyReflectionStrategy : ReflectionStrategy<PropertyInfo>
     {
         /// <summary>
-        /// See <see cref="ReflectionStrategy{T}.GetMembers"/> for more information.
+        /// 在 <see cref="ReflectionStrategy{T}.GetMembers"/> 中查看更多，获取所有的属性信息。
         /// </summary>
         protected override IEnumerable<IReflectionMemberInfo<PropertyInfo>> GetMembers(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
         {
@@ -31,31 +31,40 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// See <see cref="ReflectionStrategy{T}.AddParametersToPolicy"/> for more information.
+        /// 将属性和值序列插入到属性设置政策中
         /// </summary>
         protected override void AddParametersToPolicy(IBuilderContext context, Type typeToBuild, string idToBuild, IReflectionMemberInfo<PropertyInfo> member, IEnumerable<IParameter> parameters)
         {
+            //获取政策
             PropertySetterPolicy result = context.Policies.Get<IPropertySetterPolicy>(typeToBuild, idToBuild) as PropertySetterPolicy;
 
+            //若不存在，则新建一个。
             if (result == null)
             {
                 result = new PropertySetterPolicy();
                 context.Policies.Set<IPropertySetterPolicy>(result, typeToBuild, idToBuild);
             }
-
+            //将每一个属性和值序列添加到政策中。
             foreach (IParameter parameter in parameters)
+            {
                 if (!result.Properties.ContainsKey(member.Name))
+                {
                     result.Properties.Add(member.Name, new PropertySetterInfo(member.MemberInfo, parameter));
+                }
+            }
         }
 
         /// <summary>
-        /// See <see cref="ReflectionStrategy{T}.MemberRequiresProcessing"/> for more information.
+        /// 判断一个属性是否需要解决依赖注入
         /// </summary>
         protected override bool MemberRequiresProcessing(IReflectionMemberInfo<PropertyInfo> member)
         {
             return (member.GetCustomAttributes(typeof(ParameterAttribute), true).Length > 0);
         }
 
+        /// <summary>
+        /// 内联类，属性反射信息
+        /// </summary>
         private class PropertyReflectionMemberInfo : IReflectionMemberInfo<PropertyInfo>
         {
             PropertyInfo prop;
@@ -86,6 +95,10 @@ namespace Microsoft.Practices.ObjectBuilder
             }
         }
 
+
+        /// <summary>
+        /// 内联类，自定义属性参数信息
+        /// </summary>
         private class CustomPropertyParameterInfo : ParameterInfo
         {
             PropertyInfo prop;

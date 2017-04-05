@@ -13,37 +13,34 @@ using System;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// Implementation of <see cref="IParameter"/> which clones the provided value through
-	/// ICloneable. If the value does not implement ICloneable, then the original value
-	/// is returned instead.
-	/// </summary>
-	public class CloneParameter : IParameter
+    /// <summary>
+    /// 实现 <see cref="IParameter"/> 另一参数的克隆的参数
+    /// </summary>
+    public class CloneParameter : IParameter
 	{
 		private IParameter param;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CloneParameter"/> class using the
-		/// provided parameter to be cloned.
-		/// </summary>
-		/// <param name="param">The parameter to be cloned.</param>
-		public CloneParameter(IParameter param)
+        /// <summary>
+        /// 实例化 <see cref="CloneParameter"/> 类
+        /// </summary>
+        /// <param name="param">要克隆的参数.</param>
+        public CloneParameter(IParameter param)
 		{
 			this.param = param;
 		}
 
 		/// <summary>
-		/// See <see cref="IParameter.GetParameterType"/> for more information.
+		/// 在 <see cref="IParameter.GetParameterType"/> 中查看更多
 		/// </summary>
 		public Type GetParameterType(IBuilderContext context)
 		{
 			return param.GetParameterType(context);
 		}
 
-		/// <summary>
-		/// See <see cref="IParameter.GetValue"/> for more information.
-		/// </summary>
-		public object GetValue(IBuilderContext context)
+        /// <summary>
+        /// 在 <see cref="IParameter.GetValue"/> 中查看更多
+        /// </summary>
+        public object GetValue(IBuilderContext context)
 		{
 			object val = param.GetValue(context);
 

@@ -12,19 +12,19 @@
 using System.Collections.Generic;
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// An implementation of <see cref="IMethodPolicy"/>.
-	/// </summary>
-	public class MethodPolicy : IMethodPolicy
-	{
-		private Dictionary<string, IMethodCallInfo> methods = new Dictionary<string, IMethodCallInfo>();
+    /// <summary>
+    /// 实现 <see cref="IMethodPolicy"/>.
+    /// </summary>
+    public class MethodPolicy : IMethodPolicy
+    {
+        private Dictionary<string, IMethodCallInfo> methods = new Dictionary<string, IMethodCallInfo>();
 
-		/// <summary>
-		/// See <see cref="IMethodPolicy.Methods"/> for more information.
-		/// </summary>
-		public Dictionary<string, IMethodCallInfo> Methods
-		{
-			get { return methods; }
-		}
-	}
+        /// <summary>
+        /// 需要执行的方法集合
+        /// </summary>
+        public Dictionary<string, IMethodCallInfo> Methods
+        {
+            get { return methods; }
+        }
+    }
 }

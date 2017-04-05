@@ -14,16 +14,16 @@ using System.Collections.Generic;
 namespace Microsoft.Practices.ObjectBuilder
 {
 	/// <summary>
-	/// Implementation of <see cref="IPropertySetterPolicy"/>.
+	/// 实现 <see cref="IPropertySetterPolicy"/>.
 	/// </summary>
 	public class PropertySetterPolicy : IPropertySetterPolicy
 	{
 		private Dictionary<string, IPropertySetterInfo> properties = new Dictionary<string, IPropertySetterInfo>();
 
-		/// <summary>
-		/// See <see cref="IPropertySetterPolicy.Properties"/> for more information.
-		/// </summary>
-		public Dictionary<string, IPropertySetterInfo> Properties
+        /// <summary>
+        /// 获取存储需要设置的属性和值
+        /// </summary>
+        public Dictionary<string, IPropertySetterInfo> Properties
 		{
 			get { return properties; }
 		}

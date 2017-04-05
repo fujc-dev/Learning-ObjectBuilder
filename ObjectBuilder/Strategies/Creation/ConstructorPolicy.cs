@@ -61,7 +61,7 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// 反射的形式创建对象的构造函数ConstructorInfo，对象
+        /// 反射的形式创建对象的构造函数ConstructorInfo对象
         /// </summary>
         /// <param name="context">策略执行上下文</param>
         /// <param name="type">需要创建的对象的类型</param>
@@ -69,6 +69,7 @@ namespace Microsoft.Practices.ObjectBuilder
         /// <returns>要使用的构造函数；如果找不到合适的构造函数，则返回null</returns>
         public ConstructorInfo SelectConstructor(IBuilderContext context, Type type, string id)
         {
+            //如果已经指定构造器，则直接返回，否则查找与指定参数匹配的构造器。
             if (constructor != null)
             {
                 return constructor;

@@ -21,7 +21,7 @@ namespace Microsoft.Practices.ObjectBuilder
     public class MethodReflectionStrategy : ReflectionStrategy<MethodInfo>
     {
         /// <summary>
-        /// See <see cref="ReflectionStrategy{T}.GetMembers"/> for more information.
+        /// 获取所有方法信息。
         /// </summary>
         protected override IEnumerable<IReflectionMemberInfo<MethodInfo>> GetMembers(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
         {
@@ -30,10 +30,11 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// See <see cref="ReflectionStrategy{T}.AddParametersToPolicy"/> for more information.
+        /// 将方法信息和参数值集合序列添加到方法执行政策中。
         /// </summary>
         protected override void AddParametersToPolicy(IBuilderContext context, Type typeToBuild, string idToBuild, IReflectionMemberInfo<MethodInfo> member, IEnumerable<IParameter> parameters)
         {
+            //获取方法政策。
             MethodPolicy result = context.Policies.Get<IMethodPolicy>(typeToBuild, idToBuild) as MethodPolicy;
 
             if (result == null)
@@ -46,7 +47,7 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// See <see cref="ReflectionStrategy{T}.MemberRequiresProcessing"/> for more information.
+        /// 在 <see cref="ReflectionStrategy{T}.MemberRequiresProcessing"/> 中查看更多，//该方法是否需要执行处理。
         /// </summary>
         protected override bool MemberRequiresProcessing(IReflectionMemberInfo<MethodInfo> member)
         {
