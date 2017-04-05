@@ -18,6 +18,7 @@ namespace Microsoft.Practices.ObjectBuilder
 	{
         /// <summary>
         /// 这个阶段的策略在创造之前运行。在此阶段所做的典型工作可能包括使用反射将策略设置到其他策略稍后使用的上下文中的策略。
+        /// 
         /// </summary>
         PreCreation,
 

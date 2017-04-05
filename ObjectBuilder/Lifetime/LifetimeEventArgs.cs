@@ -15,29 +15,28 @@ using System.Text;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
-	/// <summary>
-	/// The event data sent for the events of <see cref="ILifetimeContainer"/>.
-	/// </summary>
-	public class LifetimeEventArgs : EventArgs
-	{
-		private object item;
+    /// <summary>
+    /// 事件数据发送事件<see cref="ILifetimeContainer"/>.
+    /// </summary>
+    public class LifetimeEventArgs : EventArgs
+    {
+        private object item;
 
-		/// <summary>
-		/// The item that the event it about.
-		/// </summary>
-		public object Item
-		{
-			get { return item; }
-		}
+        /// <summary>
+        ///  生命周期内实例
+        /// </summary>
+        public object Item
+        {
+            get { return item; }
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="LifetimeEventArgs"/> class using
-		/// the provided item.
-		/// </summary>
-		/// <param name="item">The item.</param>
-		public LifetimeEventArgs(object item)
-		{
-			this.item = item;
-		}
-	}
+        /// <summary>
+        /// 实例化 <see cref="LifetimeEventArgs"/> 类
+        /// </summary>
+        /// <param name="item">生命周期内实例</param>
+        public LifetimeEventArgs(object item)
+        {
+            this.item = item;
+        }
+    }
 }

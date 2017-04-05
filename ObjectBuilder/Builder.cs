@@ -14,7 +14,8 @@ namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
     /// 派生自 <see cref="IBuilder{TStageEnum}"/> 使用 <see cref="BuilderStage"/>
-    /// 作为构建对象的策略，其中包含了所有默认的ObjectBuidler策略
+    /// 作为构建对象的策略，其中包含了所有默认的ObjectBuidler策略，默认的对象构建器，
+    /// 将对象的构建划分成 4 个阶段： PreCreation、 Creation、Initialization 和 PostInitialization，每一个阶段有对应的创建策略。
     /// </summary>
     public class Builder : BuilderBase<BuilderStage>
     {

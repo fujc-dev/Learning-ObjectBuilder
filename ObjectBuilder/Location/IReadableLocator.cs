@@ -21,7 +21,7 @@ namespace Microsoft.Practices.ObjectBuilder
     /// <see cref="IReadableLocator"/>基本上具备了定位器的大部分功能。
     /// </summary>
     /// <remarks>
-    /// <para>定位器是一个字典的键值，但它保持值与弱引用，所以定位一个对象不保持它活着。如果你想保持对象活着，你应该考虑使用<see cref="ILifetimeContainer"/>.</para>
+    /// <para>只读存储器、定位器，定位器是一个字典的键值，但它保持值与弱引用，所以定位一个对象不保持它活着。如果你想保持对象活着，你应该考虑使用<see cref="ILifetimeContainer"/>.</para>
     /// </remarks>
     public interface IReadableLocator : IEnumerable<KeyValuePair<object, object>>
     {

@@ -15,7 +15,8 @@ using System.Collections.Generic;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 自定义 <see cref="IBuilderPolicy"/> 集合对象，用于存储ObjectBuilder对象创建框架中二级策略
+    /// 自定义 <see cref="IBuilderPolicy"/> 集合对象，用于存储ObjectBuilder对象创建框架中二级策略，
+    /// 政策列表，由政策主键和政策序列组成，政策主键是政策类型包含政策实例的类型以及ID。
     /// </summary>
     public class PolicyList
     {

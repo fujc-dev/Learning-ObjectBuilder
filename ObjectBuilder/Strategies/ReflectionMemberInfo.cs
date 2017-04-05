@@ -15,7 +15,7 @@ using System.Reflection;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 实现 <see cref="IReflectionMemberInfo{T}"/> 
+    /// 实现 <see cref="IReflectionMemberInfo{T}"/> ，默认反射成员，反射的信息类型必须是ConstructorInfo或者MethodInfo。
     /// </summary>
     /// <typeparam name="TMemberInfo"></typeparam>
     public class ReflectionMemberInfo<TMemberInfo> : IReflectionMemberInfo<TMemberInfo>
@@ -26,7 +26,7 @@ namespace Microsoft.Practices.ObjectBuilder
         /// <summary>
         /// 实例化 <see cref="ReflectionMemberInfo{T}"/> 类.
         /// </summary>
-        /// <param name="memberInfo">The member used to satisfy the interface calls.</param>
+        /// <param name="memberInfo">反射的信息类型，反射的信息类型必须是ConstructorInfo或者MethodInfo</param>
         public ReflectionMemberInfo(TMemberInfo memberInfo)
         {
             this.memberInfo = memberInfo;

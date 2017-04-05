@@ -9,13 +9,18 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 一个保存弱引用对象的字典结构，表示将值存储为弱引用而不是强引用的字典，支持空值
+    /// 一个保存弱引用对象的字典结构，表示将值存储为弱引用而不是强引用的字典，支持空值，
+    /// 弱引用<see cref="IDictionary"/>，不管理对象生命周期，由对象Key和WeakReference组成，
+    /// 当添加一对值到<see cref="IDictionary"/>字典后，它仅存储该对象的弱引用，当前对象不与字典发生关联，
+    /// 当其他对象不使用这个对象后，GC会对其进行收集，<see cref="WeakRefDictionary{TKey, TValue}"/>向开发人员屏蔽了弱引用操作，使我们可以像普通字典一样使用它。
     /// </summary>
     /// <typeparam name="TKey">键类型</typeparam>
     /// <typeparam name="TValue">值类型</typeparam>

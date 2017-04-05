@@ -15,14 +15,14 @@ using System.Reflection;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// <see cref="IReflectionMemberInfo{TMemberInfo}"/> 类型的枚举集合
+    /// <see cref="IReflectionMemberInfo{TInfo}"/> 类型的枚举集合
     /// </summary>
-    public interface IReflectionMemberInfo<TMemberInfo>
+    public interface IReflectionMemberInfo<TInfo>
     {
         /// <summary>
-        /// 原成员信息对象
+        /// 成员的信息，如 MethodInfo， ContructorInfo 等
         /// </summary>
-        TMemberInfo MemberInfo { get; }
+        TInfo MemberInfo { get; }
 
         /// <summary>
         /// 成员名称
@@ -30,13 +30,13 @@ namespace Microsoft.Practices.ObjectBuilder
         string Name { get; }
 
         /// <summary>
-        /// 成员的自定义特性
+        /// 搜索成员指定的自定义属性
         /// </summary>
         /// <returns></returns>
         object[] GetCustomAttributes(Type attributeType, bool inherit);
 
         /// <summary>
-        /// 传递给成员的参数
+        /// 获取传递给成员的参数
         /// </summary>
         /// <returns></returns>
         ParameterInfo[] GetParameters();

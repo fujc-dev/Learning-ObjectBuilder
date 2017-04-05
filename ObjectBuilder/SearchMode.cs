@@ -17,12 +17,12 @@ namespace Microsoft.Practices.ObjectBuilder
     public enum SearchMode
 	{
         /// <summary>
-        /// 向上回溯搜索
+        /// 向上回溯，在本地存储器搜索，若不存在，则向父存储器搜索。
         /// </summary>
         Up,
 
         /// <summary>
-        /// 只查询当前位置
+        /// 在本地存储器搜索对象。
         /// </summary>
         Local
     }

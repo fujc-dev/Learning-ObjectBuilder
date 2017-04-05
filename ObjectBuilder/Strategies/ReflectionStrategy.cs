@@ -25,9 +25,9 @@ namespace Microsoft.Practices.ObjectBuilder
         /// </summary>
         /// <param name="context">对象创建上下文</param>
         /// <param name="typeToBuild">被创建的对象类型</param>
-        /// <param name="existing">Existing object being built, if available.</param>
-        /// <param name="idToBuild">The ID being built.</param>
-        /// <returns>An enumerable wrapper around the IReflectionMemberInfo{T} interfaces that represent the members to be inspected for reflection.</returns>
+        /// <param name="existing">已存在的对象，如果是null，则将在CreationStrategy创建。</param>
+        /// <param name="idToBuild">需要创建的对象的唯一编号</param>
+        /// <returns></returns>
         protected abstract IEnumerable<IReflectionMemberInfo<TMemberInfo>> GetMembers(IBuilderContext context, Type typeToBuild, object existing, string idToBuild);
 
         /// <summary>

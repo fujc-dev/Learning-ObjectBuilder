@@ -22,7 +22,7 @@ namespace Microsoft.Practices.ObjectBuilder
         private IReadableLocator innerLocator;
 
         /// <summary>
-        /// 构造函数，创建一个只读的定位器
+        /// 构造函数，创建一个只读存储器，并指定一个可读的存储器
         /// </summary>
         /// <param name="innerLocator">默认定位器</param>
         public ReadOnlyLocator(IReadableLocator innerLocator)

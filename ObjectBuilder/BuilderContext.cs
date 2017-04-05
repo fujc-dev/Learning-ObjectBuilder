@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 实现 <see cref="IBuilderContext"/>的类，<see cref="BuilderContext"/> 类作为创建过程的信息载体，它包含了一个策略链表，一个策略使用的方针表以及一个用来保存创建对象的定位器
+    /// 实现 <see cref="IBuilderContext"/>的类，<see cref="BuilderContext"/> 类，默认的构建上下文。存储了策略链，存储器和政策，作为创建过程的信息载体，它包含了一个策略链表，一个策略使用的方针表以及一个用来保存创建对象的定位器
     /// </summary>
     public class BuilderContext : IBuilderContext
     {
@@ -32,7 +32,7 @@ namespace Microsoft.Practices.ObjectBuilder
         private PolicyList policies;
 
         /// <summary>
-        /// 实例化<see cref="BuilderContext"/> 类
+        /// 禁止使用默认构造函数初始化，实例化<see cref="BuilderContext"/> 类
         /// </summary>
         protected BuilderContext()
         {

@@ -14,7 +14,10 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 派生自 <see cref="IBuilderStrategy"/> 重新映射类型和ID
+    /// 派生自 <see cref="BuilderStrategy"/>，类型映射策略，首先构建的是存储器主键，
+    /// 即新建一个<see cref="DependencyResolutionLocatorKey"/>对象，
+    /// 然后获取该对象对应的<see cref="ITypeMappingPolicy"/>政策方针(二级策略)，
+    /// 调用该对象的Map方法，获取正确的类型、ID和主键，并将正确的类型传递给下一个策略(单例策略)。
     /// </summary>
     public class TypeMappingStrategy : BuilderStrategy
     {

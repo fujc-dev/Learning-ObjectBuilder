@@ -14,7 +14,7 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 对象创建框架的主接口
+    /// 对象构建器，对象创建框架的主接口
     /// </summary>
     /// <typeparam name="TStageEnum">ObjectBuilder创建对象实例的策略的执行顺序</typeparam>
     public interface IBuilder<TStageEnum>
@@ -36,8 +36,8 @@ namespace Microsoft.Practices.ObjectBuilder
         /// <param name="locator">生成对象的定位器，当对象已存在时直接在定位器中获取</param>
         /// <param name="typeToBuild">需要创建的对象的类型</param>
         /// <param name="idToBuild">需要创建的对象的唯一编号</param>
-        /// <param name="existing">一般默认传null对象创建器会在生成链中创建一个新的对象实例，如果不为null则将运行生成链的现有对象</param>
-        /// <param name="transientPolicies">应用于此构建的临时策略，这些政策优先于建造者所制定的任何永久性政策</param>
+        /// <param name="existing">已存在的对象，如果是null，则将在CreationStrategy创建。</param>
+        /// <param name="transientPolicies">临时构建对象政策</param>
         /// <returns>创建的对象</returns>
         object BuildUp(IReadWriteLocator locator, Type typeToBuild, string idToBuild, object existing, params PolicyList[] transientPolicies);
 
@@ -48,8 +48,8 @@ namespace Microsoft.Practices.ObjectBuilder
         /// <typeparam name="TTypeToBuild">对象创建的泛型类型，需要创建的对象的类型</typeparam>
         /// <param name="locator">生成对象的定位器，当对象已存在时直接在定位器中获取</param>
         /// <param name="idToBuild">需要创建的对象的唯一编号</param>
-        /// <param name="existing">一般默认传null对象创建器会在生成链中创建一个新的对象实例，如果不为null则将运行生成链的现有对象</param>
-        /// <param name="transientPolicies">应用于此构建的临时策略，这些政策优先于建造者所制定的任何永久性政策</param>
+        /// <param name="existing">已存在的对象，如果是null，则将在CreationStrategy创建。</param>
+        /// <param name="transientPolicies">临时构建对象政策</param>
         /// <returns>创建的对象</returns>
         TTypeToBuild BuildUp<TTypeToBuild>(IReadWriteLocator locator, string idToBuild, object existing, params PolicyList[] transientPolicies);
 

@@ -14,7 +14,8 @@ using System;
 namespace Microsoft.Practices.ObjectBuilder
 {
     /// <summary>
-    /// 表示生成器二级策略(Pllicy)注册所必需的信息。策略由接口策略类型、策略实例和策略唯一标识
+    /// 政策方针(二级策略)的Key，由政策接口类型、政策实例和ID构成
+    /// 表示生成器二级策略(Pllicy)注册所必需的信息。政策由接口政策类型、政策实例和政策唯一标识
     /// </summary>
     public struct BuilderPolicyKey
     {

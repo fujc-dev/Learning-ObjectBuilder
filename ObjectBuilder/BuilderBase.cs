@@ -21,7 +21,7 @@ namespace Microsoft.Practices.ObjectBuilder
     public class BuilderBase<TStageEnum> : IBuilder<TStageEnum>
     {
         /// <summary>
-        /// 创建对象时所需要的一系列围绕创建对象时所需要的附加策略信息
+        /// 创建对象时所需要的一系列围绕创建对象时所需要的附加策略信息，所有的政策方针
         /// </summary>
         private PolicyList policies = new PolicyList();
         /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.Practices.ObjectBuilder
         /// </summary>
         private StrategyList<TStageEnum> strategies = new StrategyList<TStageEnum>();
         /// <summary>
-        /// 
+        /// 存储器的锁集合，即存储器对象和锁映射对。
         /// </summary>
         private Dictionary<object, object> lockObjects = new Dictionary<object, object>();
 
@@ -80,6 +80,7 @@ namespace Microsoft.Practices.ObjectBuilder
         {
             if (locator != null)
             {
+                //获取存储器的锁，并锁定
                 lock (GetLock(locator))
                 {
                     return DoBuildUp(locator, typeToBuild, idToBuild, existing, transientPolicies);
@@ -91,13 +92,14 @@ namespace Microsoft.Practices.ObjectBuilder
             }
 
         }
-
+        //执行构建。获取构建策略链，构建上下文，利用策略链头构建对象。
         private object DoBuildUp(IReadWriteLocator locator, Type typeToBuild, string idToBuild, object existing, PolicyList[] transientPolicies)
         {
+            ////将策略列表构建成一个策略链条。
             IBuilderStrategyChain chain = strategies.MakeStrategyChain();  //获取责任链中所有的策略后
-
+            //检查策略链构建是否成功。
             ThrowIfNoStrategiesInChain(chain); //检测当前策略责任链中是否包含策略，不包含就抛出一个异常
-
+            //创建构建上下文。将临时政策与构建器政策整合。
             IBuilderContext context = MakeContext(chain, locator, transientPolicies);
 
             IBuilderTracePolicy trace = context.Policies.Get<IBuilderTracePolicy>(null, null);
@@ -105,6 +107,7 @@ namespace Microsoft.Practices.ObjectBuilder
             if (trace != null) trace.Trace(Properties.Resources.BuildUpStarting, typeToBuild, idToBuild ?? "(null)");
             //获取一级策略集合中的索引为0的策略执行，取第一个策略进行执行
             object result = null;
+            //开始构建对象，从此处开始会将策略链上所有的策略都执行一遍，除非单例策略
             if (chain.Head != null) //默认是不会出现Head为null的情况，因为初始化时框架会初始化一些默认的策略
             {
                 result = chain.Head.BuildUp(context, typeToBuild, existing, idToBuild);  //执行对象创建，
@@ -160,6 +163,7 @@ namespace Microsoft.Practices.ObjectBuilder
 
         private TItem DoTearDown<TItem>(IReadWriteLocator locator, TItem item)
         {
+            //构建反转策略链。
             IBuilderStrategyChain chain = strategies.MakeReverseStrategyChain();
             ThrowIfNoStrategiesInChain(chain);
 
@@ -169,7 +173,7 @@ namespace Microsoft.Practices.ObjectBuilder
 
             if (trace != null)
                 trace.Trace(Properties.Resources.TearDownStarting, type);
-
+            //执行清理。
             TItem result = (TItem)chain.Head.TearDown(context, item);
 
             if (trace != null)
@@ -177,7 +181,7 @@ namespace Microsoft.Practices.ObjectBuilder
 
             return result;
         }
-
+        //获取存储器的锁。
         private object GetLock(object locator)
         {
             lock (lockObjects)
