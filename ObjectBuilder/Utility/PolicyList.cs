@@ -146,14 +146,15 @@ namespace Microsoft.Practices.ObjectBuilder
             lock (lockObject)
             {
                 IBuilderPolicy policy;
-
                 if (policies.TryGetValue(key, out policy))
+                {
                     return policy;
-
+                }
                 BuilderPolicyKey defaultKey = new BuilderPolicyKey(policyInterface, null, null);
                 if (policies.TryGetValue(defaultKey, out policy))
+                {
                     return policy;
-
+                }
                 return null;
             }
         }

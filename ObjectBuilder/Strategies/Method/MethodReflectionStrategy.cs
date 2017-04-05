@@ -26,7 +26,9 @@ namespace Microsoft.Practices.ObjectBuilder
         protected override IEnumerable<IReflectionMemberInfo<MethodInfo>> GetMembers(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
         {
             foreach (MethodInfo method in typeToBuild.GetMethods())
+            {
                 yield return new ReflectionMemberInfo<MethodInfo>(method);
+            }
         }
 
         /// <summary>

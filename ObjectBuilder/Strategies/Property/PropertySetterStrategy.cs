@@ -19,7 +19,6 @@ namespace Microsoft.Practices.ObjectBuilder
     /// <summary>
     /// 实现 <see cref="IBuilderStrategy"/> ，属性设置策略
     /// </summary>
-    /// <remarks>
     public class PropertySetterStrategy : BuilderStrategy
     {
         /// <summary>

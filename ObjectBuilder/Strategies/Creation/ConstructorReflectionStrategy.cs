@@ -66,10 +66,8 @@ namespace Microsoft.Practices.ObjectBuilder
                 {
                     result.Add(new ReflectionMemberInfo<ConstructorInfo>(injectionCtor));
                 }
-
             }
-
-            return result;
+            return result; //这里只是返回总数为1的构造函数ConstructorInfo
         }
 
         /// <summary>
@@ -86,7 +84,7 @@ namespace Microsoft.Practices.ObjectBuilder
         }
 
         /// <summary>
-        /// 在 <see cref="ReflectionStrategy{T}.MemberRequiresProcessing"/> 中查看更多，只有一个，直接返回true
+        /// 在 <see cref="ReflectionStrategy{T}.MemberRequiresProcessing"/> 中查看更多，因为构造只有一个，直接返回true
         /// </summary>
         protected override bool MemberRequiresProcessing(IReflectionMemberInfo<ConstructorInfo> member)
         {

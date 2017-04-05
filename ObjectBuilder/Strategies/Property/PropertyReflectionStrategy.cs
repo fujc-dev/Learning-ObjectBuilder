@@ -27,7 +27,9 @@ namespace Microsoft.Practices.ObjectBuilder
         protected override IEnumerable<IReflectionMemberInfo<PropertyInfo>> GetMembers(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
         {
             foreach (PropertyInfo propInfo in typeToBuild.GetProperties())
+            {
                 yield return new PropertyReflectionMemberInfo(propInfo);
+            }
         }
 
         /// <summary>
@@ -35,16 +37,15 @@ namespace Microsoft.Practices.ObjectBuilder
         /// </summary>
         protected override void AddParametersToPolicy(IBuilderContext context, Type typeToBuild, string idToBuild, IReflectionMemberInfo<PropertyInfo> member, IEnumerable<IParameter> parameters)
         {
-            //获取政策
+            //获取属性政策
             PropertySetterPolicy result = context.Policies.Get<IPropertySetterPolicy>(typeToBuild, idToBuild) as PropertySetterPolicy;
-
             //若不存在，则新建一个。
             if (result == null)
             {
                 result = new PropertySetterPolicy();
                 context.Policies.Set<IPropertySetterPolicy>(result, typeToBuild, idToBuild);
             }
-            //将每一个属性和值序列添加到政策中。
+            //将每一个属性和值序列添加到属性政策中。
             foreach (IParameter parameter in parameters)
             {
                 if (!result.Properties.ContainsKey(member.Name))

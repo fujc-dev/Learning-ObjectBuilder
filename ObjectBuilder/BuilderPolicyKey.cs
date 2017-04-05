@@ -20,7 +20,7 @@ namespace Microsoft.Practices.ObjectBuilder
     public struct BuilderPolicyKey
     {
         /// <summary>
-        /// 初始化结构体 <see cref="BuilderPolicyKey"/> ，其中包括策略类型(接口)、策略实例和策略唯一标识
+        /// 初始化结构体 <see cref="BuilderPolicyKey"/>，其中包括策略类型(接口)、策略实例和策略唯一标识
         /// </summary>
         /// <param name="policyType">策略类型(派生自IBuilderPolicy的接口)</param>
         /// <param name="typePolicyAppliesTo">策略类型实例(实现派生自IBuilderPolicy的接口的接口)</param>

@@ -35,7 +35,7 @@ namespace Microsoft.Practices.ObjectBuilder
         /// </summary>
         public override object BuildUp(IBuilderContext context, Type typeToBuild, object existing, string idToBuild)
         {
-            foreach (IReflectionMemberInfo<TMemberInfo> member in GetMembers(context, typeToBuild, existing, idToBuild))
+            foreach (IReflectionMemberInfo<TMemberInfo> member in this.GetMembers(context, typeToBuild, existing, idToBuild))
             {
                 if (MemberRequiresProcessing(member))
                 {

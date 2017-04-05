@@ -30,8 +30,10 @@ namespace Microsoft.Practices.ObjectBuilder
         string Name { get; }
 
         /// <summary>
-        /// 搜索成员指定的自定义属性
+        /// 对框架的搜索属性方法的封装 ，搜索成员指定的自定义属性，在派生类中重写时，返回由 <see cref="Type"/> 标识的自定义属性的数组。
         /// </summary>
+        /// <param name="attributeType">要搜索的属性类型。只返回可分配给此类型的属性</param>
+        /// <param name="inherit">指定是否搜索该成员的继承链以查找这些属性</param>
         /// <returns></returns>
         object[] GetCustomAttributes(Type attributeType, bool inherit);
 
